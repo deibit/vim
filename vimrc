@@ -5,20 +5,21 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'Mizuchi/STL-Syntax'
+
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Shougo/neocomplete'
 Plugin 'Raimondi/delimitMate'
+Plugin 'SirVer/ultisnips'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'endel/vim-github-colorscheme'
-Plugin 'ervandew/supertab'
+Plugin 'fatih/vim-go'
 Plugin 'godlygeek/tabular'
 Plugin 'itchyny/lightline.vim'
 Plugin 'justinmk/vim-sneak'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
-Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
@@ -26,7 +27,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'wellle/targets.vim'
-Plugin 'SirVer/ultisnips'
 
 call vundle#end()
 
@@ -229,7 +229,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,javascript,php,ruby,python,css autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType go,c,cpp,java,javascript,php,ruby,python,css autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 au FileType cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
 
 " Return to last edit position when opening files (You want this!)
@@ -237,6 +237,26 @@ autocmd BufReadPost *
             \ if line("'\"") > 0 && line("'\"") <= line("$") |
             \   exe "normal! g`\"" |
             \ endif
+
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+inoremap <expr><C-g>    neocomplete#undo_completion()
+inoremap <expr><C-l>    neocomplete#complete_common_string()
+inoremap <expr><TAB>    pumvisible() ? "\<C-n>" : "\<TAB>"
+
+let g:UltiSnipsExpandTrigger="<C-s>"
+let g:UltiSnipsJumpForwardTrigger="<C-s>"
+let g:UltiSnipsJumpBackwardTrigger="<C-S>"
+
+au FileType go nmap <Leader>gf <Plug>(go-def)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap gd <Plug>(go-def)
 "
 " VIM Secrets
 "
