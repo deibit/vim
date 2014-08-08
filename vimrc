@@ -249,14 +249,13 @@ let g:UltiSnipsExpandTrigger="<C-s>"
 let g:UltiSnipsJumpForwardTrigger="<C-s>"
 let g:UltiSnipsJumpBackwardTrigger="<C-S>"
 
-au FileType go nmap <Leader>gf <Plug>(go-def)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap gd <Plug>(go-def)
+au FileType go nmap <Leader>gf <Plug>(go-def)
+au FileType go nmap <Leader>gi <Plug>(go-info)
+au FileType go nmap <leader>gc <Plug>(go-build)
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <leader>gt <Plug>(go-test)
 "
 " VIM Secrets
 "
