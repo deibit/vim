@@ -3,19 +3,18 @@ filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+
 Plugin 'gmarik/Vundle.vim'
 
-
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'Shougo/neocomplete'
+Plugin 'mattn/emmet-vim'
 Plugin 'Raimondi/delimitMate'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'marijnh/tern_for_vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'endel/vim-github-colorscheme'
-Plugin 'fatih/vim-go'
 Plugin 'godlygeek/tabular'
-Plugin 'itchyny/lightline.vim'
+Plugin 'bling/vim-airline'
 Plugin 'justinmk/vim-sneak'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
@@ -23,10 +22,12 @@ Plugin 'mbbill/undotree'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'wellle/targets.vim'
+Plugin 'tomasr/molokai'
 
 call vundle#end()
 
@@ -100,8 +101,8 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Moving a la SBT2
-nnoremap <c-S-j> :m+<CR>==
-nnoremap <c-S-k> :m-2<CR>==
+nnoremap <c-s-j> :m+<CR>==
+nnoremap <c-s-k> :m-2<CR>==
 inoremap <c-s-j> <Esc>:m+<CR>==gi
 inoremap <c-s-k> <Esc>:m-2<CR>==gi
 vnoremap <c-s-j> :m'>+<CR>gv=gv
@@ -130,7 +131,7 @@ inoremap ññ <esc>
 noremap<leader>w :w<cr>
 
 " A buffer for scribble
-map <leader>e :tabe ~/buffer<cr>
+map <leader>e :e ~/buffer<cr>
 
 " Delete a buffer
 map <silent><leader>bd :bdelete<cr>
@@ -182,20 +183,8 @@ nnoremap <silent><leader>P :set invpaste<CR>
 "
 """"""""""""""""""""""""""""""""""""""""""""""
 set background=dark
-let g:solarized_termtrans=1
-let g:solarized_termcolors=256
-let g:solarized_contrast="high"
-let g:solarized_visibility="high"
-colorscheme github
-
-let g:lightline = {
-            \ 'colorscheme': 'default',
-            \ 'component': {
-            \   'readonly': '%{&readonly?"":""}',
-            \  },
-            \ 'separator': { 'left': '', 'right': '' },
-            \ 'subseparator': { 'left': '', 'right': '' }
-            \ }
+colorscheme molokai
+let g:rehash256 = 1
 
 let g:tagbar_usearrows = 1
 nnoremap <leader>t :TagbarToggle<CR>
@@ -211,7 +200,6 @@ map <leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 if has('gui_running')
-    set background=light
     set mouse=a " Enable mouse on GUI
     set guioptions-=TmrlL
     set guioptions+=c
@@ -238,25 +226,23 @@ autocmd BufReadPost *
             \   exe "normal! g`\"" |
             \ endif
 
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-inoremap <expr><C-g>    neocomplete#undo_completion()
-inoremap <expr><C-l>    neocomplete#complete_common_string()
-inoremap <expr><TAB>    pumvisible() ? "\<C-n>" : "\<TAB>"
-
 let g:UltiSnipsExpandTrigger="<C-s>"
 let g:UltiSnipsJumpForwardTrigger="<C-s>"
 let g:UltiSnipsJumpBackwardTrigger="<C-S>"
 
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gf <Plug>(go-def)
-au FileType go nmap <Leader>gi <Plug>(go-info)
-au FileType go nmap <leader>gc <Plug>(go-build)
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gt <Plug>(go-test)
-"
+map <silent> <leader>e :Errors<CR>
+map <leader>s :SyntasticToggleMode<CR>
+let g:syntastic_aggregate_errors = 1
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+if exists(":Tabularize")
+  nmap <silent><Leader>a= :Tabularize /=<CR>
+  vmap <silent><Leader>a= :Tabularize /=<CR>
+  nmap <silent><Leader>a: :Tabularize /:\zs<CR>
+  vmap <silent><Leader>a: :Tabularize /:\zs<CR>
+endif
 " VIM Secrets
 "
 " Write as sudo
