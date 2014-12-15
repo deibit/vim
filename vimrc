@@ -6,34 +6,38 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'mattn/emmet-vim'
-Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'marijnh/tern_for_vim'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'Raimondi/delimitMate'
 Plugin 'SirVer/ultisnips'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'bling/vim-airline'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'davidhalter/jedi-vim'
 Plugin 'endel/vim-github-colorscheme'
 Plugin 'godlygeek/tabular'
-Plugin 'bling/vim-airline'
+Plugin 'honza/vim-snippets'
 Plugin 'justinmk/vim-sneak'
-Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
+Plugin 'mattn/emmet-vim'
 Plugin 'mbbill/undotree'
+Plugin 'pangloss/vim-javascript'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
+Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'wellle/targets.vim'
-Plugin 'tomasr/molokai'
 
 call vundle#end()
 
-filetype indent on
 filetype on
+filetype indent on
 filetype plugin on
+syntax enable
 
 set autochdir
 set autoindent
@@ -80,12 +84,10 @@ set t_Co=256
 set tabstop=4
 set title
 set titleold=0
-set ttimeoutlen=10
 set ttyfast
 set undolevels=1000
 set wildmenu
 set wildmode=longest,list
-syntax enable
 
 "
 "       MAPPINGS
@@ -135,19 +137,21 @@ map <leader>e :e ~/buffer<cr>
 
 " Delete a buffer
 map <silent><leader>bd :bdelete<cr>
+map <silent><leader>bD :bdelete!<cr>
 
 " Manage windows
-noremap <leader><leader>c <c-w>c
-noremap <leader><leader>v <c-w>v
-noremap <leader><leader>s <c-w>s
-noremap <c-k> <c-w>k
-noremap <c-j> <c-w>j
-noremap <c-h> <c-w>h
-noremap <c-l> <c-w>l
+nnoremap <leader>v <C-w>v<C-w>l
+nnoremap <leader>s <C-w>s
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " Move between buffers
 nmap <silent><c-right> :bn!<CR>
 nmap <silent><c-left> :bp!<CR>
+imap <silent><c-right> <esc>:bn!<CR>
+imap <silent><c-left> <esc>:bp!<CR>
 
 " Copy-paste win fashioned
 imap <c-v> <esc>"*P}i
@@ -198,9 +202,10 @@ nnoremap <leader>u :UndotreeToggle<cr>
 autocmd StdinReadPre * let s:std_in=1
 map <leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore = ['\.pyc$']
 
 if has('gui_running')
-    set mouse=a " Enable mouse on GUI
+    set mouse=a
     set guioptions-=TmrlL
     set guioptions+=c
     let tlist_ctags_cmd='/usr/local/bin/ctags'
@@ -226,13 +231,13 @@ autocmd BufReadPost *
             \   exe "normal! g`\"" |
             \ endif
 
-let g:UltiSnipsExpandTrigger="<C-s>"
-let g:UltiSnipsJumpForwardTrigger="<C-s>"
-let g:UltiSnipsJumpBackwardTrigger="<C-S>"
+let g:UltiSnipsExpandTrigger="<C-x>"
+let g:UltiSnipsJumpForwardTrigger="<C-x>"
+let g:UltiSnipsJumpBackwardTrigger="<C-X>"
 
-map <silent> <leader>e :Errors<CR>
-map <leader>s :SyntasticToggleMode<CR>
-let g:syntastic_aggregate_errors = 1
+"map <silent> <leader>e :Errors<CR>
+"map <leader>s :SyntasticToggleMode<CR>
+"let g:syntastic_aggregate_errors = 1
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -243,6 +248,9 @@ if exists(":Tabularize")
   nmap <silent><Leader>a: :Tabularize /:\zs<CR>
   vmap <silent><Leader>a: :Tabularize /:\zs<CR>
 endif
+
+let delimitMate_expand_cr = 1
+
 " VIM Secrets
 "
 " Write as sudo
@@ -260,4 +268,10 @@ endif
 " cd ~/.vim/bundle/YouCompleteMe
 " ./install.sh --clang-completer
 "
+"
 " Extract text from lines
+"
+" Fast format a json file or chunk
+" :%!python -m json.tool
+"
+let g:ycm_global_ycm_extra_conf = '/Users/david/Dropbox/codigo/cpp/ycm_extra_conf.py'
