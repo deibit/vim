@@ -7,6 +7,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'Raimondi/delimitMate'
 Plugin 'SirVer/ultisnips'
@@ -25,6 +26,8 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'eagletmt/neco-ghc'
 "Plugin 'scrooloose/syntastic'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
@@ -103,12 +106,12 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Moving a la SBT2
-nnoremap <c-s-j> :m+<CR>==
-nnoremap <c-s-k> :m-2<CR>==
-inoremap <c-s-j> <Esc>:m+<CR>==gi
-inoremap <c-s-k> <Esc>:m-2<CR>==gi
-vnoremap <c-s-j> :m'>+<CR>gv=gv
-vnoremap <c-s-k> :m-2<CR>gv=gv
+nnoremap <silent><c-j> :m .+1<CR>==
+nnoremap <silent><c-k> :m .-2<CR>==
+inoremap <c-j> <Esc>:m .+1<CR>==gi
+inoremap <c-k> <Esc>:m .-2<CR>==gi
+vnoremap <c-j> :m '>+1<CR>gv=gv
+vnoremap <c-k> :m '<-2<CR>gv=gv
 
 " Some Jedi tricks...
 nnoremap <leader>1 yypVr=
@@ -142,10 +145,6 @@ map <silent><leader>bD :bdelete!<cr>
 " Manage windows
 nnoremap <leader>v <C-w>v<C-w>l
 nnoremap <leader>s <C-w>s
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 
 " Move between buffers
 nmap <silent><c-right> :bn!<CR>
@@ -231,9 +230,9 @@ autocmd BufReadPost *
             \   exe "normal! g`\"" |
             \ endif
 
-let g:UltiSnipsExpandTrigger="<C-x>"
-let g:UltiSnipsJumpForwardTrigger="<C-x>"
-let g:UltiSnipsJumpBackwardTrigger="<C-X>"
+let g:UltiSnipsExpandTrigger="<C-z>"
+let g:UltiSnipsJumpForwardTrigger="<C-z>"
+let g:UltiSnipsJumpBackwardTrigger="<C-Z>"
 
 "map <silent> <leader>e :Errors<CR>
 "map <leader>s :SyntasticToggleMode<CR>
@@ -275,3 +274,4 @@ let delimitMate_expand_cr = 1
 " :%!python -m json.tool
 "
 let g:ycm_global_ycm_extra_conf = '/Users/david/Dropbox/codigo/cpp/ycm_extra_conf.py'
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
