@@ -7,33 +7,38 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'Raimondi/delimitMate'
-Plugin 'SirVer/ultisnips'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'bling/vim-airline'
-Plugin 'ctrlpvim/ctrlp.vim'
+
 Plugin 'davidhalter/jedi-vim'
-Plugin 'endel/vim-github-colorscheme'
-Plugin 'godlygeek/tabular'
-Plugin 'honza/vim-snippets'
-Plugin 'justinmk/vim-sneak'
-Plugin 'majutsushi/tagbar'
-Plugin 'mattn/emmet-vim'
-Plugin 'mbbill/undotree'
 Plugin 'pangloss/vim-javascript'
-Plugin 'rking/ag.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'eagletmt/neco-ghc'
-"Plugin 'scrooloose/syntastic'
-Plugin 'tomasr/molokai'
-Plugin 'tpope/vim-fugitive'
+Plugin 'Shougo/vimproc.vim'
+
+Plugin 'justinmk/vim-sneak'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'mattn/emmet-vim'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-repeat'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'wellle/targets.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'Raimondi/delimitMate'
+Plugin 'a.vim'
+Plugin 'rking/ag.vim'
+Plugin 'bling/vim-airline'
+Plugin 'mbbill/undotree'
+Plugin 'scrooloose/nerdtree'
+Plugin 'majutsushi/tagbar'
+Plugin 'ctrlpvim/ctrlp.vim'
+
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+
+Plugin 'tomasr/molokai'
+Plugin 'endel/vim-github-colorscheme'
+Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()
 
@@ -210,7 +215,12 @@ if has('gui_running')
     let tlist_ctags_cmd='/usr/local/bin/ctags'
     set lines=48
     set columns=160
-    set guifont=Envy\ Code\ R\ for\ Powerline:h14
+    "set guifont=Envy\ Code\ R\ for\ Powerline:h14
+    set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+    "set guifont=Courier:h14
+    "set guifont=Liberation\ Mono\ for\ Powerline:h14
+    "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+    "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 endif
 
 " Deletes trailing whitespaces on save
@@ -238,7 +248,7 @@ let g:UltiSnipsJumpBackwardTrigger="<C-Z>"
 "map <leader>s :SyntasticToggleMode<CR>
 "let g:syntastic_aggregate_errors = 1
 
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
 if exists(":Tabularize")
