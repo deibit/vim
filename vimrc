@@ -6,40 +6,35 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-"Plugin 'Valloric/YouCompleteMe'
+Plugin 'MattesGroeger/vim-bookmarks'
+Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/neocomplete.vim'
-
-Plugin 'davidhalter/jedi-vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'eagletmt/neco-ghc'
 Plugin 'Shougo/vimproc.vim'
-
-Plugin 'justinmk/vim-sneak'
 Plugin 'SirVer/ultisnips'
+Plugin 'a.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'bling/vim-airline'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'endel/vim-github-colorscheme'
+Plugin 'fatih/vim-go' 
 Plugin 'honza/vim-snippets'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'justinmk/vim-sneak'
+Plugin 'majutsushi/tagbar'
 Plugin 'mattn/emmet-vim'
+Plugin 'mbbill/undotree'
+Plugin 'pangloss/vim-javascript'
+Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'tomasr/molokai'
+Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
-Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'wellle/targets.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'Raimondi/delimitMate'
-Plugin 'a.vim'
-Plugin 'rking/ag.vim'
-Plugin 'bling/vim-airline'
-Plugin 'mbbill/undotree'
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'ctrlpvim/ctrlp.vim'
-
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-
-Plugin 'tomasr/molokai'
-Plugin 'endel/vim-github-colorscheme'
-Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()
 
@@ -53,6 +48,8 @@ set autoindent
 set autoread
 set backspace=indent,eol,start
 set cmdheight=2
+"set clipboard+=unnamed
+set colorcolumn=80
 set copyindent
 set cot-=preview
 set cursorline
@@ -78,7 +75,6 @@ set noswapfile
 set novisualbell
 set nowritebackup
 set number
-set scrolloff=2
 set shiftwidth=4
 set shortmess+=I
 set showcmd
@@ -91,7 +87,6 @@ set splitbelow
 set splitright
 set t_Co=256
 set encoding=utf-8
-set term=xterm-256color
 set termencoding=utf-8
 set tabstop=4
 set title
@@ -100,6 +95,25 @@ set ttyfast
 set undolevels=1000
 set wildmenu
 set wildmode=longest,list
+
+if has('gui_running')
+    colorscheme molokai
+    set background=dark
+    set mouse=a
+    set guioptions-=TmrlL
+    set guioptions+=c
+    set lines=48
+    set columns=160
+    "set guifont=Envy\ Code\ R\ for\ Powerline:h14
+    set guifont=PragmataPro\ for\ Powerline:h16
+    "set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+    "set guifont=Courier:h14
+    "set guifont=Liberation\ Mono\ for\ Powerline:h14
+    "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+    "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
+else
+    set term=xterm-256color
+endif
 
 "
 "       MAPPINGS
@@ -122,7 +136,7 @@ inoremap <c-k> <Esc>:m .-2<CR>==gi
 vnoremap <c-j> :m '>+1<CR>gv=gv
 vnoremap <c-k> :m '<-2<CR>gv=gv
 
-" Some Jedi tricks...
+" Some tricks...
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
 nnoremap <leader>3 ddp
@@ -144,16 +158,9 @@ inoremap ññ <esc>
 " Fast write
 noremap<leader>w :w<cr>
 
-" A buffer for scribble
-map <leader>e :e ~/buffer<cr>
-
 " Delete a buffer
 map <silent><leader>bd :bdelete<cr>
 map <silent><leader>bD :bdelete!<cr>
-
-" Manage windows
-nnoremap <leader>v <C-w>v<C-w>l
-nnoremap <leader>s <C-w>s
 
 " Move between buffers
 nmap <silent><c-right> :bn!<CR>
@@ -190,71 +197,53 @@ nnoremap <silent> zk O<Esc>j
 nnoremap <leader>rn :set relativenumber!<cr>
 " Toggle paste
 nnoremap <silent><leader>P :set invpaste<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""
+"
 "
 "   PLUGINS
 "
 """"""""""""""""""""""""""""""""""""""""""""""
-set background=dark
-colorscheme molokai
-let g:rehash256 = 1
 
+" Tagbar
 let g:tagbar_usearrows = 1
-nnoremap <leader>t :TagbarToggle<CR>
+nnoremap <F2> :TagbarToggle<CR>
+let tlist_ctags_cmd='/usr/local/bin/ctags'
 
+" CtrlP
 let g:ctrlp_user_command = 'find %s -type f'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
+" Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
+" NERDTree
 autocmd StdinReadPre * let s:std_in=1
-map <leader>n :NERDTreeToggle<CR>
+map <F1> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let NERDTreeIgnore = ['\.pyc$']
 
-if has('gui_running')
-    set mouse=a
-    set guioptions-=TmrlL
-    set guioptions+=c
-    let tlist_ctags_cmd='/usr/local/bin/ctags'
-    set lines=48
-    set columns=160
-    "set guifont=Envy\ Code\ R\ for\ Powerline:h14
-    "set guifont=Source\ Code\ Pro\ for\ Powerline:h14
-    "set guifont=Courier:h14
-    set guifont=Liberation\ Mono\ for\ Powerline:h14
-    "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
-    "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
-endif
-
-" Deletes trailing whitespaces on save
-fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-
-autocmd FileType go,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-au FileType cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
-
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-            \ if line("'\"") > 0 && line("'\"") <= line("$") |
-            \   exe "normal! g`\"" |
-            \ endif
-
+" Ultisnips
 let g:UltiSnipsExpandTrigger="<C-z>"
 let g:UltiSnipsJumpForwardTrigger="<C-z>"
 let g:UltiSnipsJumpBackwardTrigger="<C-Z>"
 
-"map <silent> <leader>e :Errors<CR>
-"map <leader>s :SyntasticToggleMode<CR>
-"let g:syntastic_aggregate_errors = 1
+" Syntastic
+map <silent><leader>e :Errors<CR>
+map <leader>s :SyntasticToggleMode<CR>
+nmap <Leader>ln :lnext<CR>
+nmap <Leader>lp :lprevious<CR>
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 1
 
-"let g:airline#extensions#tabline#enabled = 1
+" Airline
 let g:airline_powerline_fonts = 1
+let g:rehash256 = 1
 
+" Tabularize
 if exists(":Tabularize")
   nmap <silent><Leader>a= :Tabularize /=<CR>
   vmap <silent><Leader>a= :Tabularize /=<CR>
@@ -262,31 +251,15 @@ if exists(":Tabularize")
   vmap <silent><Leader>a: :Tabularize /:\zs<CR>
 endif
 
+" DelimitMate
 let delimitMate_expand_cr = 1
+au FileType cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
 
-" VIM Secrets
-"
-" Write as sudo
-" :w !sudo tee %
-"
-" Back and forward in time
-" :earlier 15m
-" :later 15m
-"
-" Load an hex version of buffer and revert back
-" :%!xxd
-" :%!xxd -r
-"
-" YCM
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.sh --clang-completer
-"
-"
-" Extract text from lines
-"
-" Fast format a json file or chunk
-" :%!python -m json.tool
-"
+" Jedi
+let g:jedi#completions_enabled=0
+let g:jedi#auto_vim_configuration = 0
+
+" Neocomplete
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
@@ -353,7 +326,6 @@ inoremap <expr><C-e>  neocomplete#cancel_popup()
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
@@ -362,8 +334,66 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
 
+" Multiple Cursors
 " Default mapping - Multiple Cursors plugin
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
+
+" Vimgo
+au FileType go nmap <Leader>gd <Plug>(go-def)
+au FileType go nmap <Leader>gi <Plug>(go-info)
+au FileType go nmap <leader>gc <Plug>(go-build)
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap <leader>gf :GoFmt<CR>
+
+" Vim Easy Align
+vmap <Enter> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+" VIM Secrets
+"
+" Write as sudo
+" :w !sudo tee %
+"
+" Back and forward in time
+" :earlier 15m
+" :later 15m
+"
+" Load an hex version of buffer and revert back
+" :%!xxd
+" :%!xxd -r
+"
+" YCM
+" cd ~/.vim/bundle/YouCompleteMe
+" ./install.sh --clang-completer
+"
+"
+" Extract text from lines
+"
+" Fast format a json file or chunk
+" :%!python -m json.tool
+"
+" En/De/code base64 selected block text
+" :echo system('base64 --decode', @")
+" :vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
+" :vnoremap <leader>64 c<c-r>=system('base64 --decode', @")<cr><esc>
+
+
+" Deletes trailing whitespaces on save
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd FileType go,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
+
