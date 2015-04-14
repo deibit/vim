@@ -6,18 +6,18 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
+Plugin 'tommcdo/vim-exchange'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'a.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'bling/vim-airline'
+Plugin 'burnettk/vim-angular'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'endel/vim-github-colorscheme'
 Plugin 'fatih/vim-go' 
 Plugin 'honza/vim-snippets'
+Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'justinmk/vim-sneak'
 Plugin 'klen/python-mode'
@@ -25,8 +25,11 @@ Plugin 'majutsushi/tagbar'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'mbbill/undotree'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'othree/html5.vim'
+Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
-Plugin 'rking/ag.vim'
+Plugin 'gabesoft/vim-ags'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
@@ -34,8 +37,12 @@ Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'wellle/targets.vim'
-Plugin 'othree/html5.vim'
-Plugin 'othree/javascript-libraries-syntax.vim'
+
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'endel/vim-github-colorscheme'
+Plugin 'jonathanfilip/vim-lucius'
+Plugin 'sjl/badwolf'
+Plugin 'w0ng/vim-hybrid'
 "Plugin 'jaxbot/browserlink.vim'
 
 call vundle#end()
@@ -56,7 +63,6 @@ set colorcolumn=80
 set copyindent
 set cot-=preview
 set cursorline
-set enc=utf-8
 set encoding=utf-8
 set expandtab
 set foldmethod=marker
@@ -106,16 +112,17 @@ if has('gui_running')
     set guioptions+=c
     set lines=60
     set columns=180
-    set guifont=Envy\ Code\ R\ for\ Powerline:h15
+    "set guifont=Envy\ Code\ R\ for\ Powerline:h16
     "set guifont=PragmataPro\ for\ Powerline:h16
-    "set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+    set guifont=Source\ Code\ Pro\ for\ Powerline:h15
     "set guifont=Courier:h14
     "set guifont=Liberation\ Mono\ for\ Powerline:h14
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
     set term=xterm-256color
-    set guifont=Fira\ Mono\ for\ Powerline:h14
+    colorscheme molokai
+    set background=dark
 endif
 
 " }}}
@@ -130,19 +137,11 @@ nnoremap q: <nop>
 let mapleader = ","
 let g:mapleader = ","
 
-" Moving a la SBT2
-nnoremap <silent><c-j> :m .+1<CR>==
-nnoremap <silent><c-k> :m .-2<CR>==
-inoremap <c-j> <Esc>:m .+1<CR>==gi
-inoremap <c-k> <Esc>:m .-2<CR>==gi
-vnoremap <c-j> :m '>+1<CR>gv=gv
-vnoremap <c-k> :m '<-2<CR>gv=gv
-
 " Some tricks...
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
 nnoremap <leader>3 ddp
-"
+
 " Fast searching
 nmap <space> /
 nmap <c-space> ?
@@ -151,10 +150,10 @@ nmap <c-space> ?
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Turn off Highlight
-nmap <silent><leader><leader> :noh<cr>
+nmap <silent><leader>h :noh<cr>
 
 " Fast Spanish Insert Scapeout
-nmap ñ :
+noremap ñ :
 inoremap ññ <esc>
 
 " Fast write
@@ -205,25 +204,27 @@ nmap <silent><leader>x :lprevious<CR>
 
 "   Plugin options {{{
 
-" Tagbar
+" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'default',
+      \ 'component': {
+      \   'readonly': '%{&readonly?"⭤":""}',
+      \ },
+      \ }
+
 let g:tagbar_usearrows = 1
 nnoremap <F2> :TagbarToggle<CR>
 let tlist_ctags_cmd='/usr/local/bin/ctags'
 
 " CtrlP
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
+set wildignore+=*.so,*.swp,*.zip,*.pyc
+let g:ctrlp_working_path_mode = 'c'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
 " Ultisnips
-let g:UltiSnipsExpandTrigger="<C-z>"
-let g:UltiSnipsJumpForwardTrigger="<C-z>"
-let g:UltiSnipsJumpBackwardTrigger="<C-Z>"
-
-" Airline
-let g:airline_powerline_fonts = 1
-let g:rehash256 = 1
+let g:UltiSnipsExpandTrigger="<c-z>"
 
 " DelimitMate
 let delimitMate_expand_cr = 1
@@ -232,10 +233,10 @@ au FileType cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
 " python-mode
 let g:pymode_folding=0
 let g:pymode_rope_completion=0
-let g:pymode_lint_cwindow=0
 let g:pymode_lint_on_write=0
 nmap <leader>L :PymodeLintToggle<CR>
 nmap <leader>l :PymodeLint<CR>
+nmap <leader>q :lcl<CR>
 
 " Vimgo
 au FileType go nmap <Leader>gd <Plug>(go-def)
@@ -251,6 +252,14 @@ nmap <leader>a <Plug>(EasyAlign)
 
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+" Javascript-libraries-syntax
+let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
+
+" YouCompleteMe
+let g:ycm_warning_symbol = '😐'
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = '~/Dropbox/codigo/cpp/.ycm_extra_conf.py'
 
 " }}}
 
