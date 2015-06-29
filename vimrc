@@ -6,18 +6,21 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'tommcdo/vim-exchange'
+"Plugin 'jaxbot/browserlink.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'a.vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'burnettk/vim-angular'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'fatih/vim-go' 
+Plugin 'endel/vim-github-colorscheme'
+Plugin 'fatih/vim-go'
+Plugin 'gabesoft/vim-ags'
 Plugin 'honza/vim-snippets'
 Plugin 'itchyny/lightline.vim'
+Plugin 'jonathanfilip/vim-lucius'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'justinmk/vim-sneak'
 Plugin 'klen/python-mode'
@@ -29,21 +32,20 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'othree/html5.vim'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
-Plugin 'gabesoft/vim-ags'
+Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'sjl/badwolf'
 Plugin 'tomasr/molokai'
+Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'wellle/targets.vim'
-
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'endel/vim-github-colorscheme'
-Plugin 'jonathanfilip/vim-lucius'
-Plugin 'sjl/badwolf'
 Plugin 'w0ng/vim-hybrid'
-"Plugin 'jaxbot/browserlink.vim'
+Plugin 'wellle/targets.vim'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 
 call vundle#end()
 
@@ -114,7 +116,7 @@ if has('gui_running')
     set columns=180
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
     "set guifont=PragmataPro\ for\ Powerline:h16
-    set guifont=Source\ Code\ Pro\ for\ Powerline:h15
+    set guifont=Source\ Code\ Pro\ for\ Powerline:h14
     "set guifont=Courier:h14
     "set guifont=Liberation\ Mono\ for\ Powerline:h14
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
@@ -212,13 +214,16 @@ let g:lightline = {
       \ },
       \ }
 
+
+"NERDTree
+nnoremap <F1> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore=['\.pyd$', '\.pyc$']
+
+" Tagbar
 let g:tagbar_usearrows = 1
 nnoremap <F2> :TagbarToggle<CR>
 let tlist_ctags_cmd='/usr/local/bin/ctags'
-
-" CtrlP
-set wildignore+=*.so,*.swp,*.zip,*.pyc
-let g:ctrlp_working_path_mode = 'c'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -236,15 +241,25 @@ let g:pymode_rope_completion=0
 let g:pymode_lint_on_write=0
 nmap <leader>L :PymodeLintToggle<CR>
 nmap <leader>l :PymodeLint<CR>
-nmap <leader>q :lcl<CR>
 
 " Vimgo
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <Leader>gd <Plug>(go-def)
+au FileType go nmap <leader>gf :GoFmt<CR>
 au FileType go nmap <Leader>gi <Plug>(go-info)
-au FileType go nmap <leader>gc <Plug>(go-build)
 au FileType go nmap <leader>gr <Plug>(go-run)
 au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>gf :GoFmt<CR>
+au FileType go nmap <leader>go <Plug>(go-doc)
+au FileType go nmap <leader>gk <Plug>(go-doc-browser)
+au FileType go nmap <leader>ge <Plug>(go-rename)
+au FileType go nmap <leader>gm <Plug>(go-implements)
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 " Vim Easy Align
 vmap <Enter> <Plug>(EasyAlign)
@@ -258,6 +273,7 @@ let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 
 " YouCompleteMe
 let g:ycm_warning_symbol = '😐'
+"let g:ycm_error_symbol = ''
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/Dropbox/codigo/cpp/.ycm_extra_conf.py'
 
