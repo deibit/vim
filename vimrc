@@ -6,46 +6,47 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-"Plugin 'jaxbot/browserlink.vim'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'a.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'burnettk/vim-angular'
-Plugin 'endel/vim-github-colorscheme'
 Plugin 'fatih/vim-go'
 Plugin 'gabesoft/vim-ags'
 Plugin 'honza/vim-snippets'
 Plugin 'itchyny/lightline.vim'
-Plugin 'jonathanfilip/vim-lucius'
 Plugin 'junegunn/vim-easy-align'
-Plugin 'justinmk/vim-sneak'
 Plugin 'klen/python-mode'
 Plugin 'majutsushi/tagbar'
-Plugin 'marijnh/tern_for_vim'
-Plugin 'mattn/emmet-vim'
+"Plugin 'marijnh/tern_for_vim'
+"Plugin 'mattn/emmet-vim'
 Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'othree/html5.vim'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'pangloss/vim-javascript'
+"Plugin 'othree/html5.vim'
+"Plugin 'othree/javascript-libraries-syntax.vim'
+"Plugin 'pangloss/vim-javascript'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-Plugin 'sjl/badwolf'
-Plugin 'tomasr/molokai'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-markdown'
+"Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'w0ng/vim-hybrid'
 Plugin 'wellle/targets.vim'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
+"Plugin 'eagletmt/neco-ghc'
+"Plugin 'eagletmt/ghcmod-vim'
+Plugin 'haya14busa/incsearch.vim'
+
+" Themes
+Plugin 'sjl/badwolf'
+Plugin 'tomasr/molokai'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'justinmk/vim-sneak'
+Plugin 'jonathanfilip/vim-lucius'
 
 call vundle#end()
 
@@ -99,6 +100,8 @@ set splitright
 set t_Co=256
 set tabstop=4
 set termencoding=utf-8
+set timeoutlen=1000
+set ttimeoutlen=0
 set title
 set titleold=0
 set ttyfast
@@ -117,6 +120,7 @@ if has('gui_running')
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
     "set guifont=PragmataPro\ for\ Powerline:h16
     set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+    "set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types\ Mono:h14
     "set guifont=Courier:h14
     "set guifont=Liberation\ Mono\ for\ Powerline:h14
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
@@ -261,6 +265,20 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+" Vim incsearch
+" :h g:incsearch#auto_nohlsearch
+set hlsearch
+let g:incsearch#auto_nohlsearch = 1
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+
 " Vim Easy Align
 vmap <Enter> <Plug>(EasyAlign)
 nmap <leader>a <Plug>(EasyAlign)
@@ -272,10 +290,15 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 
 " YouCompleteMe
-let g:ycm_warning_symbol = '😐'
-"let g:ycm_error_symbol = ''
+let g:ycm_warning_symbol = '>'
+let g:ycm_error_symbol = '>>'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/Dropbox/codigo/cpp/.ycm_extra_conf.py'
+highlight YcmErrorLine guibg=#000000
+highlight YcmWarningLine guibg=#000000
+highlight YcmErrorSection guibg=#000000
+highlight YcmWarningSection guibg=#000000
+highlight SignColumn guibg=black
 
 " }}}
 
