@@ -35,6 +35,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'rhysd/vim-clang-format'
+Plugin 'kana/vim-operator-user'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
@@ -343,7 +344,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 autocmd FileType go,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-autocmd FileType c,cpp autocmd BufWritePre <buffer> :ClangFormat
+autocmd FileType c,cpp autocmd BufWritePre <buffer> :call <Plug>(operator-clang-format)
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
