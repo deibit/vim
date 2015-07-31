@@ -6,46 +6,46 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'fatih/vim-go'
+"Plugin 'mattn/emmet-vim'
+"Plugin 'othree/html5.vim'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'scrooloose/nerdtree'
+"Plugin 'tomtom/tcomment_vim'
+Plugin 'tpope/vim-markdown'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'a.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'fatih/vim-go'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'easymotion/vim-easymotion'
 Plugin 'gabesoft/vim-ags'
+Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
 Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'klen/python-mode'
+"Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'majutsushi/tagbar'
-"Plugin 'marijnh/tern_for_vim'
-"Plugin 'mattn/emmet-vim'
 Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-"Plugin 'othree/html5.vim'
-"Plugin 'othree/javascript-libraries-syntax.vim'
-"Plugin 'pangloss/vim-javascript'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
-"Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'wellle/targets.vim'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
-"Plugin 'eagletmt/neco-ghc'
-"Plugin 'eagletmt/ghcmod-vim'
-Plugin 'haya14busa/incsearch.vim'
 
 " Themes
 Plugin 'sjl/badwolf'
 Plugin 'tomasr/molokai'
 Plugin 'w0ng/vim-hybrid'
-Plugin 'justinmk/vim-sneak'
 Plugin 'jonathanfilip/vim-lucius'
 
 call vundle#end()
@@ -120,7 +120,6 @@ if has('gui_running')
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
     "set guifont=PragmataPro\ for\ Powerline:h16
     set guifont=Source\ Code\ Pro\ for\ Powerline:h14
-    "set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types\ Mono:h14
     "set guifont=Courier:h14
     "set guifont=Liberation\ Mono\ for\ Powerline:h14
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
@@ -147,10 +146,6 @@ let g:mapleader = ","
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
 nnoremap <leader>3 ddp
-
-" Fast searching
-nmap <space> /
-nmap <c-space> ?
 
 " Get rid of ^M
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
@@ -197,6 +192,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
+
 " Relative numbers toggle
 nnoremap <leader>rn :set relativenumber!<cr>
 " Toggle paste
@@ -220,9 +216,9 @@ let g:lightline = {
 
 
 "NERDTree
-nnoremap <F1> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeIgnore=['\.pyd$', '\.pyc$']
+ nnoremap <F1> :NERDTreeToggle<CR>
+ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+ let NERDTreeIgnore=['\.pyd$', '\.pyc$']
 
 " Tagbar
 let g:tagbar_usearrows = 1
@@ -294,11 +290,17 @@ let g:ycm_warning_symbol = '>'
 let g:ycm_error_symbol = '>>'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/Dropbox/codigo/cpp/.ycm_extra_conf.py'
-highlight YcmErrorLine guibg=#000000
-highlight YcmWarningLine guibg=#000000
-highlight YcmErrorSection guibg=#000000
-highlight YcmWarningSection guibg=#000000
-highlight SignColumn guibg=black
+nnoremap <leader>gd :YcmCompleter GoTo<cr>
+
+" EasyMotion
+nmap s <Plug>(easymotion-s2)
+let g:EasyMotion_smartcase=1
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+
+" CtrlP
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 
 " }}}
 
@@ -341,6 +343,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 autocmd FileType go,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp autocmd BufWritePre <buffer> :ClangFormat
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
