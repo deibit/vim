@@ -6,16 +6,7 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-"Plugin 'fatih/vim-go'
-"Plugin 'mattn/emmet-vim'
-"Plugin 'othree/html5.vim'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'scrooloose/nerdtree'
-"Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/vim-markdown'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
+Plugin 'Chiel92/vim-autoformat'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
@@ -24,24 +15,30 @@ Plugin 'a.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'fatih/vim-go'
 Plugin 'gabesoft/vim-ags'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
 Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/vim-easy-align'
+Plugin 'kana/vim-operator-user'
 Plugin 'klen/python-mode'
-"Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'rhysd/vim-clang-format'
-Plugin 'kana/vim-operator-user'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'vhdirk/vim-cmake'
 Plugin 'wellle/targets.vim'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 
 " Themes
 Plugin 'sjl/badwolf'
@@ -77,6 +74,7 @@ set ignorecase
 set incsearch
 set indentkeys-=0#
 set laststatus=2
+set lazyredraw
 set magic
 set matchpairs+=<:>
 set matchtime=1
@@ -117,7 +115,7 @@ if has('gui_running')
     set guioptions-=TmrlL
     set guioptions+=c
     set lines=60
-    set columns=180
+    set columns=170
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
     "set guifont=PragmataPro\ for\ Powerline:h16
     set guifont=Source\ Code\ Pro\ for\ Powerline:h14
@@ -127,13 +125,15 @@ if has('gui_running')
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
     set term=xterm-256color
-    colorscheme molokai
+    colorscheme badwolf
     set background=dark
 endif
 
 " }}}
 
 " MAPPINGS {{{ 
+
+nnoremap <leader>b :ls<cr>:b<space>
 
 " Some irritating maps
 nnoremap <F1> <nop>
@@ -176,8 +176,8 @@ imap <c-v> <esc>"*P}i
 vmap <c-c> "*y<esc>
 
 " Moving through wrapped lines
-nmap j gj
-nmap k gk
+nnoremap j gj
+nnoremap k gk
 
 " Use tab and s-tab for indenting blocks in Visual Mode
 vmap <Tab> >gv
@@ -203,23 +203,34 @@ nnoremap <silent><leader>p :set invpaste<CR>
 nmap <silent><leader>z :lnext<CR>
 nmap <silent><leader>x :lprevious<CR>
 
+" Replaces a visual selected text to its base64 or reverse
+vnoremap <leader>64 c<c-r>=system('base64', @")<cr><esc>
+vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
+
 "}}}
 
 "   Plugin options {{{
 
+" vim-autoformat
+au BufWrite * :Autoformat
+
 " Lightline
 let g:lightline = {
-      \ 'colorscheme': 'default',
-      \ 'component': {
-      \   'readonly': '%{&readonly?"⭤":""}',
-      \ },
-      \ }
+            \ 'colorscheme': 'default',
+            \ 'component': {
+            \   'readonly': '%{&readonly?"⭤":""}',
+            \ },
+            \ }
 
 
 "NERDTree
- nnoremap <F1> :NERDTreeToggle<CR>
- autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
- let NERDTreeIgnore=['\.pyd$', '\.pyc$']
+nnoremap <F1> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore=['\.pyd$', '\.pyc$']
+let NERDTreeWinPos="right"
+
+" Ags
+nnoremap <leader>a :Ags
 
 " Tagbar
 let g:tagbar_usearrows = 1
@@ -278,7 +289,7 @@ map g# <Plug>(incsearch-nohl-g#)
 
 " Vim Easy Align
 vmap <Enter> <Plug>(EasyAlign)
-nmap <leader>a <Plug>(EasyAlign)
+nmap <leader>A <Plug>(EasyAlign)
 
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -300,8 +311,9 @@ map <leader>j <Plug>(easymotion-j)
 map <leader>k <Plug>(easymotion-k)
 
 " CtrlP
+let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 " }}}
 
@@ -344,7 +356,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 autocmd FileType go,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-autocmd FileType c,cpp autocmd BufWritePre <buffer> :call <Plug>(operator-clang-format)
+"autocmd FileType c,cpp autocmd BufWritePre <buffer> :call <Plug>(operator-clang-format)
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
