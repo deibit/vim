@@ -8,28 +8,30 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'scrooloose/syntastic'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'a.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'deibit/A.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'gabesoft/vim-ags'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
 Plugin 'itchyny/lightline.vim'
+Plugin 'jlanzarotta/bufexplorer'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kana/vim-operator-user'
 Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
@@ -37,7 +39,8 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'vhdirk/vim-cmake'
 Plugin 'wellle/targets.vim'
-Plugin 'xolox/vim-misc'
+"Plugin 'xolox/vim-misc'
+"Plugin 'xolox/vim-easytags'
 
 " Themes
 Plugin 'altercation/vim-colors-solarized'
@@ -140,9 +143,6 @@ let g:mapleader = ","
 nnoremap <F1> <nop>
 nnoremap Q <nop>
 nnoremap q: <nop>
-
-" List buffers and ready selection
-nnoremap <leader>b :ls<cr>:b<space>
 
 " Some tricks...
 nnoremap <leader>1 yypVr=
@@ -250,20 +250,16 @@ let g:ycm_warning_symbol = '>'
 let g:ycm_error_symbol = '>>'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/Dropbox/codigo/cpp/.ycm_extra_conf.py'
-nnoremap <leader>gd :YcmCompleter GoTo<cr>
+nnoremap <leader>gd :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>gD :YcmCompleter GoToDefinition<cr>
+nnoremap <leader>gt :YcmCompleter GetType<cr>
+nnoremap <leader>gT :YcmCompleter GetParent<cr>
 
 " EasyMotion
 nmap s <Plug>(easymotion-s2)
 let g:EasyMotion_smartcase=1
 map <leader>j <Plug>(easymotion-j)
 map <leader>k <Plug>(easymotion-k)
-
-" CtrlP
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-nnoremap <leader>t :CtrlPBufTagAll<cr>
-nnoremap <leader>T :CtrlPTag<cr>
 
 " Syntastic
 nnoremap <leader>c :SyntasticCheck<cr>
@@ -276,6 +272,21 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = {"mode": "passive"}
+
+" Tagbar
+let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
+let g:tagbar_expand = 1
+nnoremap <leader>t :TagbarToggle<cr>
+
+" Gutentags
+let g:gutentags_ctags_executable = "/usr/local/bin/ctags"
+
+" NERDTree
+autocmd StdinReadPre * let s:std_in=1
+map <leader>n :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore = ['\.pyc$']
+
 
 " }}}
 
