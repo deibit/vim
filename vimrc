@@ -4,8 +4,11 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+"{{{ Plugin list
+
 Plugin 'gmarik/Vundle.vim'
 
+Plugin 'scrooloose/syntastic'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
@@ -15,21 +18,18 @@ Plugin 'a.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'easymotion/vim-easymotion'
-Plugin 'fatih/vim-go'
 Plugin 'gabesoft/vim-ags'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
 Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kana/vim-operator-user'
-Plugin 'klen/python-mode'
-Plugin 'majutsushi/tagbar'
+Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
@@ -37,16 +37,16 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'vhdirk/vim-cmake'
 Plugin 'wellle/targets.vim'
-Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 
 " Themes
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'sjl/badwolf'
 Plugin 'tomasr/molokai'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'jonathanfilip/vim-lucius'
 
-call vundle#end()
+call vundle#end()"}}}
 
 " Settings {{{
 
@@ -109,8 +109,8 @@ set wildmenu
 set wildmode=longest,list
 
 if has('gui_running')
-    colorscheme molokai
-    set background=dark
+    colorscheme solarized
+    set background=light
     set mouse=a
     set guioptions-=TmrlL
     set guioptions+=c
@@ -124,24 +124,25 @@ if has('gui_running')
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
-    set term=xterm-256color
-    colorscheme badwolf
-    set background=dark
+    "set term=xterm-256color
+    colorscheme solarized
+    set background=light
 endif
 
 " }}}
 
-" MAPPINGS {{{ 
+" Mappings {{{ 
 
-nnoremap <leader>b :ls<cr>:b<space>
+let mapleader = ","
+let g:mapleader = ","
 
-" Some irritating maps
+" Nop some keys
 nnoremap <F1> <nop>
 nnoremap Q <nop>
 nnoremap q: <nop>
 
-let mapleader = ","
-let g:mapleader = ","
+" List buffers and ready selection
+nnoremap <leader>b :ls<cr>:b<space>
 
 " Some tricks...
 nnoremap <leader>1 yypVr=
@@ -152,24 +153,10 @@ nnoremap <leader>3 ddp
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Turn off Highlight
-nmap <silent><leader>h :noh<cr>
-
-" Fast Spanish Insert Scapeout
-noremap ñ :
-inoremap ññ <esc>
+nmap <silent><leader><space> :noh<cr>
 
 " Fast write
-noremap<leader>w :w<cr>
-
-" Delete a buffer
-map <silent><leader>bd :bdelete<cr>
-map <silent><leader>bD :bdelete!<cr>
-
-" Move between buffers
-nmap <silent><c-right> :bn!<CR>
-nmap <silent><c-left> :bp!<CR>
-imap <silent><c-right> <esc>:bn!<CR>
-imap <silent><c-left> <esc>:bp!<CR>
+nnoremap<leader>w :w<cr>
 
 " Copy-paste win fashioned
 imap <c-v> <esc>"*P}i
@@ -185,17 +172,16 @@ vmap <S-Tab> <gv
 
 " vimrc editing and sourcing
 noremap <leader>v :e! $MYVIMRC<CR>
-noremap <silent> <leader>V :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+noremap <silent><leader>V :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " This command will allow us to save a file we don't have permission to save
 " *after* we have already opened it. Super useful.
 cnoremap w!! w !sudo tee % >/dev/null
+
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 
-" Relative numbers toggle
-nnoremap <leader>rn :set relativenumber!<cr>
 " Toggle paste
 nnoremap <silent><leader>p :set invpaste<CR>
 
@@ -212,30 +198,18 @@ vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
 "   Plugin options {{{
 
 " vim-autoformat
-au BufWrite * :Autoformat
+au BufWrite * :Autoformat<cr>
 
 " Lightline
 let g:lightline = {
-            \ 'colorscheme': 'default',
+            \ 'colorscheme': 'solarized',
             \ 'component': {
             \   'readonly': '%{&readonly?"⭤":""}',
             \ },
             \ }
 
-
-"NERDTree
-nnoremap <F1> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeIgnore=['\.pyd$', '\.pyc$']
-let NERDTreeWinPos="right"
-
 " Ags
-nnoremap <leader>a :Ags
-
-" Tagbar
-let g:tagbar_usearrows = 1
-nnoremap <F2> :TagbarToggle<CR>
-let tlist_ctags_cmd='/usr/local/bin/ctags'
+nnoremap <leader>a :Ags 
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -246,32 +220,6 @@ let g:UltiSnipsExpandTrigger="<c-z>"
 " DelimitMate
 let delimitMate_expand_cr = 1
 au FileType cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
-
-" python-mode
-let g:pymode_folding=0
-let g:pymode_rope_completion=0
-let g:pymode_lint_on_write=0
-nmap <leader>L :PymodeLintToggle<CR>
-nmap <leader>l :PymodeLint<CR>
-
-" Vimgo
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gc <Plug>(go-coverage)
-au FileType go nmap <Leader>gd <Plug>(go-def)
-au FileType go nmap <leader>gf :GoFmt<CR>
-au FileType go nmap <Leader>gi <Plug>(go-info)
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>go <Plug>(go-doc)
-au FileType go nmap <leader>gk <Plug>(go-doc-browser)
-au FileType go nmap <leader>ge <Plug>(go-rename)
-au FileType go nmap <leader>gm <Plug>(go-implements)
-
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
 
 " Vim incsearch
 " :h g:incsearch#auto_nohlsearch
@@ -314,6 +262,20 @@ map <leader>k <Plug>(easymotion-k)
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+nnoremap <leader>t :CtrlPBufTagAll<cr>
+nnoremap <leader>T :CtrlPTag<cr>
+
+" Syntastic
+nnoremap <leader>c :SyntasticCheck<cr>
+nnoremap <leader>C :SyntasticToggleMode<cr>
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {"mode": "passive"}
 
 " }}}
 
@@ -370,4 +332,13 @@ autocmd InsertLeave * if expand('%') != '' | update | endif
 " Make preview window close when leaving insert mode
 autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
+" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 "}}}
+
+augroup filetype                                                     
+    au BufRead,BufNewFile *.lex,*.jlex    set filetype=jlex         
+augroup END                                                          
+au Syntax jlex    so ~/.vim/syntax/jflex.vim  
