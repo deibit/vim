@@ -19,7 +19,8 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'gabesoft/vim-ags'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
-Plugin 'itchyny/lightline.vim'
+"Plugin 'itchyny/lightline.vim'
+Plugin 'bling/vim-airline'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kana/vim-operator-user'
@@ -48,6 +49,7 @@ Plugin 'sjl/badwolf'
 Plugin 'tomasr/molokai'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'jonathanfilip/vim-lucius'
+Plugin 'nanotech/jellybeans.vim'
 
 call vundle#end()"}}}
 
@@ -112,8 +114,8 @@ set wildmenu
 set wildmode=longest,list
 
 if has('gui_running')
-    colorscheme solarized
-    set background=light
+    colorscheme jellybeans
+    set background=dark
     set mouse=a
     set guioptions-=TmrlL
     set guioptions+=c
@@ -127,8 +129,8 @@ if has('gui_running')
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
-    "set term=xterm-256color
-    colorscheme solarized
+    set term=xterm-256color
+    colorscheme jellybeans
     set background=light
 endif
 
@@ -201,12 +203,16 @@ vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
 au BufWrite * :Autoformat<cr>
 
 " Lightline
-let g:lightline = {
-            \ 'colorscheme': 'solarized',
-            \ 'component': {
-            \   'readonly': '%{&readonly?"⭤":""}',
-            \ },
-            \ }
+"let g:lightline = {
+"\ 'colorscheme': 'solarized',
+"\ 'component': {
+"\   'readonly': '%{&readonly?"⭤":""}',
+"\ },
+"\ }
+
+" Airline
+let g:airline_powerline_fonts = 1
+let g:airline_theme='jellybeans'
 
 " Ags
 nnoremap <leader>a :Ags 
@@ -286,7 +292,6 @@ autocmd StdinReadPre * let s:std_in=1
 map <leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 let NERDTreeIgnore = ['\.pyc$']
-
 
 " }}}
 
