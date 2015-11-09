@@ -8,6 +8,7 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
+Plugin 'junegunn/fzf'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
@@ -19,7 +20,6 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'gabesoft/vim-ags'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
-"Plugin 'itchyny/lightline.vim'
 Plugin 'bling/vim-airline'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'junegunn/vim-easy-align'
@@ -129,7 +129,7 @@ if has('gui_running')
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
-    set term=xterm-256color
+    "set term=xterm-256color
     colorscheme jellybeans
     set background=light
 endif
@@ -137,6 +137,11 @@ endif
 " }}}
 
 " Mappings {{{ 
+
+nnoremap <left>  <C-w>h
+nnoremap <right> <C-w>l
+nnoremap <up>    <C-w>k
+nnoremap <down>  <C-w>j
 
 let mapleader = ","
 let g:mapleader = ","
@@ -199,8 +204,11 @@ vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
 
 "   Plugin options {{{
 
+" FZF
+nnoremap <leader>f :FZF<cr>
+
 " vim-autoformat
-au BufWrite * :Autoformat<cr>
+nnoremap <F3> :Autoformat<cr>
 
 " Lightline
 "let g:lightline = {
@@ -296,6 +304,12 @@ let NERDTreeIgnore = ['\.pyc$']
 " }}}
 
 " VIM Secrets {{{
+"   
+" Yank all matches regex with grouping in a register 
+" :%s/regex/\=setreg('A', submatch(0), 'V')/n 
+" :%s/regex <--- possibly with grouping \(regex\)
+" .../\=setreg('register name', select group (number), 'V' = linewise
+" ... ... /n <--- sandbox, it won't actually make changes
 "
 " Write as sudo
 " :w !sudo tee %
