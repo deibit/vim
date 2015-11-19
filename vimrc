@@ -204,6 +204,9 @@ vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
 
 "   Plugin options {{{
 
+" A - Change header/implementation h/cpp
+nnoremap <leader>A :A<cr>
+
 " FZF
 nnoremap <leader>f :FZF<cr>
 
@@ -251,7 +254,8 @@ map g# <Plug>(incsearch-nohl-g#)
 
 " Vim Easy Align
 vmap <Enter> <Plug>(EasyAlign)
-nmap <leader>A <Plug>(EasyAlign)
+"nmap <leader>A <Plug>(EasyAlign)
+" former conflicts with :A <- header/impl changer
 
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
