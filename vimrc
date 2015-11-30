@@ -8,6 +8,8 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
+"Plugin 'fatih/vim-go'
+Plugin 'cup.vim'
 Plugin 'junegunn/fzf'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'Raimondi/delimitMate'
@@ -138,13 +140,11 @@ endif
 
 " Mappings {{{ 
 
-nnoremap <left>  <C-w>h
-nnoremap <right> <C-w>l
-nnoremap <up>    <C-w>k
-nnoremap <down>  <C-w>j
-
 let mapleader = ","
 let g:mapleader = ","
+
+" Fast escape
+inoremap jk <ESC>
 
 " Nop some keys
 nnoremap <F1> <nop>
@@ -192,17 +192,48 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><leader>p :set invpaste<CR>
 
-" Location list mappings
-nmap <silent><leader>z :lnext<CR>
-nmap <silent><leader>x :lprevious<CR>
-
 " Replaces a visual selected text to its base64 or reverse
 vnoremap <leader>64 c<c-r>=system('base64', @")<cr><esc>
 vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
 
+" Splitting windows a la tmux
+nnoremap <leader>% :split<CR>
+nnoremap <leader>" :vsplit<CR>
+nnoremap <leader>x <c-w>c
+nnoremap <leader><left> <c-w>h
+nnoremap <leader><right> <c-w>l
+nnoremap <leader><up> <c-w>k
+nnoremap <leader><down> <c-w>j
+
 "}}}
 
 "   Plugin options {{{
+
+"  Vim-go!
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>B <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>e <Plug>(go-rename)
+
+" Bufferexplorer
+nnoremap <leader>b :BufExplorer<cr>
 
 " A - Change header/implementation h/cpp
 nnoremap <leader>A :A<cr>
@@ -375,4 +406,7 @@ vnoremap K :m '<-2<CR>gv=gv
 augroup filetype                                                     
     au BufRead,BufNewFile *.lex,*.jlex    set filetype=jlex         
 augroup END                                                          
-au Syntax jlex    so ~/.vim/syntax/jflex.vim  
+au Syntax jlex  so ~/.vim/syntax/jflex.vim  
+augroup filetype                                                     
+    au BufRead,BufNewFile *.cup set filetype=cup
+augroup END                                                          
