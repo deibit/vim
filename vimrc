@@ -8,33 +8,34 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-"Plugin 'fatih/vim-go'
-Plugin 'cup.vim'
-Plugin 'junegunn/fzf'
-Plugin 'Chiel92/vim-autoformat'
+Plugin 'mattn/emmet-vim'
+Plugin 'rhysd/vim-clang-format'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/vim-operator-highlight'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'bling/vim-airline'
+Plugin 'cup.vim'
 Plugin 'deibit/A.vim'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'fatih/vim-go'
 Plugin 'gabesoft/vim-ags'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
-Plugin 'bling/vim-airline'
 Plugin 'jlanzarotta/bufexplorer'
+Plugin 'junegunn/fzf'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kana/vim-operator-user'
-Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'rdnetto/YCM-Generator'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
@@ -42,8 +43,8 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'vhdirk/vim-cmake'
 Plugin 'wellle/targets.vim'
-"Plugin 'xolox/vim-misc'
-"Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 
 " Themes
 Plugin 'altercation/vim-colors-solarized'
@@ -102,14 +103,16 @@ set smartindent
 set smarttab
 set softtabstop=4
 set splitbelow
+set splitbelow
+set splitright
 set splitright
 set t_Co=256
 set tabstop=4
 set termencoding=utf-8
 set timeoutlen=1000
-set ttimeoutlen=0
 set title
 set titleold=0
+set ttimeoutlen=0
 set ttyfast
 set undolevels=1000
 set wildmenu
@@ -124,8 +127,8 @@ if has('gui_running')
     set lines=60
     set columns=170
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
-    "set guifont=PragmataPro\ for\ Powerline:h16
-    set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+    set guifont=PragmataPro\ for\ Powerline:h13
+    "set guifont=Source\ Code\ Pro\ for\ Powerline:h14
     "set guifont=Courier:h14
     "set guifont=Liberation\ Mono\ for\ Powerline:h14
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
@@ -205,22 +208,29 @@ nnoremap <leader><right> <c-w>l
 nnoremap <leader><up> <c-w>k
 nnoremap <leader><down> <c-w>j
 
+nnoremap <silent><c-n> :bn<cr>
+nnoremap <silent><c-p> :bp<cr>
+
 "}}}
 
 "   Plugin options {{{
 
-"  Vim-go!
+" Vim-emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
+" Vim-go
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-let g:go_fmt_command = "goimports"
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>B <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
+
+au FileType go nmap <leader>R <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>T <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
@@ -232,25 +242,26 @@ au FileType go nmap <Leader>s <Plug>(go-implements)
 au FileType go nmap <Leader>i <Plug>(go-info)
 au FileType go nmap <Leader>e <Plug>(go-rename)
 
+
+" NERDtree
+autocmd StdinReadPre * let s:std_in=1
+map <leader>n :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore = ['\.pyc$']
+
+" Tagbar
+nnoremap <silent> <leader>t :TagbarToggle<CR>
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+
 " Bufferexplorer
-nnoremap <leader>b :BufExplorer<cr>
+nnoremap <leader>r :BufExplorer<cr>
 
 " A - Change header/implementation h/cpp
-nnoremap <leader>A :A<cr>
+nnoremap <leader>H :A<cr>
 
 " FZF
 nnoremap <leader>f :FZF<cr>
-
-" vim-autoformat
-nnoremap <F3> :Autoformat<cr>
-
-" Lightline
-"let g:lightline = {
-"\ 'colorscheme': 'solarized',
-"\ 'component': {
-"\   'readonly': '%{&readonly?"⭤":""}',
-"\ },
-"\ }
+let g:fzf_launcher="open_fzf_in_iterm2 %s"
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -283,9 +294,14 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+" Easytags
+set tags+=./tags
+let g:easytags_dynamic_files = 2
+
+
 " Vim Easy Align
 vmap <Enter> <Plug>(EasyAlign)
-"nmap <leader>A <Plug>(EasyAlign)
+nmap <leader>A <Plug>(EasyAlign)
 " former conflicts with :A <- header/impl changer
 
 " Markdown
@@ -299,42 +315,28 @@ let g:ycm_warning_symbol = '>'
 let g:ycm_error_symbol = '>>'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/Dropbox/codigo/cpp/.ycm_extra_conf.py'
+let g:ycm_enable_diagnostic_signs = 1
 nnoremap <leader>gd :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>gD :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>gt :YcmCompleter GetType<cr>
 nnoremap <leader>gT :YcmCompleter GetParent<cr>
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1
+      \}
 
 " EasyMotion
 nmap s <Plug>(easymotion-s2)
 let g:EasyMotion_smartcase=1
 map <leader>j <Plug>(easymotion-j)
 map <leader>k <Plug>(easymotion-k)
-
-" Syntastic
-nnoremap <leader>c :SyntasticCheck<cr>
-nnoremap <leader>C :SyntasticToggleMode<cr>
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = {"mode": "passive"}
-
-" Tagbar
-let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-let g:tagbar_expand = 1
-nnoremap <leader>t :TagbarToggle<cr>
-
-" Gutentags
-let g:gutentags_ctags_executable = "/usr/local/bin/ctags"
-
-" NERDTree
-autocmd StdinReadPre * let s:std_in=1
-map <leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeIgnore = ['\.pyc$']
 
 " }}}
 
