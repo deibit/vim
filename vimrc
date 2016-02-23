@@ -13,8 +13,7 @@ Plugin 'rhysd/vim-clang-format'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'SirVer/ultisnips'
-Plugin 'Valloric/YouCompleteMe'
-"Plugin 'Valloric/vim-operator-highlight'
+Plugin 'Shougo/neocomplete'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -30,18 +29,14 @@ Plugin 'junegunn/vim-easy-align'
 Plugin 'kana/vim-operator-user'
 Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
-Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
-"Plugin 'rdnetto/YCM-Generator'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'vhdirk/vim-cmake'
 Plugin 'wellle/targets.vim'
 Plugin 'xolox/vim-misc'
 
@@ -55,7 +50,6 @@ Plugin 'nanotech/jellybeans.vim'
 Plugin 'joshdick/onedark.vim'
 
 "}}}
-"
 
 call vundle#end()
 
@@ -224,12 +218,20 @@ nnoremap <silent><c-m> :bp<cr>
 
 " PLUGIN OPTIONS {{{
 
-" CtrlP
-let g:ctrlp_use_caching=1
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
-let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
-nnoremap <leader>r :CtrlPBuffer<cr>
+" Neocomplete
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+      return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+        " For no inserting <CR> key.
+        " return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
 
 " Vim-emmet
 let g:user_emmet_install_global = 0
@@ -313,28 +315,6 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
-
-" YouCompleteMe
-let g:ycm_warning_symbol = '>'
-let g:ycm_error_symbol = '>>'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_global_ycm_extra_conf = '~/Google Drive/.ycm_extra_conf.py'
-let g:ycm_enable_diagnostic_signs = 1
-nnoremap <leader>d :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>t :YcmCompleter GetType<cr>
-nnoremap <leader>T :YcmCompleter GetParent<cr>
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'unite' : 1,
-      \ 'vimwiki' : 1,
-      \ 'pandoc' : 1,
-      \ 'infolog' : 1,
-      \ 'mail' : 1
-      \}
 
 " EasyMotion
 nmap s <Plug>(easymotion-s2)
