@@ -7,6 +7,7 @@
 Session.vim
 .netrwhist
 *~
+bundle/
 
 
 ### Python ###
@@ -88,3 +89,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+tags
+.vim
+init.vim
