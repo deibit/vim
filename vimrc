@@ -4,7 +4,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-"{{{ Plugin list
+" PLUGINS {{{
 
 Plugin 'gmarik/Vundle.vim'
 
@@ -16,8 +16,8 @@ Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
 "Plugin 'Valloric/vim-operator-highlight'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'bling/vim-airline'
-Plugin 'cup.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'deibit/A.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'fatih/vim-go'
@@ -33,9 +33,9 @@ Plugin 'mbbill/undotree'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
-Plugin 'rdnetto/YCM-Generator'
+"Plugin 'rdnetto/YCM-Generator'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
@@ -43,7 +43,6 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'vhdirk/vim-cmake'
 Plugin 'wellle/targets.vim'
-Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 
 " Themes
@@ -53,10 +52,14 @@ Plugin 'tomasr/molokai'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'jonathanfilip/vim-lucius'
 Plugin 'nanotech/jellybeans.vim'
+Plugin 'joshdick/onedark.vim'
 
-call vundle#end()"}}}
+"}}}
+"
 
-" Settings {{{
+call vundle#end()
+
+" SETTINGS {{{
 
 filetype on
 filetype indent on
@@ -67,6 +70,8 @@ set autoindent
 set autoread
 set backspace=indent,eol,start
 set backupdir=/tmp
+set clipboard^=unnamed
+set clipboard^=unnamedplus
 set cmdheight=2
 set colorcolumn=80
 set copyindent
@@ -118,30 +123,33 @@ set undolevels=1000
 set wildmenu
 set wildmode=longest,list
 
-if has('gui_running')
-    colorscheme jellybeans
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
+
+if has('gui_macvim')
+    colorscheme badwolf
     set background=dark
+    set clipboard+=unnamed
     set mouse=a
     set guioptions-=TmrlL
     set guioptions+=c
     set lines=60
     set columns=170
+    let g:rehash256=1
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
-    set guifont=PragmataPro\ for\ Powerline:h13
-    "set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+    "set guifont=PragmataPro\ for\ Powerline:h13
+    set guifont=Source\ Code\ Pro\ for\ Powerline:h13
     "set guifont=Courier:h14
     "set guifont=Liberation\ Mono\ for\ Powerline:h14
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+    "set guifont=Ubuntu\ Mono\ derivative\ Powerline:h15
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
     "set term=xterm-256color
-    colorscheme jellybeans
+    colorscheme solarized
     set background=light
 endif
 
-" }}}
-
-" Mappings {{{ 
+" MAPPINGS
 
 let mapleader = ","
 let g:mapleader = ","
@@ -152,7 +160,7 @@ inoremap jk <ESC>
 " Nop some keys
 nnoremap <F1> <nop>
 nnoremap Q <nop>
-nnoremap q: <nop>
+nnoremap q: :q
 
 " Some tricks...
 nnoremap <leader>1 yypVr=
@@ -208,12 +216,20 @@ nnoremap <leader><right> <c-w>l
 nnoremap <leader><up> <c-w>k
 nnoremap <leader><down> <c-w>j
 
+" Move between buffers
 nnoremap <silent><c-n> :bn<cr>
-nnoremap <silent><c-p> :bp<cr>
+nnoremap <silent><c-m> :bp<cr>
 
-"}}}
+" }}}
 
-"   Plugin options {{{
+" PLUGIN OPTIONS {{{
+
+" CtrlP
+let g:ctrlp_use_caching=1
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
+nnoremap <leader>r :CtrlPBuffer<cr>
 
 " Vim-emmet
 let g:user_emmet_install_global = 0
@@ -228,33 +244,22 @@ let g:go_highlight_build_constraints = 1
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
-au FileType go nmap <leader>R <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>T <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap <leader>gc <Plug>(go-coverage)
+au FileType go nmap <Leader>ge <Plug>(go-def-split)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <Leader>s <Plug>(go-implements)
-au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <Leader>e <Plug>(go-rename)
+au FileType go nmap <Leader>gD <Plug>(go-doc-browser)
+au FileType go nmap <Leader>gi <Plug>(go-implements)
+au FileType go nmap <Leader>gI <Plug>(go-info)
+au FileType go nmap <Leader>gR <Plug>(go-rename)
 
-
-" NERDtree
-autocmd StdinReadPre * let s:std_in=1
-map <leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeIgnore = ['\.pyc$']
 
 " Tagbar
-nnoremap <silent> <leader>t :TagbarToggle<CR>
+nnoremap <silent> <leader>c :TagbarToggle<CR>
 let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 
-" Bufferexplorer
-nnoremap <leader>r :BufExplorer<cr>
 
 " A - Change header/implementation h/cpp
 nnoremap <leader>H :A<cr>
@@ -265,7 +270,11 @@ let g:fzf_launcher="open_fzf_in_iterm2 %s"
 
 " Airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme='jellybeans'
+"if has('gui_running')
+    "let g:airline_theme='badwolf'
+"else
+    "let g:airline_theme='badwolf'
+"endif
 
 " Ags
 nnoremap <leader>a :Ags 
@@ -294,11 +303,6 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
-" Easytags
-set tags+=./tags
-let g:easytags_dynamic_files = 2
-
-
 " Vim Easy Align
 vmap <Enter> <Plug>(EasyAlign)
 nmap <leader>A <Plug>(EasyAlign)
@@ -314,12 +318,12 @@ let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 let g:ycm_warning_symbol = '>'
 let g:ycm_error_symbol = '>>'
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_global_ycm_extra_conf = '~/Dropbox/codigo/cpp/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/Google Drive/.ycm_extra_conf.py'
 let g:ycm_enable_diagnostic_signs = 1
-nnoremap <leader>gd :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>gD :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>gt :YcmCompleter GetType<cr>
-nnoremap <leader>gT :YcmCompleter GetParent<cr>
+nnoremap <leader>d :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
+nnoremap <leader>t :YcmCompleter GetType<cr>
+nnoremap <leader>T :YcmCompleter GetParent<cr>
 let g:ycm_filetype_blacklist = {
       \ 'tagbar' : 1,
       \ 'qf' : 1,
@@ -340,7 +344,7 @@ map <leader>k <Plug>(easymotion-k)
 
 " }}}
 
-" VIM Secrets {{{
+" VIM SECRETS {{{
 "   
 " Yank all matches regex with grouping in a register 
 " :%s/regex/\=setreg('A', submatch(0), 'V')/n 
@@ -374,9 +378,8 @@ map <leader>k <Plug>(easymotion-k)
 " :vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
 " :vnoremap <leader>64 c<c-r>=system('base64 --decode', @")<cr><esc>
 
-"}}}
-
-" Functions {{{
+" FUNCTIONS
+"
 " Deletes trailing whitespaces on save
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -384,7 +387,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType go,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 "autocmd FileType c,cpp autocmd BufWritePre <buffer> :call <Plug>(operator-clang-format)
 
 " Return to last edit position when opening files (You want this!)
@@ -402,13 +405,5 @@ autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 " Move visual block
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-
 "}}}
 
-augroup filetype                                                     
-    au BufRead,BufNewFile *.lex,*.jlex    set filetype=jlex         
-augroup END                                                          
-au Syntax jlex  so ~/.vim/syntax/jflex.vim  
-augroup filetype                                                     
-    au BufRead,BufNewFile *.cup set filetype=cup
-augroup END                                                          
