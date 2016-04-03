@@ -1,57 +1,57 @@
-set nocompatible
-filetype off
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/bundle')
 
 " PLUGINS {{{
 
-Plugin 'gmarik/Vundle.vim'
-
-Plugin 'mattn/emmet-vim'
-Plugin 'rhysd/vim-clang-format'
-Plugin 'Raimondi/delimitMate'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'Shougo/neocomplete'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'deibit/A.vim'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'fatih/vim-go'
-Plugin 'gabesoft/vim-ags'
-Plugin 'haya14busa/incsearch.vim'
-Plugin 'honza/vim-snippets'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'kana/vim-operator-user'
-Plugin 'majutsushi/tagbar'
-Plugin 'mbbill/undotree'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'wellle/targets.vim'
-Plugin 'xolox/vim-misc'
+Plug 'junegunn/vim-emoji'
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'Chun-Yang/vim-action-ag'
+Plug 'Raimondi/delimitMate'
+Plug 'SirVer/ultisnips'
+Plug 'airblade/vim-gitgutter'
+Plug 'benekastah/neomake'
+Plug 'deibit/A.vim'
+Plug 'easymotion/vim-easymotion'
+" Plug 'fatih/vim-go'
+" Plug 'garyburd/go-explorer'
+Plug 'haya14busa/incsearch.vim'
+Plug 'hdima/python-syntax'
+Plug 'honza/vim-snippets'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'junegunn/fzf'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-plug'
+Plug 'kana/vim-operator-user'
+Plug 'majutsushi/tagbar'
+Plug 'mbbill/undotree'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'rhysd/vim-clang-format'
+Plug 'rking/ag.vim'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'wellle/targets.vim'
+Plug 'xolox/vim-misc'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'vhdirk/vim-cmake'
 
 " Themes
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'sjl/badwolf'
-Plugin 'tomasr/molokai'
-Plugin 'w0ng/vim-hybrid'
-Plugin 'jonathanfilip/vim-lucius'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'joshdick/onedark.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'sjl/badwolf'
+Plug 'sickill/vim-monokai'
+Plug 'w0ng/vim-hybrid'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'nanotech/jellybeans.vim'
+Plug 'joshdick/onedark.vim'
 
 "}}}
 
-call vundle#end()
+call plug#end()
 
 " SETTINGS {{{
 
@@ -120,18 +120,16 @@ set wildmode=longest,list
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 
 if has('gui_macvim')
-    colorscheme badwolf
+    colorscheme monokai
     set background=dark
-    set clipboard+=unnamed
     set mouse=a
     set guioptions-=TmrlL
     set guioptions+=c
     set lines=60
     set columns=170
-    let g:rehash256=1
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
-    "set guifont=PragmataPro\ for\ Powerline:h13
-    set guifont=Source\ Code\ Pro\ for\ Powerline:h13
+    set guifont=PragmataPro\ for\ Powerline:h13
+    "set guifont=Source\ Code\ Pro\ for\ Powerline:h12
     "set guifont=Courier:h14
     "set guifont=Liberation\ Mono\ for\ Powerline:h14
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
@@ -139,9 +137,10 @@ if has('gui_macvim')
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
     "set term=xterm-256color
-    colorscheme solarized
-    set background=light
+    colorscheme monokai
+    set background=dark
 endif
+
 
 " MAPPINGS
 
@@ -154,7 +153,6 @@ inoremap jk <ESC>
 " Nop some keys
 nnoremap <F1> <nop>
 nnoremap Q <nop>
-nnoremap q: :q
 
 " Some tricks...
 nnoremap <leader>1 yypVr=
@@ -212,74 +210,72 @@ nnoremap <leader><down> <c-w>j
 
 " Move between buffers
 nnoremap <silent><c-n> :bn<cr>
-nnoremap <silent><c-m> :bp<cr>
+nnoremap <silent><c-p> :bp<cr>
 
 " }}}
 
 " PLUGIN OPTIONS {{{
 
-" Neocomplete
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-      return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-        " For no inserting <CR> key.
-        " return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
+" YouCompleteMe
+if emoji#available()
+    let g:ycm_warning_symbol = emoji#for('exclamation')
+    let g:ycm_error_symbol = emoji#for('boom')
+endif
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
+let g:ycm_enable_diagnostic_signs = 1
+nnoremap <leader>d :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
+nnoremap <leader>t :YcmCompleter GetType<cr>
+nnoremap <leader>T :YcmCompleter GetParent<cr>
+let g:ycm_filetype_blacklist = {
+  \ 'tagbar' : 1,
+  \ 'qf' : 1,
+  \ 'notes' : 1,
+  \ 'markdown' : 1,
+  \ 'unite' : 1,
+  \ 'vimwiki' : 1,
+  \ 'pandoc' : 1,
+  \ 'infolog' : 1,
+  \ 'mail' : 1
+  \}
 
-" Vim-emmet
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
+" Python syntax
+let python_highlight_all = 1
 
 " Vim-go
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+" let g:go_highlight_interfaces = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_structs = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_build_constraints = 1
+" let g:go_fmt_command = "goimports"
 
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>gc <Plug>(go-coverage)
-au FileType go nmap <Leader>ge <Plug>(go-def-split)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gD <Plug>(go-doc-browser)
-au FileType go nmap <Leader>gi <Plug>(go-implements)
-au FileType go nmap <Leader>gI <Plug>(go-info)
-au FileType go nmap <Leader>gR <Plug>(go-rename)
-
+" au FileType go nmap <leader>gr <Plug>(go-run)
+" au FileType go nmap <leader>gb <Plug>(go-build)
+" au FileType go nmap <leader>gt <Plug>(go-test)
+" au FileType go nmap <leader>gc <Plug>(go-coverage)
+" au FileType go nmap <Leader>ge <Plug>(go-def-split)
+" au FileType go nmap <Leader>gd <Plug>(go-doc)
+" au FileType go nmap <Leader>gD <Plug>(go-doc-browser)
+" au FileType go nmap <Leader>gi <Plug>(go-implements)
+" au FileType go nmap <Leader>gI <Plug>(go-info)
+" au FileType go nmap <Leader>gR <Plug>(go-rename)
 
 " Tagbar
-nnoremap <silent> <leader>c :TagbarToggle<CR>
+nnoremap <silent> <leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
-
 
 " A - Change header/implementation h/cpp
 nnoremap <leader>H :A<cr>
 
 " FZF
 nnoremap <leader>f :FZF<cr>
-let g:fzf_launcher="open_fzf_in_iterm2 %s"
 
 " Airline
 let g:airline_powerline_fonts = 1
-"if has('gui_running')
-    "let g:airline_theme='badwolf'
-"else
-    "let g:airline_theme='badwolf'
-"endif
-
-" Ags
-nnoremap <leader>a :Ags 
+let g:airline_theme = 'zenburn'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -325,9 +321,9 @@ map <leader>k <Plug>(easymotion-k)
 " }}}
 
 " VIM SECRETS {{{
-"   
-" Yank all matches regex with grouping in a register 
-" :%s/regex/\=setreg('A', submatch(0), 'V')/n 
+"
+" Yank all matches regex with grouping in a register
+" :%s/regex/\=setreg('A', submatch(0), 'V')/n
 " :%s/regex <--- possibly with grouping \(regex\)
 " .../\=setreg('register name', select group (number), 'V' = linewise
 " ... ... /n <--- sandbox, it won't actually make changes
@@ -367,8 +363,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-"autocmd FileType c,cpp autocmd BufWritePre <buffer> :call <Plug>(operator-clang-format)
+autocmd FileType vim,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -385,5 +380,53 @@ autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 " Move visual block
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+" FZF Buffers
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <silent> <Leader><Enter> :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
+
+" FZF Jump to tags
+function! s:tags_sink(line)
+  let parts = split(a:line, '\t\zs')
+  let excmd = matchstr(parts[2:], '^.*\ze;"\t')
+  execute 'silent e' parts[1][:-2]
+  let [magic, &magic] = [&magic, 0]
+  execute excmd
+  let &magic = magic
+endfunction
+
+function! s:tags()
+  if empty(tagfiles())
+    echohl WarningMsg
+    echom 'Preparing tags'
+    echohl None
+    call system('ctags -R')
+  endif
+
+  call fzf#run({
+  \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+  \            '| grep -v ^!',
+  \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+  \ 'down':    '40%',
+  \ 'sink':    function('s:tags_sink')})
+endfunction
+
+command! Tags call s:tags()
+
 "}}}
 
