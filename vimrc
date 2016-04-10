@@ -2,6 +2,9 @@ call plug#begin('~/.vim/bundle')
 
 " PLUGINS {{{
 
+" Plug 'Shougo/vimproc.vim'
+" Plug 'eagletmt/ghcmod-vim'
+" Plug 'eagletmt/neco-ghc'
 Plug 'junegunn/vim-emoji'
 Plug 'Valloric/YouCompleteMe'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
@@ -104,7 +107,6 @@ set softtabstop=4
 set splitbelow
 set splitbelow
 set splitright
-set splitright
 set t_Co=256
 set tabstop=4
 set termencoding=utf-8
@@ -128,10 +130,10 @@ if has('gui_macvim')
     set lines=60
     set columns=170
     "set guifont=Envy\ Code\ R\ for\ Powerline:h16
-    set guifont=PragmataPro\ for\ Powerline:h13
+    " set guifont=PragmataPro\ for\ Powerline:h13
     "set guifont=Source\ Code\ Pro\ for\ Powerline:h12
     "set guifont=Courier:h14
-    "set guifont=Liberation\ Mono\ for\ Powerline:h14
+    set guifont=Liberation\ Mono\ for\ Powerline:h13
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
     "set guifont=Ubuntu\ Mono\ derivative\ Powerline:h15
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
@@ -163,7 +165,7 @@ nnoremap <leader>3 ddp
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Turn off Highlight
-nmap <silent><leader><space> :noh<cr>
+nmap <silent><leader>m :noh<cr>
 
 " Fast write
 nnoremap<leader>w :w<cr>
@@ -212,9 +214,21 @@ nnoremap <leader><down> <c-w>j
 nnoremap <silent><c-n> :bn<cr>
 nnoremap <silent><c-p> :bp<cr>
 
+" Fast search!
+nnoremap <space> /
+nnoremap <leader><space> ?
+
 " }}}
 
 " PLUGIN OPTIONS {{{
+
+" Bufexplorer
+nnoremap <silent> <leader><leader> :BufExplorer<CR>
+
+" Neco-GHC
+" let g:haskellmode_completion_ghc = 0
+" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+" let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 " YouCompleteMe
 if emoji#available()
