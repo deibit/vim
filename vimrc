@@ -165,7 +165,7 @@ nnoremap <leader>3 ddp
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Turn off Highlight
-nmap <silent><leader>m :noh<cr>
+nnoremap <silent><leader>h :noh<cr>
 
 " Fast write
 nnoremap<leader>w :w<cr>
@@ -184,7 +184,7 @@ vmap <S-Tab> <gv
 
 " vimrc editing and sourcing
 noremap <leader>v :e! $MYVIMRC<CR>
-noremap <silent><leader>V :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+noremap <leader>V :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " This command will allow us to save a file we don't have permission to save
 " *after* we have already opened it. Super useful.
