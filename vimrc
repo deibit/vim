@@ -51,6 +51,7 @@ Plug 'w0ng/vim-hybrid'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'nanotech/jellybeans.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'chriskempson/base16-vim'
 
 "}}}
 
@@ -110,7 +111,7 @@ set splitright
 set t_Co=256
 set tabstop=4
 set termencoding=utf-8
-set timeoutlen=1000
+set timeoutlen=250
 set title
 set titleold=0
 set ttimeoutlen=0
@@ -138,8 +139,8 @@ if has('gui_macvim')
     "set guifont=Ubuntu\ Mono\ derivative\ Powerline:h15
     "set guifont=Courier\ Final\ Draft\ for\ Powerline:h14
 else
-    "set term=xterm-256color
-    colorscheme monokai
+    set term=xterm-256color
+    colorscheme base16-monokai
     set background=dark
 endif
 
@@ -289,7 +290,7 @@ nnoremap <leader>f :FZF<cr>
 
 " Airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'zenburn'
+let g:airline_theme = 'base16_monokai'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
