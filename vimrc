@@ -1,7 +1,9 @@
 call plug#begin('~/.vim/bundle')
 
-" PLUGINS {{{
+" PLUGINS
 
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
@@ -9,8 +11,6 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
 Plug 'benekastah/neomake'
 Plug 'deibit/A.vim'
-" Plug 'fatih/vim-go'
-" Plug 'garyburd/go-explorer'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
@@ -49,11 +49,9 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'chriskempson/base16-vim'
 
-"}}}
-
 call plug#end()
 
-" SETTINGS {{{
+" SETTINGS
 
 filetype on
 filetype indent on
@@ -194,17 +192,23 @@ nnoremap <silent><c-p> :bp<cr>
 " Fast search!
 nnoremap <space> /
 nnoremap <leader><space> ?
-" }}}
 
-" PLUGIN OPTIONS {{{
+"
+" PLUGIN OPTIONS
+
+" Ctrlp
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_user_command = 'find %s -type f'
+
+" YouCompleteMe
 
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
 let g:ycm_enable_diagnostic_signs = 1
-nnoremap <leader>d :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>t :YcmCompleter GetType<cr>
-nnoremap <leader>T :YcmCompleter GetParent<cr>
+nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
+nnoremap <leader>T :YcmCompleter GetType<cr>
+nnoremap <leader>p :YcmCompleter GetParent<cr>
 
 " BufExplorer
 nnoremap <silent> <leader><leader> :BufExplorer<CR>
@@ -256,10 +260,6 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
-
-
-" }}}
-
 
 
 " VIM SECRETS {{{
