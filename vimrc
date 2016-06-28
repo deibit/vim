@@ -9,7 +9,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
-Plug 'benekastah/neomake'
+Plug 'scrooloose/syntastic'
 Plug 'deibit/A.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
@@ -196,6 +196,10 @@ nnoremap <leader><space> ?
 "
 " PLUGIN OPTIONS
 
+" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+
 " Ctrlp
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_user_command = 'find %s -type f'
@@ -205,6 +209,8 @@ let g:ctrlp_user_command = 'find %s -type f'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
 let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_error_symbol = emoji#for('fire')
+let g:ycm_warning_symbol = emoji#for('zap')
 nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>T :YcmCompleter GetType<cr>
@@ -228,7 +234,7 @@ nnoremap <leader>f :FZF<cr>
 
 " Airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16_monokai'
+let g:airline_theme = 'zenburn'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
