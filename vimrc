@@ -2,9 +2,10 @@ call plug#begin('~/.vim/bundle')
 
 " PLUGINS
 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
@@ -140,7 +141,7 @@ nnoremap <leader>3 ddp
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Turn off Highlight
-nmap <silent><leader><space> :noh<cr>
+nmap <silent><esc> :noh<cr>
 
 " Fast write
 nnoremap<leader>w :w<cr>
@@ -203,10 +204,6 @@ let g:syntastic_auto_loc_list = 1
 " Nerdtree
 map <leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Ctrlp
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_user_command = 'find %s -type f'
 
 " YouCompleteMe
 
