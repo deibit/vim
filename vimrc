@@ -2,6 +2,9 @@ call plug#begin('~/.vim/bundle')
 
 " PLUGINS
 
+Plug 'garyburd/go-explorer'
+Plug 'fatih/vim-go'
+Plug 'matze/vim-move'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
@@ -16,7 +19,6 @@ Plug 'deibit/A.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
-Plug 'jlanzarotta/bufexplorer'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-plug'
 Plug 'kana/vim-operator-user'
@@ -197,6 +199,9 @@ nnoremap <leader><space> ?
 "
 " PLUGIN OPTIONS
 
+" Vim-move
+let g:move_key_modifier = 'C'
+
 " Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -207,24 +212,48 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " YouCompleteMe
 
-highlight YcmErrorLine  guibg=#000000
-highlight YcmWarningLine  guibg=#000000
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
 let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_error_symbol = emoji#for('fire')
-let g:ycm_warning_symbol = emoji#for('zap')
 nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>T :YcmCompleter GetType<cr>
 nnoremap <leader>P :YcmCompleter GetParent<cr>
 
-" BufExplorer
-nnoremap <silent> <leader><leader> :BufExplorer<CR>
-
 " Python syntax
 let python_highlight_all = 1
+
+" Vim-go
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>e <Plug>(go-rename)
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
+let g:go_list_type = "quickfix"
+
 
 " Tagbar
 nnoremap <silent> <leader>t :TagbarToggle<CR>
