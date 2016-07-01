@@ -2,12 +2,9 @@ call plug#begin('~/.vim/bundle')
 
 " PLUGINS
 
-Plug 'garyburd/go-explorer'
-Plug 'fatih/vim-go'
 Plug 'matze/vim-move'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
@@ -19,11 +16,9 @@ Plug 'deibit/A.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
-Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-plug'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
-Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
@@ -206,10 +201,6 @@ let g:move_key_modifier = 'C'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 
-" Nerdtree
-map <leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 " YouCompleteMe
 
 let g:ycm_confirm_extra_conf = 0
@@ -223,41 +214,6 @@ nnoremap <leader>P :YcmCompleter GetParent<cr>
 
 " Python syntax
 let python_highlight_all = 1
-
-" Vim-go
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <Leader>s <Plug>(go-implements)
-au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <Leader>e <Plug>(go-rename)
-
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
-
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-
-let g:go_list_type = "quickfix"
-
-
-" Tagbar
-nnoremap <silent> <leader>t :TagbarToggle<CR>
-let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 
 " A - Change header/implementation h/cpp
 nnoremap <leader>H :A<cr>
