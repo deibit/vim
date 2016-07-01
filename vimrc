@@ -11,7 +11,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/syntastic'
 Plug 'deibit/A.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
@@ -196,10 +195,6 @@ nnoremap <leader><space> ?
 
 " Vim-move
 let g:move_key_modifier = 'C'
-
-" Syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
 
 " YouCompleteMe
 
