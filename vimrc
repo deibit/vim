@@ -5,7 +5,6 @@ call plug#begin('~/.vim/bundle')
 Plug 'matze/vim-move'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
