@@ -1,37 +1,40 @@
 call plug#begin('~/.vim/bundle')
 
-" PLUGINS
+" PLUGINS {{{
 
-Plug 'matze/vim-move'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
+Plug 'airblade/vim-gitgutter'
+Plug 'benekastah/neomake'
 Plug 'deibit/A.vim'
+Plug 'fatih/vim-go'
+Plug 'garyburd/go-explorer'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
+Plug 'junegunn/fzf', {'dir':'~/.fzf', 'do': './install -all'}
+Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
-" Plug 'mbbill/undotree'
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'mattn/emmet-vim'
+Plug 'matze/vim-move'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'racer-rust/vim-racer'
 Plug 'rhysd/vim-clang-format'
 Plug 'rking/ag.vim'
+Plug 'rust-lang/rust.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-Plug 'vhdirk/vim-cmake'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
+Plug 'Valloric/YouCompleteMe'
 
 " Themes
 Plug 'altercation/vim-colors-solarized'
@@ -43,9 +46,13 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'chriskempson/base16-vim'
 
+"}}}
+
 call plug#end()
 
-" SETTINGS
+" SETTINGS {{{
+
+set nocompatible
 
 filetype on
 filetype indent on
@@ -99,7 +106,7 @@ set splitright
 set t_Co=256
 set tabstop=4
 set termencoding=utf-8
-set timeoutlen=500
+set timeoutlen=650
 set title
 set titleold=0
 set ttimeoutlen=0
@@ -112,8 +119,9 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 colorscheme jellybeans
 set background=dark
 
+" }}}
 
-" MAPPINGS
+" MAPPINGS {{{
 
 let mapleader = ","
 let g:mapleader = ","
@@ -186,29 +194,58 @@ nnoremap <silent><c-p> :bp<cr>
 " Fast search!
 nnoremap <space> /
 nnoremap <leader><space> ?
+" }}}
 
-"
-" PLUGIN OPTIONS
+" PLUGIN OPTIONS {{{
 
 " Vim-move
 let g:move_key_modifier = 'C'
 
-" YouCompleteMe
+" Rust / Racer
+let g:rustfmt_autosave = 1
+let g:racer_cmd = "/Users/david/.cargo/bin/racer"
+let $RUST_SRC_PATH="/Users/david/temp/rust/rust/src"
 
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>T :YcmCompleter GetType<cr>
-nnoremap <leader>P :YcmCompleter GetParent<cr>
+" Deoplete
+let g:deoplete#enable_at_startup = 1
 
 " Python syntax
 let python_highlight_all = 1
 
+" Vim-go
+let g:go_highlight_interfaces = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>e <Plug>(go-rename)
+au FileType go nmap <Leader>gR <Plug>(go-rename)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gi <Plug>(go-implements)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap <leader>r <Plug>(go-run)
+
+" Tagbar
+" nnoremap <silent> <leader>t :TagbarToggle<CR>
+" let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+
 " A - Change header/implementation h/cpp
 nnoremap <leader>H :A<cr>
+
+" FZF
+nnoremap <leader>f :FZF<cr>
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -245,6 +282,8 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " Javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 
+
+" }}}
 
 " VIM SECRETS {{{
 "
@@ -355,3 +394,4 @@ endfunction
 command! Tags call s:tags()
 
 "}}}
+
