@@ -3,7 +3,7 @@ call plug#begin('~/.vim/bundle')
 " PLUGINS
 
 Plug 'matze/vim-move'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Chun-Yang/vim-action-ag'
@@ -15,14 +15,13 @@ Plug 'deibit/A.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
-Plug 'junegunn/vim-plug'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
-Plug 'mbbill/undotree'
+" Plug 'mbbill/undotree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'rhysd/vim-clang-format'
 Plug 'rking/ag.vim'
 Plug 'tommcdo/vim-exchange'
