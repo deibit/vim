@@ -5,7 +5,6 @@ call plug#begin('~/.vim/bundle')
 Plug 'matze/vim-move'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
@@ -17,7 +16,6 @@ Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
-Plug 'mbbill/undotree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
@@ -223,9 +221,6 @@ nnoremap <leader>H :A<cr>
 " Airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'jellybeans'
-
-" Undotree
-nnoremap <leader>u :UndotreeToggle<cr>
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<c-z>"
