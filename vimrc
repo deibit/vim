@@ -136,7 +136,7 @@ nnoremap <leader>2 yypVr-
 nnoremap <leader>3 ddp
 
 " Get rid of ^M
-noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Fast write
 nnoremap<leader>w :w<cr>
@@ -193,8 +193,12 @@ nnoremap <leader><space> ?
 " PLUGIN OPTIONS
 
 " FZF
-nnoremap <leader>f :FZF<cr>
 nnoremap <leader><leader> :Buffers<cr>
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>b :BTags<cr>
+nnoremap <leader>t :Tags<cr>
+nnoremap <leader>a :Ag<space>
+nnoremap <leader>m :Marks<space>
 
 " Vim-move
 let g:move_key_modifier = 'C'
