@@ -16,6 +16,7 @@ Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
+Plug 'majutsushi/tagbar'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
@@ -189,6 +190,9 @@ nnoremap <leader><space> ?
 
 "
 " PLUGIN OPTIONS
+
+" Tagbar
+nmap <leader>g :TagbarToggle<CR>
 
 " FZF
 nnoremap <leader><leader> :Buffers<cr>
