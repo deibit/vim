@@ -171,6 +171,9 @@ nnoremap <silent><leader>p :set invpaste<CR>
 vnoremap <leader>64 c<c-r>=system('base64', @")<cr><esc>
 vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
 
+" Closing quickfix quick
+nnoremap <leader>c :ccl<CR>
+
 " Splitting windows a la tmux
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
@@ -190,6 +193,11 @@ nnoremap <leader><space> ?
 
 "
 " PLUGIN OPTIONS
+
+nmap s <Nop>
+xmap s <Nop>
+
+nnoremap <leader>l :ClangFormat<cr>
 
 " Tagbar
 nmap <leader>g :TagbarToggle<CR>
@@ -223,7 +231,7 @@ let python_highlight_all = 1
 nnoremap <leader>H :A<cr>
 
 " Airline
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline_theme = 'jellybeans'
 
 " Ultisnips
