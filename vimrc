@@ -43,6 +43,7 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'nanotech/jellybeans.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'chriskempson/base16-vim'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -110,7 +111,7 @@ set wildmenu
 set wildmode=longest,list
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 
-colorscheme jellybeans
+colorscheme gruvbox
 set background=dark
 
 
@@ -208,7 +209,7 @@ nnoremap <leader>f :Files<cr>
 nnoremap <leader>b :BTags<cr>
 nnoremap <leader>t :Tags<cr>
 nnoremap <leader>a :Ag<space>
-nnoremap <leader>m :Marks<space>
+nnoremap <leader>m :Marks<cr>
 
 " Vim-move
 let g:move_key_modifier = 'C'
@@ -228,11 +229,11 @@ nnoremap <leader>P :YcmCompleter GetParent<cr>
 let python_highlight_all = 1
 
 " A - Change header/implementation h/cpp
-nnoremap <leader>H :A<cr>
+nnoremap <leader>h :A<cr>
 
 " Airline
-let g:airline_powerline_fonts = 0
-let g:airline_theme = 'jellybeans'
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'gruvbox'
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<c-z>"
