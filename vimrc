@@ -2,6 +2,10 @@ call plug#begin('~/.vim/bundle')
 
 " PLUGINS
 
+Plug 'mbbill/undotree'
+Plug 'fatih/vim-go'
+Plug 'garyburd/go-explorer'
+Plug 'deibit/vim-cool'
 Plug 'matze/vim-move'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -10,7 +14,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
-Plug 'deibit/A.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
@@ -126,6 +129,7 @@ inoremap jk <ESC>
 " Nop some keys
 nnoremap <F1> <nop>
 nnoremap Q <nop>
+nnoremap gQ <nop>
 
 " Turn off Highlight
 nmap <silent><leader><cr> :noh<cr>
@@ -179,6 +183,7 @@ nnoremap <leader>c :ccl<CR>
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>x <c-w>c
+" Moving to windows
 nnoremap <leader><left> <c-w>h
 nnoremap <leader><right> <c-w>l
 nnoremap <leader><up> <c-w>k
@@ -192,16 +197,51 @@ nnoremap <silent><c-p> :bp<cr>
 nnoremap <space> /
 nnoremap <leader><space> ?
 
+" Remapped U for redo ctrl-r
+nnoremap U <c-r>
+
 "
 " PLUGIN OPTIONS
 
+" Undotree
+nnoremap <leader>u :UndotreeToggle<cr>
+
+" Remapped because of vim-sandwich
 nmap s <Nop>
 xmap s <Nop>
 
-nnoremap <leader>l :ClangFormat<cr>
+" Vim-go
+let g:go_highlight_interfaces = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>e <Plug>(go-rename)
+au FileType go nmap <Leader>gR <Plug>(go-rename)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gi <Plug>(go-implements)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap <leader>r <Plug>(go-run)
 
 " Tagbar
-nmap <leader>g :TagbarToggle<CR>
+nnoremap <silent> <leader>g :TagbarToggle<CR>
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+
+" Clangformat
+nnoremap <leader>l :ClangFormat<cr>
+autocmd FileType c,cpp ClangFormatAutoEnable
 
 " FZF
 nnoremap <leader><leader> :Buffers<cr>
@@ -215,7 +255,6 @@ nnoremap <leader>m :Marks<cr>
 let g:move_key_modifier = 'C'
 
 " YouCompleteMe
-
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
 let g:ycm_enable_diagnostic_signs = 1
@@ -224,12 +263,10 @@ nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>T :YcmCompleter GetType<cr>
 nnoremap <leader>P :YcmCompleter GetParent<cr>
+nnoremap <leader>h :YcmCompleter GoToInclude<cr>
 
 " Python syntax
 let python_highlight_all = 1
-
-" A - Change header/implementation h/cpp
-nnoremap <leader>h :A<cr>
 
 " Airline
 let g:airline_powerline_fonts = 1
