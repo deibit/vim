@@ -1,6 +1,6 @@
-call plug#begin('~/.vim/bundle')
+" PLUGINS {{{
 
-" PLUGINS
+call plug#begin('~/.vim/bundle')
 
 Plug 'mbbill/undotree'
 Plug 'fatih/vim-go'
@@ -50,7 +50,9 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-" SETTINGS
+" }}}
+
+" SETTINGS {{{
 
 filetype on
 filetype indent on
@@ -117,8 +119,9 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 colorscheme gruvbox
 set background=dark
 
+" }}}
 
-" MAPPINGS
+" MAPPINGS {{{
 
 let mapleader = ","
 let g:mapleader = ","
@@ -183,11 +186,11 @@ nnoremap <leader>c :ccl<CR>
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>x <c-w>c
-" Moving to windows
-nnoremap <leader><left> <c-w>h
-nnoremap <leader><right> <c-w>l
-nnoremap <leader><up> <c-w>k
-nnoremap <leader><down> <c-w>j
+" Moving windows
+nnoremap <c-left> <c-w>h
+nnoremap <c-right> <c-w>l
+nnoremap <c-up> <c-w>k
+nnoremap <c-down> <c-w>j
 
 " Move between buffers
 nnoremap <silent><c-n> :bn<cr>
@@ -200,8 +203,9 @@ nnoremap <leader><space> ?
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
 
-"
-" PLUGIN OPTIONS
+" }}}
+
+" PLUGIN OPTIONS {{{
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -293,13 +297,13 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
-
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 
+" }}}
 
 " VIM SECRETS {{{
 "
