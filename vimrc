@@ -2,30 +2,32 @@
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'mbbill/undotree'
-Plug 'fatih/vim-go'
-Plug 'garyburd/go-explorer'
-Plug 'deibit/vim-cool'
-Plug 'matze/vim-move'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
+Plug 'deibit/vim-cool'
+Plug 'fatih/vim-go'
+Plug 'garyburd/go-explorer'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
 Plug 'majutsushi/tagbar'
+Plug 'matze/vim-move'
+Plug 'mbbill/undotree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
+" Plug 'racer-rust/vim-racer'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'rhysd/vim-clang-format'
 Plug 'rking/ag.vim'
+Plug 'rust-lang/rust.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
@@ -207,6 +209,11 @@ nnoremap U <c-r>
 
 " PLUGIN OPTIONS {{{
 
+" Racer
+" let g:rustfmt_autosave=1
+" let g:racer = "/Users/david/.cargo/bin/racer"
+" let $RUST_SRC_PATH="/Users/david/temp/rust/rust/src"
+
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
@@ -224,27 +231,20 @@ let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
 
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>e <Plug>(go-rename)
-au FileType go nmap <Leader>gR <Plug>(go-rename)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gi <Plug>(go-implements)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <Leader>s <Plug>(go-implements)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 au FileType go nmap <leader>gt <Plug>(go-test)
 au FileType go nmap <leader>r <Plug>(go-run)
 
 " Tagbar
-nnoremap <silent> <leader>g :TagbarToggle<CR>
+nnoremap <silent> <leader>G :TagbarToggle<CR>
 let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 
 " Clangformat
-nnoremap <leader>l :ClangFormat<cr>
 autocmd FileType c,cpp ClangFormatAutoEnable
 
 " FZF
@@ -281,7 +281,7 @@ let g:UltiSnipsExpandTrigger="<c-z>"
 
 " DelimitMate
 let delimitMate_expand_cr = 1
-au FileType cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
+au FileType c,cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
 
 " Vim incsearch
 " :h g:incsearch#auto_nohlsearch
