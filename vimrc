@@ -2,6 +2,7 @@
 
 call plug#begin('~/.vim/bundle')
 
+Plug 'scrooloose/nerdtree'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
@@ -120,6 +121,7 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 
 colorscheme gruvbox
 set background=dark
+set guifont=PragmataPro\ for\ PowerLine:h14
 
 " }}}
 
@@ -208,6 +210,13 @@ nnoremap U <c-r>
 " }}}
 
 " PLUGIN OPTIONS {{{
+
+" NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeRespectWildIgnore=1
+nnoremap <leader>n :NERDTreeToggle<cr>
 
 " Racer
 " let g:rustfmt_autosave=1
