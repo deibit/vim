@@ -2,6 +2,7 @@
 
 call plug#begin('~/.vim/bundle')
 
+Plug 'neomake/neomake'
 Plug 'scrooloose/nerdtree'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
@@ -9,8 +10,6 @@ Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
 Plug 'deibit/vim-cool'
-Plug 'fatih/vim-go'
-Plug 'garyburd/go-explorer'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
@@ -28,7 +27,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'rhysd/vim-clang-format'
 Plug 'rking/ag.vim'
-Plug 'rust-lang/rust.vim'
+" Plug 'rust-lang/rust.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
@@ -229,25 +228,6 @@ nnoremap <leader>u :UndotreeToggle<cr>
 " Remapped because of vim-sandwich
 nmap s <Nop>
 xmap s <Nop>
-
-" Vim-go
-let g:go_highlight_interfaces = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_fmt_command = "goimports"
-
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>r <Plug>(go-run)
 
 " Tagbar
 nnoremap <silent> <leader>G :TagbarToggle<CR>
