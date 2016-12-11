@@ -2,6 +2,9 @@
 
 call plug#begin('~/.vim/bundle')
 
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/vim-slash'
+Plug 'brookhong/cscope.vim'
 Plug 'neomake/neomake'
 Plug 'scrooloose/nerdtree'
 Plug 'Chun-Yang/vim-action-ag'
@@ -9,12 +12,9 @@ Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
-Plug 'deibit/vim-cool'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
 Plug 'majutsushi/tagbar'
@@ -38,6 +38,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
+Plug 'mileszs/ack.vim'
 
 " Themes
 Plug 'altercation/vim-colors-solarized'
@@ -195,10 +196,6 @@ nnoremap <c-right> <c-w>l
 nnoremap <c-up> <c-w>k
 nnoremap <c-down> <c-w>j
 
-" Move between buffers
-nnoremap <silent><c-n> :bn<cr>
-nnoremap <silent><c-p> :bp<cr>
-
 " Fast search!
 nnoremap <space> /
 nnoremap <leader><space> ?
@@ -209,6 +206,14 @@ nnoremap U <c-r>
 " }}}
 
 " PLUGIN OPTIONS {{{
+
+" Ag
+let g:ackprg = 'ag --nogroup --nocolor --column'
+nnoremap <leader>a :Ag <cword><cr>
+
+" Cscope
+nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
+nnoremap <leader>l :call ToggleLocationList()<CR>
 
 " NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -236,13 +241,19 @@ let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
 
-" FZF
-nnoremap <leader><leader> :Buffers<cr>
-nnoremap <leader>f :Files<cr>
-nnoremap <leader>b :BTags<cr>
-nnoremap <leader>t :Tags<cr>
-nnoremap <leader>a :Ag<space>
-nnoremap <leader>m :Marks<cr>
+" Ctrlp
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+let g:ctrlp_user_command = 'find %s -type f'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+nnoremap <leader><leader> :CtrlPBuffer<cr>
+let g:ctrlp_map = '<leader>p'
+nnoremap <leader>t :CtrlPBufTag<cr>
+nnoremap <leader>T :CtrlPBufTagAll<cr>
+
 
 " Vim-move
 let g:move_key_modifier = 'C'
@@ -254,8 +265,6 @@ let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_enable_diagnostic_highlighting = 1
 nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>T :YcmCompleter GetType<cr>
-nnoremap <leader>P :YcmCompleter GetParent<cr>
 nnoremap <leader>h :YcmCompleter GoToInclude<cr>
 
 " Python syntax
