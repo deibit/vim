@@ -2,34 +2,33 @@
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/incsearch-easymotion.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'junegunn/vim-slash'
-Plug 'brookhong/cscope.vim'
-Plug 'neomake/neomake'
-Plug 'scrooloose/nerdtree'
 Plug 'Chun-Yang/vim-action-ag'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
+Plug 'brookhong/cscope.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
+Plug 'junegunn/vim-slash'
 Plug 'kana/vim-operator-user'
 Plug 'machakann/vim-sandwich'
 Plug 'majutsushi/tagbar'
 Plug 'matze/vim-move'
 Plug 'mbbill/undotree'
+Plug 'mileszs/ack.vim'
+Plug 'neomake/neomake'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
-" Plug 'racer-rust/vim-racer'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'rhysd/vim-clang-format'
 Plug 'rking/ag.vim'
-" Plug 'rust-lang/rust.vim'
+Plug 'scrooloose/nerdtree'
 Plug 'tommcdo/vim-exchange'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-commentary'
@@ -40,7 +39,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
-Plug 'mileszs/ack.vim'
 
 " Themes
 Plug 'altercation/vim-colors-solarized'
@@ -223,11 +221,6 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeRespectWildIgnore=1
 nnoremap <leader>n :NERDTreeToggle<cr>
-
-" Racer
-" let g:rustfmt_autosave=1
-" let g:racer = "/Users/david/.cargo/bin/racer"
-" let $RUST_SRC_PATH="/Users/david/temp/rust/rust/src"
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
