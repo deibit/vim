@@ -2,8 +2,17 @@
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'Chun-Yang/vim-action-ag'
-Plug 'Raimondi/delimitMate'
+" Plug 'majutsushi/tagbar'
+" Plug 'mileszs/ack.vim'
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+" Plug 'scrooloose/nerdtree'
+" Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-repeat'
+" Plug 'vhdirk/vim-cmake'
+" Plug 'matze/vim-move'                                   " Move lines and blocks
+" Plug 'tommcdo/vim-exchange'
+Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
+Plug 'Raimondi/delimitMate'                             " Autoclosing parents
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
@@ -16,39 +25,34 @@ Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/vim-slash'
 Plug 'kana/vim-operator-user'
-Plug 'machakann/vim-sandwich'
-Plug 'majutsushi/tagbar'
-Plug 'matze/vim-move'
+Plug 'kana/vim-textobj-user'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'machakann/vim-sandwich'                           " Parents operations
+Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
-Plug 'mileszs/ack.vim'
 Plug 'neomake/neomake'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'rhysd/vim-clang-format'
 Plug 'rking/ag.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'tommcdo/vim-exchange'
-Plug 'tommcdo/vim-lion'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'vhdirk/vim-cmake'
+Plug 'rust-lang/rust.vim'
+Plug 'tommcdo/vim-lion'                                 " Align text
+Plug 'tpope/vim-fugitive'                               " Integrates Git
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 
 " Themes
-Plug 'altercation/vim-colors-solarized'
-Plug 'sjl/badwolf'
-Plug 'sickill/vim-monokai'
-Plug 'w0ng/vim-hybrid'
-Plug 'jonathanfilip/vim-lucius'
-Plug 'nanotech/jellybeans.vim'
-Plug 'joshdick/onedark.vim'
-Plug 'chriskempson/base16-vim'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'sjl/badwolf'
+" Plug 'sickill/vim-monokai'
+" Plug 'w0ng/vim-hybrid'
+" Plug 'jonathanfilip/vim-lucius'
+" Plug 'nanotech/jellybeans.vim'
+" Plug 'joshdick/onedark.vim'
+" Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 
 call plug#end()
@@ -121,17 +125,26 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 
 colorscheme gruvbox
 set background=dark
-set guifont=PragmataPro\ for\ PowerLine:h14
+set guifont=Literation\ Mono\ PowerLine:h13
 
 " }}}
 
 " MAPPINGS {{{
 
+nnoremap <silent><c-k> :m .-2<CR>==
+nnoremap <silent><c-j> :m .+1<CR>==
+inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
+inoremap <silent><c-k> <Esc>:m .-2<CR>==gi
+vnoremap <silent><c-j> :m '>+1<CR>gv=gv
+vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
+
+" Leader
+
 let mapleader = ","
 let g:mapleader = ","
 
 " Fast escape
-inoremap jk <ESC>
+inoremap jj <ESC>
 
 " Nop some keys
 nnoremap <F1> <nop>
@@ -177,7 +190,7 @@ nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 
 " Toggle paste
-nnoremap <silent><leader>p :set invpaste<CR>
+nnoremap <silent><f12> :set invpaste<CR>
 
 " Replaces a visual selected text to its base64 or reverse
 vnoremap <leader>64 c<c-r>=system('base64', @")<cr><esc>
@@ -206,6 +219,14 @@ nnoremap U <c-r>
 " }}}
 
 " PLUGIN OPTIONS {{{
+
+" vim-rust
+let g:rustfmt_autosave = 1
+let g:ycm_rust_src_path = '/Users/david/temp/rust/rust/src'
+
+" Emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 
 " Ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -249,7 +270,6 @@ nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>t :CtrlPBufTag<cr>
 nnoremap <leader>T :CtrlPBufTagAll<cr>
 
-
 " Vim-move
 let g:move_key_modifier = 'C'
 
@@ -263,7 +283,7 @@ nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>h :YcmCompleter GoToInclude<cr>
 
 " Python syntax
-let python_highlight_all = 1
+let python_highlight_all=1
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -298,7 +318,7 @@ let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 
 " }}}
 
-" VIM SECRETS {{{
+" MISC {{{
 "
 " Yank all matches regex with grouping in a register
 " :%s/regex/\=setreg('A', submatch(0), 'V')/n
@@ -320,9 +340,6 @@ let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 " YCM
 " cd ~/.vim/bundle/YouCompleteMe
 " ./install.sh --clang-completer
-"
-"
-" Extract text from lines
 "
 " Fast format a json file or chunk
 " :%!python -m json.tool
@@ -359,4 +376,7 @@ autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+" HTML Config
+autocmd BufNewFile,BufReadPost *.html set filetype=html
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 "}}}
