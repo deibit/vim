@@ -2,19 +2,10 @@
 
 call plug#begin('~/.vim/bundle')
 
-" Plug 'majutsushi/tagbar'
-" Plug 'mileszs/ack.vim'
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" Plug 'scrooloose/nerdtree'
-" Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-repeat'
-" Plug 'vhdirk/vim-cmake'
-" Plug 'matze/vim-move'                                   " Move lines and blocks
-" Plug 'tommcdo/vim-exchange'
 Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
-Plug 'Raimondi/delimitMate'                             " Autoclosing parents
+Plug 'jiangmiao/auto-pairs'
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
+Plug 'maralla/completor.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'brookhong/cscope.vim'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -23,7 +14,7 @@ Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
-Plug 'junegunn/vim-slash'
+Plug 'junegunn/vim-slash'                               " Improved in-buffer search
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'ludovicchabant/vim-gutentags'
@@ -37,12 +28,15 @@ Plug 'pangloss/vim-javascript'
 Plug 'rhysd/vim-clang-format'
 Plug 'rking/ag.vim'
 Plug 'rust-lang/rust.vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'ternjs/tern_for_vim'
 Plug 'tommcdo/vim-lion'                                 " Align text
 Plug 'tpope/vim-fugitive'                               " Integrates Git
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
+Plug 'ryanoasis/vim-devicons'
 
 " Themes
 " Plug 'altercation/vim-colors-solarized'
@@ -125,7 +119,12 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 
 colorscheme gruvbox
 set background=dark
-set guifont=Literation\ Mono\ PowerLine:h13
+" set guifont=Courier:h13
+" set guifont=Literation\ Mono\ PowerLine:h13
+" set guifont=ProggyCleanTT\ Nerd\ Font:h18
+" set guifont=ProFontIIx\ Nerd\ Font:h10
+set guifont=InconsolataForPowerline\ Nerd\ Font:h13
+set encoding=utf-8
 
 " }}}
 
@@ -236,23 +235,12 @@ nnoremap <leader>a :Ag <cword><cr>
 nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
 
-" NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeRespectWildIgnore=1
-nnoremap <leader>n :NERDTreeToggle<cr>
-
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
 " Remapped because of vim-sandwich
 nmap s <Nop>
 xmap s <Nop>
-
-" Tagbar
-nnoremap <silent> <leader>G :TagbarToggle<CR>
-let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
@@ -270,17 +258,16 @@ nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>t :CtrlPBufTag<cr>
 nnoremap <leader>T :CtrlPBufTagAll<cr>
 
-" Vim-move
-let g:move_key_modifier = 'C'
-
-" YouCompleteMe
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>h :YcmCompleter GoToInclude<cr>
+" Completor
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+let g:completor_node_binary = '/usr/local/bin/node'
+let g:completor_racer_binary = '/Users/david/.cargo/bin/racer'
+let g:completor_clang_binary = '/usr/bin/clang'
+" In case Jedi does not work is probably the python version
+" watch jedi is installed! (pip install jedi)
+" let g:completor_python_binary = '/path/to/python/with/jedi/installed'
 
 " Python syntax
 let python_highlight_all=1
@@ -291,10 +278,6 @@ let g:airline_theme = 'gruvbox'
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<c-z>"
-
-" DelimitMate
-let delimitMate_expand_cr = 1
-au FileType c,cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
 
 " Vim incsearch
 " :h g:incsearch#auto_nohlsearch
@@ -348,6 +331,7 @@ let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 " :echo system('base64 --decode', @")
 " :vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
 " :vnoremap <leader>64 c<c-r>=system('base64 --decode', @")<cr><esc>
+" UPDATE: :.!base64 or <visualmode>:!base64
 
 " FUNCTIONS
 "
