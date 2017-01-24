@@ -12,7 +12,7 @@ call plug#begin('~/.vim/bundle')
 " Plug 'matze/vim-move'                                   " Move lines and blocks
 " Plug 'tommcdo/vim-exchange'
 Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
-Plug 'Raimondi/delimitMate'                             " Autoclosing parents
+Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
@@ -125,7 +125,10 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
 
 colorscheme gruvbox
 set background=dark
-set guifont=Literation\ Mono\ PowerLine:h13
+set guifont=Envy\ Code\ R\ For\ PowerLine:h13
+" set guifont=Literation\ Mono\ PowerLine:h13
+" set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
+" set guifont=Anonymous\ Pro:h13
 
 " }}}
 
@@ -192,10 +195,6 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
-" Replaces a visual selected text to its base64 or reverse
-vnoremap <leader>64 c<c-r>=system('base64', @")<cr><esc>
-vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
-
 " Closing quickfix quick
 nnoremap <leader>c :ccl<CR>
 
@@ -203,6 +202,7 @@ nnoremap <leader>c :ccl<CR>
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>x <c-w>c
+
 " Moving windows
 nnoremap <c-left> <c-w>h
 nnoremap <c-right> <c-w>l
@@ -216,6 +216,14 @@ nnoremap <leader><space> ?
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
 
+" If Silver Searcher is present...
+if executable('ag')
+    set grepprg=ag\ --nogroup
+    " Change CtrlP command
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " With ag is not necessary to have cache in CtrlP
+    let g:ctrlp_use_caching=0
+endif
 " }}}
 
 " PLUGIN OPTIONS {{{
@@ -236,23 +244,12 @@ nnoremap <leader>a :Ag <cword><cr>
 nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
 
-" NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeRespectWildIgnore=1
-nnoremap <leader>n :NERDTreeToggle<cr>
-
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
 " Remapped because of vim-sandwich
 nmap s <Nop>
 xmap s <Nop>
-
-" Tagbar
-nnoremap <silent> <leader>G :TagbarToggle<CR>
-let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
@@ -263,15 +260,12 @@ let g:ctrlp_custom_ignore = {
             \ 'file': '\v\.(exe|so|dll)$',
             \ 'link': 'some_bad_symbolic_links',
             \ }
-let g:ctrlp_user_command = 'find %s -type f'
+" See additional CtrlP settings in The Silver Searcher
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 let g:ctrlp_map = '<leader>p'
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>t :CtrlPBufTag<cr>
 nnoremap <leader>T :CtrlPBufTagAll<cr>
-
-" Vim-move
-let g:move_key_modifier = 'C'
 
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
@@ -291,10 +285,6 @@ let g:airline_theme = 'gruvbox'
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<c-z>"
-
-" DelimitMate
-let delimitMate_expand_cr = 1
-au FileType c,cpp let b:delimitMate_matchpairs = "(:),[:],{:}"
 
 " Vim incsearch
 " :h g:incsearch#auto_nohlsearch
@@ -329,26 +319,13 @@ let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 " Write as sudo
 " :w !sudo tee %
 "
-" Back and forward in time
-" :earlier 15m
-" :later 15m
-"
 " Load an hex version of buffer and revert back
 " :%!xxd
 " :%!xxd -r
 "
-" YCM
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.sh --clang-completer
-"
 " Fast format a json file or chunk
 " :%!python -m json.tool
 "
-" En/De/code base64 selected block text
-" :echo system('base64 --decode', @")
-" :vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
-" :vnoremap <leader>64 c<c-r>=system('base64 --decode', @")<cr><esc>
-
 " FUNCTIONS
 "
 " Deletes trailing whitespaces on save
@@ -358,7 +335,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType vim,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType vim,c,cpp,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
