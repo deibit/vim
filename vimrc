@@ -2,15 +2,20 @@
 
 call plug#begin('~/.vim/bundle')
 
-" Plug 'majutsushi/tagbar'
+Plug 'dominikduda/vim_current_word'
+Plug 'majutsushi/tagbar'
 " Plug 'mileszs/ack.vim'
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" Plug 'scrooloose/nerdtree'
+ Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-repeat'
-" Plug 'vhdirk/vim-cmake'
 " Plug 'matze/vim-move'                                   " Move lines and blocks
+Plug 'vhdirk/vim-cmake'
 " Plug 'tommcdo/vim-exchange'
+Plug 'luochen1990/rainbow'
+Plug 'elzr/vim-json'
+Plug 'scrooloose/nerdtree'
+Plug 'mxw/vim-jsx'
+Plug 'scrooloose/nerdcommenter'
 Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
 Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'SirVer/ultisnips'
@@ -24,6 +29,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/vim-slash'
+Plug 'jelera/vim-javascript-syntax'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'ludovicchabant/vim-gutentags'
@@ -45,15 +51,17 @@ Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 
 " Themes
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'sjl/badwolf'
-" Plug 'sickill/vim-monokai'
-" Plug 'w0ng/vim-hybrid'
-" Plug 'jonathanfilip/vim-lucius'
-" Plug 'nanotech/jellybeans.vim'
-" Plug 'joshdick/onedark.vim'
-" Plug 'chriskempson/base16-vim'
+Plug 'jacoborus/tender.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'sjl/badwolf'
+Plug 'sickill/vim-monokai'
+Plug 'w0ng/vim-hybrid'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'nanotech/jellybeans.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
+Plug 'rhysd/vim-color-spring-night'
 
 call plug#end()
 
@@ -121,9 +129,10 @@ set ttyfast
 set undolevels=1000
 set wildmenu
 set wildmode=longest,list
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc,node_modules
 
 colorscheme gruvbox
+" let macvim_skip_colorscheme=1
 set background=dark
 set guifont=Envy\ Code\ R\ For\ PowerLine:h13
 " set guifont=Literation\ Mono\ PowerLine:h13
@@ -198,6 +207,13 @@ nnoremap <silent><f12> :set invpaste<CR>
 " Closing quickfix quick
 nnoremap <leader>c :ccl<CR>
 
+" Managing Location List
+" <leader>l for open is defined for cscope
+nnoremap <silent><leader>L :lclose<cr>
+nnoremap <silent><leader>e :ll<cr>
+nnoremap <silent><leader>n :lnext<cr>
+nnoremap <silent><leader>N :lprev<cr>
+
 " Splitting windows a la tmux
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
@@ -226,9 +242,29 @@ if executable('ag')
 endif
 " }}}
 
-" PLUGIN OPTIONS {{{
+" {{{ PLUGINS
 
+" Rainbow
+let g:rainbow_active = 1
+
+" NERDTree
+nnoremap <silent><leader>z :NERDTreeToggle<cr>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+" Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
+
+" Vim-jsx
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+
+if (has("termguicolors"))
+ set termguicolors
+endif
+"
 " vim-rust
+"
 let g:rustfmt_autosave = 1
 let g:ycm_rust_src_path = '/Users/david/temp/rust/rust/src'
 
@@ -304,11 +340,23 @@ map g# <Plug>(incsearch-nohl-g#)
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Javascript-libraries-syntax
-let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
+let g:used_javascript_libs = 'underscore,backbone,react,jquery'
+
+" Tagbar
+nnoremap <leader>s :TagbarToggle<cr>
+
+" Vim-current-word
+let g:vim_current_word#highlight_current_word = 0
+autocmd VimEnter * hi CurrentWordTwins ctermbg=8,guibg=#444444,gui=,cterm=
+
 
 " }}}
 
 " MISC {{{
+"
+" Delete all ^M Windows line endings
+" :%s/^M$//g
+" But ^M has to be entered by Ctrl+v+Ctrl+m
 "
 " Yank all matches regex with grouping in a register
 " :%s/regex/\=setreg('A', submatch(0), 'V')/n
