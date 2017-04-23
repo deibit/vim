@@ -2,6 +2,8 @@
 
 call plug#begin('~/.vim/bundle')
 
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'dominikduda/vim_current_word'
 Plug 'majutsushi/tagbar'
 " Plug 'mileszs/ack.vim'
@@ -22,7 +24,6 @@ Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
 Plug 'brookhong/cscope.vim'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch.vim'
@@ -36,7 +37,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-sandwich'                           " Parents operations
 Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
-Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
@@ -174,7 +175,7 @@ nnoremap <leader>3 ddp
 " Get rid of ^M
 noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
-" Fast write
+" Fast saving
 nnoremap<leader>w :w<cr>
 
 " Copy-paste win fashioned
@@ -204,16 +205,6 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
-" Closing quickfix quick
-nnoremap <leader>c :ccl<CR>
-
-" Managing Location List
-" <leader>l for open is defined for cscope
-nnoremap <silent><leader>L :lclose<cr>
-nnoremap <silent><leader>e :ll<cr>
-nnoremap <silent><leader>n :lnext<cr>
-nnoremap <silent><leader>N :lprev<cr>
-
 " Splitting windows a la tmux
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
@@ -232,14 +223,6 @@ nnoremap <leader><space> ?
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
 
-" If Silver Searcher is present...
-if executable('ag')
-    set grepprg=ag\ --nogroup
-    " Change CtrlP command
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " With ag is not necessary to have cache in CtrlP
-    let g:ctrlp_use_caching=0
-endif
 " }}}
 
 " {{{ PLUGINS
@@ -253,15 +236,18 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
-" Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
+" Ale
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 " Vim-jsx
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
-if (has("termguicolors"))
- set termguicolors
-endif
+" if (has("termguicolors"))
+"  set termguicolors
+" endif
 "
 " vim-rust
 "
@@ -274,7 +260,6 @@ autocmd FileType html,css EmmetInstall
 
 " Ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
-nnoremap <leader>a :Ag <cword><cr>
 
 " Cscope
 nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
@@ -290,24 +275,20 @@ xmap s <Nop>
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
 
-" Ctrlp
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-            \ 'file': '\v\.(exe|so|dll)$',
-            \ 'link': 'some_bad_symbolic_links',
-            \ }
-" See additional CtrlP settings in The Silver Searcher
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_map = '<leader>p'
-nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>t :CtrlPBufTag<cr>
-nnoremap <leader>T :CtrlPBufTagAll<cr>
+" FZF
+set rtp+=/usr/local/opt/fzf
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>a :Ag <cword><cr>
+nnoremap <leader>r :History<cr>
+nnoremap <leader>s :Snippets<cr>
+
+
 
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_show_diagnostic_ui = 0
 let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
 nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>h :YcmCompleter GoToInclude<cr>
@@ -343,11 +324,11 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:used_javascript_libs = 'underscore,backbone,react,jquery'
 
 " Tagbar
-nnoremap <leader>s :TagbarToggle<cr>
+nnoremap <leader>S :TagbarToggle<cr>
 
 " Vim-current-word
 let g:vim_current_word#highlight_current_word = 0
-autocmd VimEnter * hi CurrentWordTwins ctermbg=8,guibg=#444444,gui=,cterm=
+autocmd VimEnter * hi CurrentWordTwins ctermbg=11,guibg=#444444
 
 
 " }}}
