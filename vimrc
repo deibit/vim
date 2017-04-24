@@ -328,7 +328,7 @@ nnoremap <leader>S :TagbarToggle<cr>
 
 " Vim-current-word
 let g:vim_current_word#highlight_current_word = 0
-autocmd VimEnter * hi CurrentWordTwins ctermbg=11,guibg=#444444
+autocmd VimEnter * hi CurrentWordTwins guibg=#444444
 
 
 " }}}
