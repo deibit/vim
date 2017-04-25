@@ -2,6 +2,8 @@
 
 call plug#begin('~/.vim/bundle')
 
+Plug 'fatih/vim-go'
+Plug 'junegunn/vim-emoji'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'dominikduda/vim_current_word'
@@ -238,9 +240,13 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 
 " Ale
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_error_str = emoji#for('boom')
+let g:ale_echo_msg_warning_str = emoji#for('poop')
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_error = emoji#for('boom')
+let g:ale_sign_warning = emoji#for('poop')
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
 
 " Vim-jsx
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
@@ -282,8 +288,9 @@ nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>a :Ag <cword><cr>
 nnoremap <leader>r :History<cr>
 nnoremap <leader>s :Snippets<cr>
-
-
+if has("gui_macvim")
+    let g:fzf_launcher="./.vim/fzf_launcher.sh %s"
+endif
 
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
@@ -297,6 +304,11 @@ nnoremap <leader>h :YcmCompleter GoToInclude<cr>
 let python_highlight_all=1
 
 " Airline
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'gruvbox'
 
