@@ -77,75 +77,90 @@ filetype indent on
 filetype plugin on
 syntax enable
 
-set autoindent
+" Behaviour
 set autoread
-set backspace=indent,eol,start
-set backupdir=/tmp
-set clipboard^=unnamed
-set clipboard^=unnamedplus
-set cmdheight=2
-set colorcolumn=80
-set copyindent
-set cot-=preview
-set cursorline
-set encoding=utf-8
-set expandtab
-set foldmethod=marker
 set hidden
-set history=1000
+" Mouse
+set clipboard^=unnamedplus
+set mouse=a
+" Search
 set hlsearch
 set ignorecase
 set incsearch
 set indentkeys-=0#
-set laststatus=2
-set lazyredraw
 set magic
 set matchpairs+=<:>
 set matchtime=1
-set mouse=a
-set nobackup
-set noerrorbells
-set noshowmode
+" Backup
 set noswapfile
-set novisualbell
+set backupdir=/tmp
+set copyindent
+set history=1000
+set nobackup
 set nowritebackup
-set number
-set shiftwidth=4
+set undolevels=1000
+" Verbosity
+set noerrorbells
+set novisualbell
+set noshowmode
+set laststatus=2
 set shortmess+=I
-set showcmd
 set showmatch
+set showcmd
+set cmdheight=2
+set colorcolumn=80
+set cursorline
+" Indent, case, tabs
+set backspace=indent,eol,start
+set autoindent
+set expandtab
+set shiftwidth=4
 set smartcase
 set smartindent
 set smarttab
+set tabstop=4
 set softtabstop=4
-set splitbelow
+" Windows
+set number
+set cot-=preview
+set lazyredraw
 set splitbelow
 set splitright
+" Terminal
+set encoding=utf-8
 set t_Co=256
-set tabstop=4
 set termencoding=utf-8
 set timeoutlen=500
 set title
 set titleold=0
 set ttimeoutlen=0
 set ttyfast
-set undolevels=1000
+" Wildmenu options
 set wildmenu
 set wildmode=longest,list
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc,node_modules
-
+set wildignorecase
+" Fold
+set foldmethod=marker
+" Colorscheme
 colorscheme gruvbox
-" let macvim_skip_colorscheme=1
 set background=dark
-set guifont=Envy\ Code\ R\ For\ PowerLine:h13
-" set guifont=Literation\ Mono\ PowerLine:h13
-" set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
-" set guifont=Anonymous\ Pro:h13
+
+" Macvim zone
+if has("gui_macvim")
+    let g:fzf_launcher="./.vim/fzf_launcher.sh %s"
+    set guifont=Envy\ Code\ R\ For\ PowerLine:h13
+    " let macvim_skip_colorscheme=1
+    " set guifont=Literation\ Mono\ PowerLine:h13
+    " set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
+    " set guifont=Anonymous\ Pro:h13
+endif
 
 " }}}
 
 " MAPPINGS {{{
 
+" Move lines and blocks
 nnoremap <silent><c-k> :m .-2<CR>==
 nnoremap <silent><c-j> :m .+1<CR>==
 inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
@@ -154,7 +169,6 @@ vnoremap <silent><c-j> :m '>+1<CR>gv=gv
 vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
 
 " Leader
-
 let mapleader = ","
 let g:mapleader = ","
 
@@ -169,7 +183,7 @@ nnoremap gQ <nop>
 " Turn off Highlight
 nmap <silent><leader><cr> :noh<cr>
 
-" Some tricks...
+" Some convenient shortcuts
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
 nnoremap <leader>3 ddp
@@ -180,7 +194,7 @@ noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 " Fast saving
 nnoremap<leader>w :w<cr>
 
-" Copy-paste win fashioned
+" Copy-paste Windows fashioned
 imap <c-v> <esc>"*P}i
 vmap <c-c> "*y<esc>
 
@@ -254,9 +268,8 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 " if (has("termguicolors"))
 "  set termguicolors
 " endif
-"
+
 " vim-rust
-"
 let g:rustfmt_autosave = 1
 let g:ycm_rust_src_path = '/Users/david/temp/rust/rust/src'
 
@@ -288,9 +301,6 @@ nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>a :Ag <cword><cr>
 nnoremap <leader>r :History<cr>
 nnoremap <leader>s :Snippets<cr>
-if has("gui_macvim")
-    let g:fzf_launcher="./.vim/fzf_launcher.sh %s"
-endif
 
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
@@ -316,9 +326,8 @@ let g:airline_theme = 'gruvbox'
 let g:UltiSnipsExpandTrigger="<c-z>"
 
 " Vim incsearch
-" :h g:incsearch#auto_nohlsearch
-set hlsearch
 let g:incsearch#auto_nohlsearch = 1
+let g:incsearch#do_not_save_error_message_history = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
