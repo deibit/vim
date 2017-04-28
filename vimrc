@@ -10,7 +10,6 @@ Plug 'dominikduda/vim_current_word'
 Plug 'majutsushi/tagbar'
 " Plug 'mileszs/ack.vim'
  Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-repeat'
 " Plug 'matze/vim-move'                                   " Move lines and blocks
 Plug 'vhdirk/vim-cmake'
@@ -171,6 +170,9 @@ vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
 " Leader
 let mapleader = ","
 let g:mapleader = ","
+
+" Non-english keyboard fixes
+nnoremap <silent><leader>g <c-]>
 
 " Fast escape
 inoremap jj <ESC>
