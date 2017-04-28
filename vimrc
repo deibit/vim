@@ -8,15 +8,10 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'dominikduda/vim_current_word'
 Plug 'majutsushi/tagbar'
-" Plug 'mileszs/ack.vim'
- Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" Plug 'tpope/vim-repeat'
-" Plug 'matze/vim-move'                                   " Move lines and blocks
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'vhdirk/vim-cmake'
-" Plug 'tommcdo/vim-exchange'
 Plug 'luochen1990/rainbow'
 Plug 'elzr/vim-json'
-Plug 'scrooloose/nerdtree'
 Plug 'mxw/vim-jsx'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
@@ -80,6 +75,7 @@ syntax enable
 set autoread
 set hidden
 " Mouse
+set clipboard^=unnamed
 set clipboard^=unnamedplus
 set mouse=a
 " Search
@@ -136,7 +132,7 @@ set ttimeoutlen=0
 set ttyfast
 " Wildmenu options
 set wildmenu
-set wildmode=longest,list
+set wildmode=longest,list,full
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc,node_modules
 set wildignorecase
 " Fold
@@ -144,6 +140,13 @@ set foldmethod=marker
 " Colorscheme
 colorscheme gruvbox
 set background=dark
+
+" Netrw
+let g:netrw_banner=0
+let g:netrw_browse_split=4
+let g:netrw_altv=1
+let g:netrw_liststyle=3
+let g:netrw_list_hide=netrw_gitignore#Hide()
 
 " Macvim zone
 if has("gui_macvim")
@@ -248,12 +251,6 @@ nnoremap U <c-r>
 " Rainbow
 let g:rainbow_active = 1
 
-" NERDTree
-nnoremap <silent><leader>z :NERDTreeToggle<cr>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-
 " Ale
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_echo_msg_error_str = emoji#for('boom')
@@ -298,6 +295,8 @@ autocmd FileType c,cpp ClangFormatAutoEnable
 
 " FZF
 set rtp+=/usr/local/opt/fzf
+nnoremap <leader>T :Tags<cr>
+nnoremap <leader>t :BTags<cr>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>a :Ag <cword><cr>
@@ -311,6 +310,7 @@ let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
 nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>h :YcmCompleter GoToInclude<cr>
+nnoremap <leader>y :YcmCompleter GetType<cr>
 
 " Python syntax
 let python_highlight_all=1
