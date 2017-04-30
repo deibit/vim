@@ -2,61 +2,64 @@
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'junegunn/vim-emoji'
-Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
-Plug 'SirVer/ultisnips'
+" Symbols, completions and language related plugins
 Plug 'Valloric/YouCompleteMe'
-Plug 'airblade/vim-gitgutter'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'brookhong/cscope.vim'
-Plug 'dominikduda/vim_current_word'
+Plug 'majutsushi/tagbar'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'rhysd/vim-clang-format'
+Plug 'gabesoft/vim-ags'
+
+" Git related plugins
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'                               " Integrates Git
+
+" Deactivated plugins
+"Plug 'rust-lang/rust.vim'
+"Plug 'fatih/vim-go'
+
+" Plugins related to save moves
 Plug 'easymotion/vim-easymotion'
-Plug 'elzr/vim-json'
-Plug 'fatih/vim-go'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'dominikduda/vim_current_word'
+Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch.vim'
-Plug 'hdima/python-syntax'
-Plug 'honza/vim-snippets'
-Plug 'jelera/vim-javascript-syntax'
+Plug 'mattn/emmet-vim'
 Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
-Plug 'junegunn/vim-slash'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
-Plug 'ludovicchabant/vim-gutentags'
+Plug 'tommcdo/vim-lion'                                 " Align text
+Plug 'scrooloose/nerdcommenter'
+
+" Plugins related to improved the interface
 Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-sandwich'                           " Parents operations
-Plug 'majutsushi/tagbar'
-Plug 'mattn/emmet-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
-Plug 'mxw/vim-jsx'
+Plug 'w0rp/ale'
+
+" Syntax related plugins
+Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-Plug 'rhysd/vim-clang-format'
-Plug 'gabesoft/vim-ags'
-Plug 'rust-lang/rust.vim'
-Plug 'scrooloose/nerdcommenter'
-Plug 'tommcdo/vim-lion'                                 " Align text
-Plug 'tpope/vim-fugitive'                               " Integrates Git
+Plug 'jelera/vim-javascript-syntax'
+Plug 'elzr/vim-json'
+Plug 'mxw/vim-jsx'
 Plug 'vhdirk/vim-cmake'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
-Plug 'wellle/targets.vim'
+
+" Misc. Plugins
+Plug 'junegunn/vim-slash'
 Plug 'xolox/vim-misc'
 
 " Themes
-Plug 'jacoborus/tender.vim'
 Plug 'altercation/vim-colors-solarized'
-Plug 'sjl/badwolf'
 Plug 'sickill/vim-monokai'
-Plug 'w0ng/vim-hybrid'
-Plug 'jonathanfilip/vim-lucius'
-Plug 'nanotech/jellybeans.vim'
-Plug 'joshdick/onedark.vim'
-Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
-Plug 'rhysd/vim-color-spring-night'
 
 call plug#end()
 
@@ -261,11 +264,7 @@ let g:rainbow_active = 1
 
 " Ale
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_echo_msg_error_str = emoji#for('boom')
-let g:ale_echo_msg_warning_str = emoji#for('poop')
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_sign_error = emoji#for('boom')
-let g:ale_sign_warning = emoji#for('poop')
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
 map <silent> <leader>p <Plug>(ale_previous_wrap)
