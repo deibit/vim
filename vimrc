@@ -2,48 +2,46 @@
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'fatih/vim-go'
 Plug 'junegunn/vim-emoji'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'dominikduda/vim_current_word'
-Plug 'majutsushi/tagbar'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-Plug 'vhdirk/vim-cmake'
-Plug 'luochen1990/rainbow'
-Plug 'elzr/vim-json'
-Plug 'mxw/vim-jsx'
-Plug 'scrooloose/nerdcommenter'
 Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
-Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
 Plug 'brookhong/cscope.vim'
+Plug 'dominikduda/vim_current_word'
 Plug 'easymotion/vim-easymotion'
+Plug 'elzr/vim-json'
+Plug 'fatih/vim-go'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
-Plug 'junegunn/vim-slash'
 Plug 'jelera/vim-javascript-syntax'
+Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
+Plug 'junegunn/vim-slash'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-sandwich'                           " Parents operations
+Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
-Plug 'w0rp/ale'
+Plug 'mxw/vim-jsx'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'rhysd/vim-clang-format'
-Plug 'rking/ag.vim'
+Plug 'gabesoft/vim-ags'
 Plug 'rust-lang/rust.vim'
+Plug 'scrooloose/nerdcommenter'
 Plug 'tommcdo/vim-lion'                                 " Align text
 Plug 'tpope/vim-fugitive'                               " Integrates Git
+Plug 'vhdirk/vim-cmake'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 
@@ -81,7 +79,7 @@ set mouse=a
 " Search
 set hlsearch
 set ignorecase
-set incsearch
+set noincsearch
 set indentkeys-=0#
 set magic
 set matchpairs+=<:>
@@ -143,14 +141,11 @@ set background=dark
 
 " Netrw
 let g:netrw_banner=0
-let g:netrw_browse_split=4
 let g:netrw_altv=1
-let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 
 " Macvim zone
 if has("gui_macvim")
-    let g:fzf_launcher="./.vim/fzf_launcher.sh %s"
     set guifont=Envy\ Code\ R\ For\ PowerLine:h13
     " let macvim_skip_colorscheme=1
     " set guifont=Literation\ Mono\ PowerLine:h13
@@ -174,14 +169,13 @@ vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
 let mapleader = ","
 let g:mapleader = ","
 
-" Non-english keyboard fixes
+" Non-english keyboard tag navigation fix
 nnoremap <silent><leader>g <c-]>
 
 " Fast escape
 inoremap jj <ESC>
 
 " Nop some keys
-nnoremap <F1> <nop>
 nnoremap Q <nop>
 nnoremap gQ <nop>
 
@@ -191,7 +185,6 @@ nmap <silent><leader><cr> :noh<cr>
 " Some convenient shortcuts
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
-nnoremap <leader>3 ddp
 
 " Get rid of ^M
 noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
@@ -226,12 +219,12 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
-" Splitting windows a la tmux
+" Window manipulation
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>x <c-w>c
 
-" Moving windows
+" Moving through windows
 nnoremap <c-left> <c-w>h
 nnoremap <c-right> <c-w>l
 nnoremap <c-up> <c-w>k
@@ -244,9 +237,24 @@ nnoremap <leader><space> ?
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
 
+" ); shortcut for C family languages
+au FileType c,cpp,js inoremap ;; <esc>A;<cr>
+
+" Easy buffer browsing
+nnoremap <leader>b :ls<cr> :b<space>
+
+" Netrw shorcut
+nnoremap <leader>f :edit .<cr>
+
+" tselect convenient shortcut
+nnoremap <leader>t :exec 'tselect' expand('<cword>')<cr>
+
 " }}}
 
 " {{{ PLUGINS
+
+" Ags
+nnoremap <leader>a :Ags <cword><cr>
 
 " Rainbow
 let g:rainbow_active = 1
@@ -260,6 +268,10 @@ let g:ale_sign_error = emoji#for('boom')
 let g:ale_sign_warning = emoji#for('poop')
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
+map <silent> <leader>p <Plug>(ale_previous_wrap)
+map <silent> <leader>n <Plug>(ale_next_wrap)
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
 
 " Vim-jsx
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
@@ -292,16 +304,6 @@ xmap s <Nop>
 
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
-
-" FZF
-set rtp+=/usr/local/opt/fzf
-nnoremap <leader>T :Tags<cr>
-nnoremap <leader>t :BTags<cr>
-nnoremap <leader>f :Files<cr>
-nnoremap <leader>b :Buffers<cr>
-nnoremap <leader>a :Ag <cword><cr>
-nnoremap <leader>r :History<cr>
-nnoremap <leader>s :Snippets<cr>
 
 " YouCompleteMe
 let g:ycm_confirm_extra_conf = 0
