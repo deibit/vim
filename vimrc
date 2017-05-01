@@ -20,12 +20,10 @@ Plug 'tpope/vim-fugitive'                               " Integrates Git
 "Plug 'fatih/vim-go'
 
 " Plugins related to save moves
-Plug 'easymotion/vim-easymotion'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'dominikduda/vim_current_word'
 Plug 'wellle/targets.vim'
-Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mattn/emmet-vim'
 Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
@@ -118,6 +116,7 @@ set tabstop=4
 set softtabstop=4
 " Windows
 set number
+set relativenumber
 set cot-=preview
 set lazyredraw
 set splitbelow
