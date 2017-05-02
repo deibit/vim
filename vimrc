@@ -5,7 +5,6 @@ call plug#begin('~/.vim/bundle')
 " Symbols, completions and language related plugins
 Plug 'Valloric/YouCompleteMe'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-Plug 'brookhong/cscope.vim'
 Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'rhysd/vim-clang-format'
@@ -22,7 +21,6 @@ Plug 'tpope/vim-fugitive'                               " Integrates Git
 " Plugins related to save moves
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
-Plug 'dominikduda/vim_current_word'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mattn/emmet-vim'
@@ -288,10 +286,6 @@ autocmd FileType html,css EmmetInstall
 
 " Ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
-
-" Cscope
-nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
-nnoremap <leader>l :call ToggleLocationList()<CR>
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
