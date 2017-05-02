@@ -6,7 +6,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'Valloric/YouCompleteMe'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
+Plug 'ludovicchabant/vim-gutentags' " Let's see if we can have just a ctags shortcut
 Plug 'rhysd/vim-clang-format'
 Plug 'gabesoft/vim-ags'
 
@@ -14,13 +14,11 @@ Plug 'gabesoft/vim-ags'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'                               " Integrates Git
 
-" Deactivated plugins
+" Temporaly deactivated plugins
 "Plug 'rust-lang/rust.vim'
 "Plug 'fatih/vim-go'
 
 " Plugins related to save moves
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mattn/emmet-vim'
@@ -43,10 +41,8 @@ Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'jelera/vim-javascript-syntax'
 Plug 'elzr/vim-json'
 Plug 'mxw/vim-jsx'
-Plug 'vhdirk/vim-cmake'
 
 " Misc. Plugins
 Plug 'junegunn/vim-slash'
@@ -318,9 +314,6 @@ let g:airline_right_sep = ''
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'gruvbox'
 
-" Ultisnips
-let g:UltiSnipsExpandTrigger="<c-z>"
-
 " Vim incsearch
 let g:incsearch#auto_nohlsearch = 1
 let g:incsearch#do_not_save_error_message_history = 1
@@ -341,7 +334,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:used_javascript_libs = 'underscore,backbone,react,jquery'
 
 " Tagbar
-nnoremap <leader>S :TagbarToggle<cr>
+nnoremap <leader>T :TagbarToggle<cr>
 
 " Vim-current-word
 let g:vim_current_word#highlight_current_word = 0
