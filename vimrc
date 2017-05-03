@@ -14,9 +14,9 @@ Plug 'gabesoft/vim-ags'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'                               " Integrates Git
 
-" Temporaly deactivated plugins
-"Plug 'rust-lang/rust.vim'
-"Plug 'fatih/vim-go'
+" Temporaly deactivated (or not) plugins
+Plug 'rust-lang/rust.vim'
+Plug 'fatih/vim-go'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
@@ -26,7 +26,7 @@ Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'tommcdo/vim-lion'                                 " Align text
-Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter' " See if we can add comments just with a little function
 
 " Plugins related to improved the interface
 Plug 'luochen1990/rainbow'
@@ -45,7 +45,6 @@ Plug 'elzr/vim-json'
 Plug 'mxw/vim-jsx'
 
 " Misc. Plugins
-Plug 'junegunn/vim-slash'
 Plug 'xolox/vim-misc'
 
 " Themes
