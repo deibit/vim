@@ -123,6 +123,10 @@ set title
 set titleold=0
 set ttimeoutlen=0
 set ttyfast
+if (has("termguicolors"))
+    set termguicolors
+endif
+
 " Wildmenu options
 set wildmenu
 set wildmode=longest,list,full
@@ -138,6 +142,7 @@ set background=dark
 let g:netrw_banner=0
 let g:netrw_altv=1
 let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
 " Macvim zone
 if has("gui_macvim")
@@ -266,10 +271,6 @@ let g:ale_lint_on_enter = 0
 
 " Vim-jsx
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-
-" if (has("termguicolors"))
-"  set termguicolors
-" endif
 
 " vim-rust
 let g:rustfmt_autosave = 1
