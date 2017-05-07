@@ -6,7 +6,6 @@ call plug#begin('~/.vim/bundle')
 Plug 'Valloric/YouCompleteMe'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags' " Let's see if we can have just a ctags shortcut
 Plug 'rhysd/vim-clang-format'
 Plug 'gabesoft/vim-ags'
 
