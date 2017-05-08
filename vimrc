@@ -1,6 +1,10 @@
 " PLUGINS----------------------------------------------------------------------
 
-call plug#begin('~/.vim/bundle')
+if has('nvim')
+    call plug#begin('~/.local/share/nvim/plugged')
+else
+    call plug#begin('~/.vim/bundle')
+endif
 
 " Symbols, completions and language related plugins
 Plug 'Valloric/YouCompleteMe'
