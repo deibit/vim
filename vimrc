@@ -1,4 +1,4 @@
-" PLUGINS {{{
+" PLUGINS----------------------------------------------------------------------
 
 call plug#begin('~/.vim/bundle')
 
@@ -25,7 +25,6 @@ Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'tommcdo/vim-lion'                                 " Align text
-Plug 'scrooloose/nerdcommenter' " See if we can add comments just with a little function
 
 " Plugins related to improved the interface
 Plug 'luochen1990/rainbow'
@@ -53,9 +52,7 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-" }}}
-
-" SETTINGS {{{
+" SETTINGS--------------------------------------------------------------------
 
 filetype on
 filetype indent on
@@ -138,7 +135,6 @@ colorscheme gruvbox
 set background=dark
 
 " Netrw
-let g:netrw_banner=0
 let g:netrw_altv=1
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
@@ -152,9 +148,7 @@ if has("gui_macvim")
     " set guifont=Anonymous\ Pro:h13
 endif
 
-" }}}
-
-" MAPPINGS {{{
+" MAPPINGS---------------------------------------------------------------------
 
 " Move lines and blocks
 nnoremap <silent><c-k> :m .-2<CR>==
@@ -163,6 +157,10 @@ inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
 inoremap <silent><c-k> <Esc>:m .-2<CR>==gi
 vnoremap <silent><c-j> :m '>+1<CR>gv=gv
 vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
+"
+" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " Leader
 let mapleader = ","
@@ -218,6 +216,9 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
+" Toggle relative numbers
+nnoremap <silent><f11> :set relativenumber!<CR>
+
 " Window manipulation
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
@@ -241,6 +242,8 @@ au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 
 " Easy buffer browsing
 nnoremap <leader>b :ls<cr> :b<space>
+nnoremap <c-h> :bp<cr>
+nnoremap <c-l> :bn<cr>
 
 " Netrw shorcut
 nnoremap <leader>f :edit .<cr>
@@ -248,12 +251,24 @@ nnoremap <leader>f :edit .<cr>
 " tselect convenient shortcut
 nnoremap <leader>t :exec 'tselect' expand('<cword>')<cr>
 
-" }}}
-
-" {{{ PLUGINS
+" PLUGINS----------------------------------------------------------------------
 
 " Ags
 nnoremap <leader>a :Ags <cword><cr>
+let g:ags_agargs = {
+                \ '--break'             : [ '', '' ],
+                \ '--color'             : [ '', '' ],
+                \ '--color-line-number' : [ '"1;30"', '' ],
+                \ '--color-match'       : [ '"32;40"', '' ],
+                \ '--color-path'        : [ '"1;31"', '' ],
+                \ '--column'            : [ '', '' ],
+                \ '--context'           : [ 'g:ags_agcontext', '-C' ],
+                \ '--filename'          : [ '', '' ],
+                \ '--group'             : [ '', '' ],
+                \ '--heading'           : [ '', '-H' ],
+                \ '--max-count'         : [ 'g:ags_agmaxcount', '-m' ],
+                \ '--numbers'           : [ '', '' ]
+                \ }
 
 " Rainbow
 let g:rainbow_active = 1
@@ -280,7 +295,7 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
 " Ag
-let g:ackprg = 'ag --nogroup --nocolor --column'
+"let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -339,10 +354,7 @@ nnoremap <leader>T :TagbarToggle<cr>
 let g:vim_current_word#highlight_current_word = 0
 autocmd VimEnter * hi CurrentWordTwins guibg=#444444
 
-
-" }}}
-
-" MISC {{{
+" MISC-------------------------------------------------------------------------
 "
 " Delete all ^M Windows line endings
 " :%s/^M$//g
@@ -387,11 +399,6 @@ autocmd InsertLeave * if expand('%') != '' | update | endif
 " Make preview window close when leaving insert mode
 autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
-" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
 " HTML Config
 autocmd BufNewFile,BufReadPost *.html set filetype=html
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-"}}}
