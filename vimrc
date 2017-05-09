@@ -161,10 +161,6 @@ inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
 inoremap <silent><c-k> <Esc>:m .-2<CR>==gi
 vnoremap <silent><c-j> :m '>+1<CR>gv=gv
 vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
-"
-" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
 
 " Leader
 let mapleader = ","
