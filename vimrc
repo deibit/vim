@@ -1,135 +1,160 @@
-" PLUGINS {{{
+" PLUGINS----------------------------------------------------------------------
 
-call plug#begin('~/.vim/bundle')
+if has('nvim')
+    call plug#begin('~/.local/share/nvim/plugged')
+else
+    call plug#begin('~/.vim/bundle')
+endif
 
-Plug 'Chun-Yang/vim-action-ag'                          " Silver Searcher
-Plug 'jiangmiao/auto-pairs'
-Plug 'SirVer/ultisnips'
-Plug 'maralla/completor.vim'
+" Symbols, completions and language related plugins
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'majutsushi/tagbar'
+Plug 'rhysd/vim-clang-format'
+Plug 'gabesoft/vim-ags'
+
+" Git related plugins
 Plug 'airblade/vim-gitgutter'
-Plug 'brookhong/cscope.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'tpope/vim-fugitive'                               " Integrates Git
+
+" Temporaly deactivated (or not) plugins
+Plug 'rust-lang/rust.vim'
+Plug 'fatih/vim-go'
+
+" Plugins related to save moves
+Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
-Plug 'hdima/python-syntax'
-Plug 'honza/vim-snippets'
-Plug 'junegunn/vim-slash'                               " Improved in-buffer search
+Plug 'mattn/emmet-vim'
+Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
-Plug 'ludovicchabant/vim-gutentags'
+Plug 'tommcdo/vim-lion'                                 " Align text
+
+" Plugins related to improved the interface
+Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-sandwich'                           " Parents operations
-Plug 'mattn/emmet-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
-Plug 'neomake/neomake'
+Plug 'w0rp/ale'
+
+" Syntax related plugins
+Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'rhysd/vim-clang-format'
-Plug 'rking/ag.vim'
-Plug 'rust-lang/rust.vim'
-Plug 'davidhalter/jedi-vim'
-Plug 'ternjs/tern_for_vim'
-Plug 'tommcdo/vim-lion'                                 " Align text
-Plug 'tpope/vim-fugitive'                               " Integrates Git
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'wellle/targets.vim'
+Plug 'elzr/vim-json'
+Plug 'mxw/vim-jsx'
+
+" Misc. Plugins
 Plug 'xolox/vim-misc'
-Plug 'ryanoasis/vim-devicons'
 
 " Themes
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'sjl/badwolf'
-" Plug 'sickill/vim-monokai'
-" Plug 'w0ng/vim-hybrid'
-" Plug 'jonathanfilip/vim-lucius'
-" Plug 'nanotech/jellybeans.vim'
-" Plug 'joshdick/onedark.vim'
-" Plug 'chriskempson/base16-vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-" }}}
-
-" SETTINGS {{{
+" SETTINGS--------------------------------------------------------------------
 
 filetype on
 filetype indent on
 filetype plugin on
 syntax enable
 
-set autoindent
+" Behaviour
 set autoread
-set backspace=indent,eol,start
-set backupdir=/tmp
+set hidden
+" Mouse
 set clipboard^=unnamed
 set clipboard^=unnamedplus
-set cmdheight=2
-set colorcolumn=80
-set copyindent
-set cot-=preview
-set cursorline
-set encoding=utf-8
-set expandtab
-set foldmethod=marker
-set hidden
-set history=1000
+set mouse=a
+" Search
 set hlsearch
 set ignorecase
-set incsearch
+set noincsearch
 set indentkeys-=0#
-set laststatus=2
-set lazyredraw
 set magic
 set matchpairs+=<:>
 set matchtime=1
-set mouse=a
-set nobackup
-set noerrorbells
-set noshowmode
+" Backup
 set noswapfile
-set novisualbell
+set backupdir=/tmp
+set copyindent
+set history=1000
+set nobackup
 set nowritebackup
-set number
-set shiftwidth=4
+set undolevels=1000
+" Verbosity
+set noerrorbells
+set novisualbell
+set noshowmode
+set laststatus=2
 set shortmess+=I
-set showcmd
 set showmatch
+set showcmd
+set cmdheight=2
+set colorcolumn=80
+set cursorline
+" Indent, case, tabs
+set backspace=indent,eol,start
+set autoindent
+set expandtab
+set shiftwidth=4
 set smartcase
 set smartindent
 set smarttab
+set tabstop=4
 set softtabstop=4
-set splitbelow
+" Windows
+set number
+set relativenumber
+set cot-=preview
+set lazyredraw
 set splitbelow
 set splitright
+" Terminal
+set encoding=utf-8
 set t_Co=256
-set tabstop=4
 set termencoding=utf-8
 set timeoutlen=500
 set title
 set titleold=0
 set ttimeoutlen=0
 set ttyfast
-set undolevels=1000
-set wildmenu
-set wildmode=longest,list
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc
+if (has("termguicolors"))
+    set termguicolors
+endif
 
+" Wildmenu options
+set wildmenu
+set wildmode=longest,list,full
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc,node_modules
+set wildignorecase
+" Fold
+set foldmethod=marker
+" Colorscheme
 colorscheme gruvbox
 set background=dark
-" set guifont=Courier:h13
-" set guifont=Literation\ Mono\ PowerLine:h13
-" set guifont=ProggyCleanTT\ Nerd\ Font:h18
-" set guifont=ProFontIIx\ Nerd\ Font:h10
-set guifont=InconsolataForPowerline\ Nerd\ Font:h13
-set encoding=utf-8
 
-" }}}
+" Netrw
+let g:netrw_altv=1
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
-" MAPPINGS {{{
+" Macvim zone
+if has("gui_macvim")
+    set guifont=Envy\ Code\ R\ For\ PowerLine:h13
+    " let macvim_skip_colorscheme=1
+    " set guifont=Literation\ Mono\ PowerLine:h13
+    " set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
+    " set guifont=Anonymous\ Pro:h13
+endif
 
+" MAPPINGS---------------------------------------------------------------------
+
+" Move lines and blocks
 nnoremap <silent><c-k> :m .-2<CR>==
 nnoremap <silent><c-j> :m .+1<CR>==
 inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
@@ -138,33 +163,33 @@ vnoremap <silent><c-j> :m '>+1<CR>gv=gv
 vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
 
 " Leader
-
 let mapleader = ","
 let g:mapleader = ","
+
+" Non-english keyboard tag navigation fix
+nnoremap <silent><leader>g <c-]>
 
 " Fast escape
 inoremap jj <ESC>
 
 " Nop some keys
-nnoremap <F1> <nop>
 nnoremap Q <nop>
 nnoremap gQ <nop>
 
 " Turn off Highlight
 nmap <silent><leader><cr> :noh<cr>
 
-" Some tricks...
+" Some convenient shortcuts
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
-nnoremap <leader>3 ddp
 
 " Get rid of ^M
 noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
-" Fast write
+" Fast saving
 nnoremap<leader>w :w<cr>
 
-" Copy-paste win fashioned
+" Copy-paste Windows fashioned
 imap <c-v> <esc>"*P}i
 vmap <c-c> "*y<esc>
 
@@ -191,18 +216,15 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
-" Replaces a visual selected text to its base64 or reverse
-vnoremap <leader>64 c<c-r>=system('base64', @")<cr><esc>
-vnoremap <leader>46 c<c-r>=system('base64 --decode', @")<cr><esc>
+" Toggle relative numbers
+nnoremap <silent><f11> :set relativenumber!<CR>
 
-" Closing quickfix quick
-nnoremap <leader>c :ccl<CR>
-
-" Splitting windows a la tmux
+" Window manipulation
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>x <c-w>c
-" Moving windows
+
+" Moving through windows
 nnoremap <c-left> <c-w>h
 nnoremap <c-right> <c-w>l
 nnoremap <c-up> <c-w>k
@@ -215,9 +237,54 @@ nnoremap <leader><space> ?
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
 
-" }}}
+" ); shortcut for C family languages
+au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 
-" PLUGIN OPTIONS {{{
+" Easy buffer browsing
+nnoremap <leader>b :ls<cr> :b<space>
+nnoremap <c-h> :bp<cr>
+nnoremap <c-l> :bn<cr>
+
+" Netrw shorcut
+nnoremap <leader>f :edit .<cr>
+
+" tselect convenient shortcut
+nnoremap <leader>t :exec 'tselect' expand('<cword>')<cr>
+
+" PLUGINS----------------------------------------------------------------------
+
+" Ags
+nnoremap <leader>a :Ags <cword><cr>
+let g:ags_agargs = {
+                \ '--break'             : [ '', '' ],
+                \ '--color'             : [ '', '' ],
+                \ '--color-line-number' : [ '"1;30"', '' ],
+                \ '--color-match'       : [ '"32;40"', '' ],
+                \ '--color-path'        : [ '"1;31"', '' ],
+                \ '--column'            : [ '', '' ],
+                \ '--context'           : [ 'g:ags_agcontext', '-C' ],
+                \ '--filename'          : [ '', '' ],
+                \ '--group'             : [ '', '' ],
+                \ '--heading'           : [ '', '-H' ],
+                \ '--max-count'         : [ 'g:ags_agmaxcount', '-m' ],
+                \ '--numbers'           : [ '', '' ]
+                \ }
+
+" Rainbow
+let g:rainbow_active = 1
+
+" Ale
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+map <silent> <leader>p <Plug>(ale_previous_wrap)
+map <silent> <leader>n <Plug>(ale_next_wrap)
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+
+" Vim-jsx
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " vim-rust
 let g:rustfmt_autosave = 1
@@ -228,12 +295,7 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
 " Ag
-let g:ackprg = 'ag --nogroup --nocolor --column'
-nnoremap <leader>a :Ag <cword><cr>
-
-" Cscope
-nnoremap <leader>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
-nnoremap <leader>l :call ToggleLocationList()<CR>
+"let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -245,44 +307,30 @@ xmap s <Nop>
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
 
-" Ctrlp
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-            \ 'file': '\v\.(exe|so|dll)$',
-            \ 'link': 'some_bad_symbolic_links',
-            \ }
-let g:ctrlp_user_command = 'find %s -type f'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_map = '<leader>p'
-nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>t :CtrlPBufTag<cr>
-nnoremap <leader>T :CtrlPBufTagAll<cr>
-
-" Completor
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-let g:completor_node_binary = '/usr/local/bin/node'
-let g:completor_racer_binary = '/Users/david/.cargo/bin/racer'
-let g:completor_clang_binary = '/usr/bin/clang'
-" In case Jedi does not work is probably the python version
-" watch jedi is installed! (pip install jedi)
-" let g:completor_python_binary = '/path/to/python/with/jedi/installed'
+" YouCompleteMe
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_show_diagnostic_ui = 0
+let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
+nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
+nnoremap <leader>h :YcmCompleter GoToInclude<cr>
+nnoremap <leader>y :YcmCompleter GetType<cr>
 
 " Python syntax
 let python_highlight_all=1
 
 " Airline
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'gruvbox'
 
-" Ultisnips
-let g:UltiSnipsExpandTrigger="<c-z>"
-
 " Vim incsearch
-" :h g:incsearch#auto_nohlsearch
-set hlsearch
 let g:incsearch#auto_nohlsearch = 1
+let g:incsearch#do_not_save_error_message_history = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
@@ -297,11 +345,20 @@ map g# <Plug>(incsearch-nohl-g#)
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Javascript-libraries-syntax
-let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
+let g:used_javascript_libs = 'underscore,backbone,react,jquery'
 
-" }}}
+" Tagbar
+nnoremap <leader>T :TagbarToggle<cr>
 
-" MISC {{{
+" Vim-current-word
+let g:vim_current_word#highlight_current_word = 0
+autocmd VimEnter * hi CurrentWordTwins guibg=#444444
+
+" MISC-------------------------------------------------------------------------
+"
+" Delete all ^M Windows line endings
+" :%s/^M$//g
+" But ^M has to be entered by Ctrl+v+Ctrl+m
 "
 " Yank all matches regex with grouping in a register
 " :%s/regex/\=setreg('A', submatch(0), 'V')/n
@@ -312,27 +369,13 @@ let g:used_javascript_libs = 'underscore,backbone,angularjs,jquery'
 " Write as sudo
 " :w !sudo tee %
 "
-" Back and forward in time
-" :earlier 15m
-" :later 15m
-"
 " Load an hex version of buffer and revert back
 " :%!xxd
 " :%!xxd -r
 "
-" YCM
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.sh --clang-completer
-"
 " Fast format a json file or chunk
 " :%!python -m json.tool
 "
-" En/De/code base64 selected block text
-" :echo system('base64 --decode', @")
-" :vnoremap <leader>64 y:echo system('base64 --decode', @")<cr>
-" :vnoremap <leader>64 c<c-r>=system('base64 --decode', @")<cr><esc>
-" UPDATE: :.!base64 or <visualmode>:!base64
-
 " FUNCTIONS
 "
 " Deletes trailing whitespaces on save
@@ -342,7 +385,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType vim,c,cpp,java,javascript,php,ruby,python,css,haskell autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType vim,c,cpp,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -356,11 +399,6 @@ autocmd InsertLeave * if expand('%') != '' | update | endif
 " Make preview window close when leaving insert mode
 autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
-" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
 " HTML Config
 autocmd BufNewFile,BufReadPost *.html set filetype=html
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-"}}}
