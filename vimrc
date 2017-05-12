@@ -7,8 +7,7 @@ else
 endif
 
 " Symbols, completions and language related plugins
-Plug 'Valloric/YouCompleteMe'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'ajh17/VimCompletesMe'
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
 Plug 'gabesoft/vim-ags'
@@ -19,7 +18,9 @@ Plug 'tpope/vim-fugitive'                               " Integrates Git
 
 " Temporaly deactivated (or not) plugins
 Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
 Plug 'fatih/vim-go'
+Plug 'davidhalter/jedi-vim'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
@@ -37,6 +38,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
+Plug 'romainl/vim-qf'
+Plug 'romainl/vim-qlist'
 
 " Syntax related plugins
 Plug 'hdima/python-syntax'
@@ -65,7 +68,9 @@ syntax enable
 
 " Behaviour
 set autoread
+set autochdir
 set hidden
+set tags=./tags;,tags;
 " Mouse
 set clipboard^=unnamed
 set clipboard^=unnamedplus
@@ -109,7 +114,6 @@ set tabstop=4
 set softtabstop=4
 " Windows
 set number
-set relativenumber
 set cot-=preview
 set lazyredraw
 set splitbelow
@@ -168,6 +172,8 @@ let g:mapleader = ","
 
 " Non-english keyboard tag navigation fix
 nnoremap <silent><leader>g <c-]>
+" Isearch
+nnoremap <silent><leader>i :exec 'Ilist' expand('<cword>')<cr>
 
 " Fast escape
 inoremap jj <ESC>
@@ -241,7 +247,7 @@ nnoremap U <c-r>
 au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 
 " Easy buffer browsing
-nnoremap <leader>b :ls<cr> :b<space>
+nnoremap <leader>b :b <C-d>
 nnoremap <c-h> :bp<cr>
 nnoremap <c-l> :bn<cr>
 
@@ -253,7 +259,15 @@ nnoremap <leader>t :exec 'tselect' expand('<cword>')<cr>
 
 " PLUGINS----------------------------------------------------------------------
 
+" VimCompletesMe
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+
 " Ags
+if executable("ag")
+    set grepprg=ag\ --nogroup\ --ignore-case\ --column
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
 nnoremap <leader>a :Ags <cword><cr>
 let g:ags_agargs = {
                 \ '--break'             : [ '', '' ],
@@ -288,14 +302,12 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " vim-rust
 let g:rustfmt_autosave = 1
-let g:ycm_rust_src_path = '/Users/david/temp/rust/rust/src'
+let g:racer_experimental_completer = 1
+let g:racer_cmd = "/Users/david/.cargo/bin/racer"
 
 " Emmet
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
-
-" Ag
-"let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -306,15 +318,6 @@ xmap s <Nop>
 
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
-
-" YouCompleteMe
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_show_diagnostic_ui = 0
-let g:ycm_global_ycm_extra_conf = '~/GoogleDrive/.ycm_extra_conf.py'
-nnoremap <leader>o :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>O :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>h :YcmCompleter GoToInclude<cr>
-nnoremap <leader>y :YcmCompleter GetType<cr>
 
 " Python syntax
 let python_highlight_all=1
@@ -349,10 +352,6 @@ let g:used_javascript_libs = 'underscore,backbone,react,jquery'
 
 " Tagbar
 nnoremap <leader>T :TagbarToggle<cr>
-
-" Vim-current-word
-let g:vim_current_word#highlight_current_word = 0
-autocmd VimEnter * hi CurrentWordTwins guibg=#444444
 
 " MISC-------------------------------------------------------------------------
 "

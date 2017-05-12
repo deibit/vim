@@ -92,3 +92,5 @@ Temporary Items
 tags
 .vim
 init.vim
+autoload/plug.vim.old
+colors/*
