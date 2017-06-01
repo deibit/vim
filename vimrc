@@ -10,15 +10,12 @@ endif
 Plug 'ajh17/VimCompletesMe'
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
-Plug 'gabesoft/vim-ags'
 
 " Git related plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'                               " Integrates Git
 
 " Temporaly deactivated (or not) plugins
-Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
 Plug 'fatih/vim-go'
 Plug 'davidhalter/jedi-vim'
 
@@ -40,7 +37,9 @@ Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 Plug 'romainl/vim-qf'
 Plug 'romainl/vim-qlist'
-
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+"
 " Syntax related plugins
 Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -142,11 +141,6 @@ set foldmethod=marker
 colorscheme gruvbox
 set background=dark
 
-" Netrw
-let g:netrw_altv=1
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-
 " Macvim zone
 if has("gui_macvim")
     set guifont=Envy\ Code\ R\ For\ PowerLine:h13
@@ -159,12 +153,16 @@ endif
 " MAPPINGS---------------------------------------------------------------------
 
 " Move lines and blocks
-nnoremap <silent><c-k> :m .-2<CR>==
-nnoremap <silent><c-j> :m .+1<CR>==
-inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
-inoremap <silent><c-k> <Esc>:m .-2<CR>==gi
-vnoremap <silent><c-j> :m '>+1<CR>gv=gv
-vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
+nnoremap <silent><c-k>   :<C-u>move-2<CR>==
+nnoremap <silent><c-j>   :<C-u>move+<CR>==
+xnoremap <silent><c-k>   :move-2<CR>gv=gv
+xnoremap <silent><c-j>   :move'>+<CR>gv=gv
+"nnoremap <silent><c-k> :m .-2<CR>==
+"nnoremap <silent><c-j> :m .+1<CR>==
+"inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
+"inoremap <silent><c-k> <Esc>:m .-2<CR>==gi
+"vnoremap <silent><c-j> :m '>+1<CR>gv=gv
+"vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
 
 " Leader
 let mapleader = ","
@@ -247,42 +245,25 @@ nnoremap U <c-r>
 au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 
 " Easy buffer browsing
-nnoremap <leader>b :b <C-d>
 nnoremap <c-h> :bp<cr>
 nnoremap <c-l> :bn<cr>
 
-" Netrw shorcut
-nnoremap <leader>f :edit .<cr>
-
 " tselect convenient shortcut
-nnoremap <leader>t :exec 'tselect' expand('<cword>')<cr>
+nnoremap <leader>T :exec 'tselect' expand('<cword>')<cr>
 
 " PLUGINS----------------------------------------------------------------------
 
+" FZF
+nnoremap <silent><leader>b :Buffers<cr>
+nnoremap <silent><leader>a :Ag <cword><cr> 
+nnoremap <silent><leader>f :Files<cr>
+nnoremap <silent><leader>l :Lines<cr>
+nnoremap <silent><leader>t :Tags<cr>
+nnoremap <silent><leader>s :BTags<cr>
+nnoremap <silent><leader>m :Marks<cr>
+
 " VimCompletesMe
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-
-" Ags
-if executable("ag")
-    set grepprg=ag\ --nogroup\ --ignore-case\ --column
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-endif
-nnoremap <leader>a :Ags <cword><cr>
-let g:ags_agargs = {
-                \ '--break'             : [ '', '' ],
-                \ '--color'             : [ '', '' ],
-                \ '--color-line-number' : [ '"1;30"', '' ],
-                \ '--color-match'       : [ '"32;40"', '' ],
-                \ '--color-path'        : [ '"1;31"', '' ],
-                \ '--column'            : [ '', '' ],
-                \ '--context'           : [ 'g:ags_agcontext', '-C' ],
-                \ '--filename'          : [ '', '' ],
-                \ '--group'             : [ '', '' ],
-                \ '--heading'           : [ '', '-H' ],
-                \ '--max-count'         : [ 'g:ags_agmaxcount', '-m' ],
-                \ '--numbers'           : [ '', '' ]
-                \ }
 
 " Rainbow
 let g:rainbow_active = 1
@@ -296,14 +277,10 @@ map <silent> <leader>p <Plug>(ale_previous_wrap)
 map <silent> <leader>n <Plug>(ale_next_wrap)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+let g:ale_enabled=0
 
 " Vim-jsx
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-
-" vim-rust
-let g:rustfmt_autosave = 1
-let g:racer_experimental_completer = 1
-let g:racer_cmd = "/Users/david/.cargo/bin/racer"
 
 " Emmet
 let g:user_emmet_install_global = 0
@@ -384,7 +361,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType vim,c,cpp,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
