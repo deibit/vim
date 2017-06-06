@@ -10,6 +10,7 @@ endif
 Plug 'ajh17/VimCompletesMe'
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
+Plug 'Rip-Rip/clang_complete'
 
 " Git related plugins
 Plug 'airblade/vim-gitgutter'
@@ -27,6 +28,7 @@ Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'tommcdo/vim-lion'                                 " Align text
+Plug 'tpope/vim-commentary'
 
 " Plugins related to improved the interface
 Plug 'luochen1990/rainbow'
@@ -249,9 +251,12 @@ nnoremap <c-h> :bp<cr>
 nnoremap <c-l> :bn<cr>
 
 " tselect convenient shortcut
-nnoremap <leader>T :exec 'tselect' expand('<cword>')<cr>
+nnoremap <leader>e :exec 'tselect' expand('<cword>')<cr>
 
 " PLUGINS----------------------------------------------------------------------
+
+" clang-completer
+let g:clang_library_path='/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
 
 " FZF
 nnoremap <silent><leader>b :Buffers<cr>
