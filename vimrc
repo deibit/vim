@@ -8,19 +8,21 @@ endif
 
 " Symbols, completions and language related plugins
 Plug 'ajh17/VimCompletesMe'
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
 Plug 'Rip-Rip/clang_complete'
+Plug 'lyuts/vim-rtags'
 
 " Git related plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'                               " Integrates Git
 
 " Temporaly deactivated (or not) plugins
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 Plug 'davidhalter/jedi-vim'
 
 " Plugins related to save moves
+Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mattn/emmet-vim'
@@ -37,11 +39,9 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
-Plug 'romainl/vim-qf'
-Plug 'romainl/vim-qlist'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-"
+
 " Syntax related plugins
 Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -49,6 +49,7 @@ Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
 Plug 'mxw/vim-jsx'
+Plug 'jansenm/vim-cmake'
 
 " Misc. Plugins
 Plug 'xolox/vim-misc'
@@ -159,12 +160,6 @@ nnoremap <silent><c-k>   :<C-u>move-2<CR>==
 nnoremap <silent><c-j>   :<C-u>move+<CR>==
 xnoremap <silent><c-k>   :move-2<CR>gv=gv
 xnoremap <silent><c-j>   :move'>+<CR>gv=gv
-"nnoremap <silent><c-k> :m .-2<CR>==
-"nnoremap <silent><c-j> :m .+1<CR>==
-"inoremap <silent><c-j> <Esc>:m .+1<CR>==gi
-"inoremap <silent><c-k> <Esc>:m .-2<CR>==gi
-"vnoremap <silent><c-j> :m '>+1<CR>gv=gv
-"vnoremap <silent><c-k> :m '<-2<CR>gv=gv>
 
 " Leader
 let mapleader = ","
@@ -172,8 +167,9 @@ let g:mapleader = ","
 
 " Non-english keyboard tag navigation fix
 nnoremap <silent><leader>g <c-]>
-" Isearch
-nnoremap <silent><leader>i :exec 'Ilist' expand('<cword>')<cr>
+
+" tselect convenient shortcut
+nnoremap <leader>e :exec 'tselect' expand('<cword>')<cr>
 
 " Fast escape
 inoremap jj <ESC>
@@ -250,10 +246,11 @@ au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 nnoremap <c-h> :bp<cr>
 nnoremap <c-l> :bn<cr>
 
-" tselect convenient shortcut
-nnoremap <leader>e :exec 'tselect' expand('<cword>')<cr>
-
 " PLUGINS----------------------------------------------------------------------
+
+" EasyMotion
+nmap <leader>- <Plug>(easymotion-s2)
+nmap <leader>. <Plug>(easymotion-t2)
 
 " clang-completer
 let g:clang_library_path='/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
@@ -310,7 +307,7 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1 
 let g:airline_theme = 'gruvbox'
 
 " Vim incsearch
