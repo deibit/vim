@@ -8,10 +8,11 @@ endif
 
 " Symbols, completions and language related plugins
 Plug 'ajh17/VimCompletesMe'
-" Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
 Plug 'Rip-Rip/clang_complete'
 Plug 'lyuts/vim-rtags'
+Plug 'deibit/a.vim'
 
 " Git related plugins
 Plug 'airblade/vim-gitgutter'
@@ -25,7 +26,6 @@ Plug 'davidhalter/jedi-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim'
-Plug 'mattn/emmet-vim'
 Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
@@ -48,7 +48,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
-Plug 'mxw/vim-jsx'
 Plug 'jansenm/vim-cmake'
 
 " Misc. Plugins
@@ -58,6 +57,7 @@ Plug 'xolox/vim-misc'
 Plug 'altercation/vim-colors-solarized'
 Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
+Plug 'hzchirs/vim-material'
 
 call plug#end()
 
@@ -70,7 +70,7 @@ syntax enable
 
 " Behaviour
 set autoread
-set autochdir
+set noautochdir
 set hidden
 set tags=./tags;,tags;
 " Mouse
@@ -141,7 +141,7 @@ set wildignorecase
 " Fold
 set foldmethod=marker
 " Colorscheme
-colorscheme gruvbox
+colorscheme vim-material
 set background=dark
 
 " Macvim zone
@@ -242,11 +242,16 @@ nnoremap U <c-r>
 " ); shortcut for C family languages
 au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 
-" Easy buffer browsing
-nnoremap <c-h> :bp<cr>
-nnoremap <c-l> :bn<cr>
+" Fast buffer browsing
+nnoremap <silent><c-h> :bp<cr>
+nnoremap <silent><c-l> :bn<cr>
 
-" PLUGINS----------------------------------------------------------------------
+" PLUGINS-CONFIG---------------------------------------------------------------
+
+" A (switch header/implementation)
+nnoremap <silent><leader>A :A<CR>
+nnoremap <silent><leader>AS :AS<CR>
+nnoremap <silent><leader>AV :AV<CR>
 
 " EasyMotion
 nmap <leader>- <Plug>(easymotion-s2)
@@ -275,19 +280,16 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
-map <silent> <leader>p <Plug>(ale_previous_wrap)
-map <silent> <leader>n <Plug>(ale_next_wrap)
+map <silent><a-j> <Plug>(ale_previous_wrap)
+map <silent><a-k> <Plug>(ale_next_wrap)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-let g:ale_enabled=0
-
-" Vim-jsx
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-
-" Emmet
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
-
+let g:ale_enabled = 1
+let g:ale_open_list = 1
+let g:ale_set_loclist = 1
+nnoremap <silent><leader>c :lcl<cr>
+let g:ale_cpp_cpplint_options = "--filter=legal"
+ 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
@@ -307,8 +309,8 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_powerline_fonts = 1 
-let g:airline_theme = 'gruvbox'
+let g:airline_powerline_fonts = 0
+let g:airline_theme = 'material'
 
 " Vim incsearch
 let g:incsearch#auto_nohlsearch = 1
