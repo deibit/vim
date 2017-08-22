@@ -7,10 +7,10 @@ else
 endif
 
 " Symbols, completions and language related plugins
-Plug 'ajh17/VimCompletesMe'
+Plug 'lifepillar/vim-mucomplete'
+Plug 'Rip-Rip/clang_complete'
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
-Plug 'Rip-Rip/clang_complete'
 Plug 'lyuts/vim-rtags'
 Plug 'deibit/a.vim'
 
@@ -19,7 +19,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'                               " Integrates Git
 
 " Temporaly deactivated (or not) plugins
-" Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 Plug 'davidhalter/jedi-vim'
 
 " Plugins related to save moves
@@ -135,21 +135,21 @@ endif
 
 " Wildmenu options
 set wildmenu
-set wildmode=longest,list,full
+set wildmode=longest,full
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc,node_modules
 set wildignorecase
 " Fold
 set foldmethod=marker
 " Colorscheme
-colorscheme vim-material
+colorscheme gruvbox
 set background=dark
 
 " Macvim zone
 if has("gui_macvim")
-    set guifont=Envy\ Code\ R\ For\ PowerLine:h13
+    " set guifont=Envy\ Code\ R\ For\ PowerLine:h13
     " let macvim_skip_colorscheme=1
     " set guifont=Literation\ Mono\ PowerLine:h13
-    " set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
+    set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
     " set guifont=Anonymous\ Pro:h13
 endif
 
@@ -248,6 +248,43 @@ nnoremap <silent><c-l> :bn<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
 
+" Vim-go
+let g:go_highlight_types = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+let g:go_info_mode = 'guru'
+let g:go_list_type = "locationlist"
+
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
+au FileType go nmap <Leader>ge <Plug>(go-rename)
+au FileType go nmap <Leader>gi <Plug>(go-info)
+au FileType go nmap <Leader>gm <Plug>(go-implements)
+au FileType go nmap <Leader>gr <Plug>(go-rename)
+au FileType go nmap <Leader>gs <Plug>(go-def-split)
+au FileType go nmap <Leader>gv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <leader>gc <Plug>(go-coverage)
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <leader>gt <Plug>(go-test)
+
+" uCompletion
+set completeopt+=longest,menuone,noselect,noinsert
+inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
+inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
+inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
+let g:mucomplete#enable_auto_at_startup = 1
+let g:clang_user_options = '-std=c++1z'
+let g:clang_complete_auto = 1
+let g:jedi#show_call_signatures = "0"
+
 " A (switch header/implementation)
 nnoremap <silent><leader>A :A<CR>
 nnoremap <silent><leader>AS :AS<CR>
@@ -259,6 +296,8 @@ nmap <leader>. <Plug>(easymotion-t2)
 
 " clang-completer
 let g:clang_library_path='/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
+" <Plug>(clang_complete_goto_declaration_preview)
+au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration_preview)
 
 " FZF
 nnoremap <silent><leader>b :Buffers<cr>
@@ -269,8 +308,11 @@ nnoremap <silent><leader>t :Tags<cr>
 nnoremap <silent><leader>s :BTags<cr>
 nnoremap <silent><leader>m :Marks<cr>
 
-" VimCompletesMe
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Completion
+" This prevents CR from feed a new line when selecting an option in popup menu
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>" 
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Rainbow
 let g:rainbow_active = 1
@@ -280,15 +322,19 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
-map <silent><a-j> <Plug>(ale_previous_wrap)
-map <silent><a-k> <Plug>(ale_next_wrap)
+map <silent><c-p> <Plug>(ale_previous_wrap)
+map <silent><c-n> <Plug>(ale_next_wrap)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_enabled = 1
-let g:ale_open_list = 1
 let g:ale_set_loclist = 1
-nnoremap <silent><leader>c :lcl<cr>
 let g:ale_cpp_cpplint_options = "--filter=legal"
+let g:ale_sign_column_always = 1
+nnoremap <silent><leader>c :lcl<cr>
+nnoremap <silent><leader>o :lop<cr>
+let g:ale_linters = {
+\   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
+\}
  
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -310,7 +356,7 @@ endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_powerline_fonts = 0
-let g:airline_theme = 'material'
+let g:airline_theme = 'gruvbox'
 
 " Vim incsearch
 let g:incsearch#auto_nohlsearch = 1
