@@ -7,12 +7,22 @@ else
 endif
 
 " Symbols, completions and language related plugins
-Plug 'lifepillar/vim-mucomplete'
-Plug 'Rip-Rip/clang_complete'
+function! BuildYCM(info)
+  if a:info.status == 'installed' || a:info.force
+    !./install.py --clang-completer --gocode-completer --python-completer
+  endif
+endfunction
+Plug 'Valloric/YouCompleteMe'
+
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
 Plug 'lyuts/vim-rtags'
 Plug 'deibit/a.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Git related plugins
 Plug 'airblade/vim-gitgutter'
@@ -25,7 +35,7 @@ Plug 'davidhalter/jedi-vim'
 " Plugins related to save moves
 Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
-Plug 'haya14busa/incsearch.vim'
+" Plug 'haya14busa/incsearch.vim'
 Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
@@ -39,8 +49,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 
 " Syntax related plugins
 Plug 'hdima/python-syntax'
@@ -78,9 +86,9 @@ set clipboard^=unnamed
 set clipboard^=unnamedplus
 set mouse=a
 " Search
-set hlsearch
+set nohlsearch
 set ignorecase
-set noincsearch
+set incsearch
 set indentkeys-=0#
 set magic
 set matchpairs+=<:>
@@ -130,30 +138,36 @@ set titleold=0
 set ttimeoutlen=0
 set ttyfast
 if (has("termguicolors"))
-    set termguicolors
+set termguicolors
 endif
 
 " Wildmenu options
 set wildmenu
-set wildmode=longest,full
+set wildmode=longest,list,full
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc,node_modules
+set wildignore+=*/tmp/,*.swp,*.zip
 set wildignorecase
+
 " Fold
 set foldmethod=marker
+
 " Colorscheme
 colorscheme gruvbox
 set background=dark
 
 " Macvim zone
 if has("gui_macvim")
-    " set guifont=Envy\ Code\ R\ For\ PowerLine:h13
-    " let macvim_skip_colorscheme=1
-    " set guifont=Literation\ Mono\ PowerLine:h13
-    set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
-    " set guifont=Anonymous\ Pro:h13
+" set guifont=Envy\ Code\ R\ For\ PowerLine:h13
+" let macvim_skip_colorscheme=1
+" set guifont=Literation\ Mono\ PowerLine:h13
+set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
+" set guifont=Anonymous\ Pro:h13
 endif
 
 " MAPPINGS---------------------------------------------------------------------
+
+" Goto the last edited file
+nnoremap <BS> <C-^>
 
 " Move lines and blocks
 nnoremap <silent><c-k>   :<C-u>move-2<CR>==
@@ -248,6 +262,42 @@ nnoremap <silent><c-l> :bn<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
 
+" FZF
+nnoremap <silent><leader>b :Buffers<cr>
+nnoremap <silent><leader>a :Ag <c-r><c-w><cr> 
+nnoremap <silent><leader>A :Ag! <c-r><c-w><cr> 
+nnoremap <silent><leader>f :Files<cr>
+nnoremap <silent><leader>L :Lines<cr>
+nnoremap <silent><leader>l :BLines<cr>
+nnoremap <silent><leader>t :Tags<cr>
+nnoremap <silent><leader>s :BTags<cr>
+nnoremap <silent><leader>m :Marks<cr>
+nnoremap <silent><leader>C :Commands<cr>
+nnoremap <silent><leader>h :History<cr>
+nnoremap <silent><leader>S :Snippets<cr>
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+\ 'bg':      ['bg', 'Normal'],
+\ 'hl':      ['fg', 'Comment'],
+\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+\ 'hl+':     ['fg', 'Statement'],
+\ 'info':    ['fg', 'PreProc'],
+\ 'prompt':  ['fg', 'Conditional'],
+\ 'pointer': ['fg', 'Exception'],
+\ 'marker':  ['fg', 'Keyword'],
+\ 'spinner': ['fg', 'Label'],
+\ 'header':  ['fg', 'Comment'] }
+
+" Augmenting Ag with a preview window
+command! -bang -nargs=* Ag
+\ call fzf#vim#ag(<q-args>,
+\                 <bang>0 ? fzf#vim#with_preview('up:60%')
+\                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+\                 <bang>0)
+
 " Vim-go
 let g:go_highlight_types = 1
 let g:go_highlight_extra_types = 1
@@ -275,20 +325,17 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <leader>gr <Plug>(go-run)
 au FileType go nmap <leader>gt <Plug>(go-test)
 
-" uCompletion
-set completeopt+=longest,menuone,noselect,noinsert
-inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
-inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
-inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
-let g:mucomplete#enable_auto_at_startup = 1
-let g:clang_user_options = '-std=c++1z'
-let g:clang_complete_auto = 1
-let g:jedi#show_call_signatures = "0"
+" YCM
+let g:ycm_python_binary_path = '/usr/local/bin/python3'
+let g:ycm_always_populate_location_list = 1
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_global_ycm_extra_conf = '/Users/david/temp/cpp/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
 
 " A (switch header/implementation)
-nnoremap <silent><leader>A :A<CR>
-nnoremap <silent><leader>AS :AS<CR>
-nnoremap <silent><leader>AV :AV<CR>
+nnoremap <silent><leader>H :A<CR>
+nnoremap <silent><leader>HS :AS<CR>
+nnoremap <silent><leader>HV :AV<CR>
 
 " EasyMotion
 nmap <leader>- <Plug>(easymotion-s2)
@@ -299,14 +346,11 @@ let g:clang_library_path='/Applications/Xcode.app/Contents/Developer/Toolchains/
 " <Plug>(clang_complete_goto_declaration_preview)
 au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration_preview)
 
-" FZF
-nnoremap <silent><leader>b :Buffers<cr>
-nnoremap <silent><leader>a :Ag <cword><cr> 
-nnoremap <silent><leader>f :Files<cr>
-nnoremap <silent><leader>l :Lines<cr>
-nnoremap <silent><leader>t :Tags<cr>
-nnoremap <silent><leader>s :BTags<cr>
-nnoremap <silent><leader>m :Marks<cr>
+" Ack
+if executable('ag')
+let g:ackprg = 'ag --vimgrep'
+endif
+" nnoremap <leader>a :Ack! <cword><space>
 
 " Completion
 " This prevents CR from feed a new line when selecting an option in popup menu
@@ -326,7 +370,7 @@ map <silent><c-p> <Plug>(ale_previous_wrap)
 map <silent><c-n> <Plug>(ale_next_wrap)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-let g:ale_enabled = 1
+let g:ale_enabled = 0
 let g:ale_set_loclist = 1
 let g:ale_cpp_cpplint_options = "--filter=legal"
 let g:ale_sign_column_always = 1
@@ -335,7 +379,7 @@ nnoremap <silent><leader>o :lop<cr>
 let g:ale_linters = {
 \   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
 \}
- 
+
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
@@ -351,25 +395,25 @@ let python_highlight_all=1
 
 " Airline
 if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+let g:airline_symbols = {}
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_powerline_fonts = 0
+let g:airline_powerline_fonts = 1
 let g:airline_theme = 'gruvbox'
 
 " Vim incsearch
-let g:incsearch#auto_nohlsearch = 1
-let g:incsearch#do_not_save_error_message_history = 1
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
+" let g:incsearch#auto_nohlsearch = 1
+" let g:incsearch#do_not_save_error_message_history = 1
+" map /  <Plug>(incsearch-forward)
+" map ?  <Plug>(incsearch-backward)
+" map g/ <Plug>(incsearch-stay)
+" map n  <Plug>(incsearch-nohl-n)
+" map N  <Plug>(incsearch-nohl-N)
+" map *  <Plug>(incsearch-nohl-*)
+" map #  <Plug>(incsearch-nohl-#)
+" map g* <Plug>(incsearch-nohl-g*)
+" map g# <Plug>(incsearch-nohl-g#)
 
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -406,18 +450,18 @@ nnoremap <leader>T :TagbarToggle<cr>
 "
 " Deletes trailing whitespaces on save
 fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
+let l = line(".")
+let c = col(".")
+%s/\s\+$//e
+call cursor(l, c)
 endfun
 autocmd FileType c,cpp,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-            \ if line("'\"") > 0 && line("'\"") <= line("$") |
-            \   exe "normal! g`\"" |
-            \ endif
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
 "
 " Autosaving when leaving insert mode
 autocmd InsertLeave * if expand('%') != '' | update | endif
