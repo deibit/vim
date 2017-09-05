@@ -6,14 +6,7 @@ else
     call plug#begin('~/.vim/bundle')
 endif
 
-" Symbols, completions and language related plugins
-function! BuildYCM(info)
-  if a:info.status == 'installed' || a:info.force
-    !./install.py --clang-completer --gocode-completer --python-completer
-  endif
-endfunction
 Plug 'Valloric/YouCompleteMe'
-
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
 Plug 'lyuts/vim-rtags'
@@ -259,6 +252,10 @@ au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 " Fast buffer browsing
 nnoremap <silent><c-h> :bp<cr>
 nnoremap <silent><c-l> :bn<cr>
+
+command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
+            \ | diffthis | wincmd p | diffthis
+nnoremap <leader>O :DiffOrig<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
 
