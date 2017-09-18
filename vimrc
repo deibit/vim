@@ -253,11 +253,15 @@ au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 nnoremap <silent><c-h> :bp<cr>
 nnoremap <silent><c-l> :bn<cr>
 
-command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
+command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
             \ | diffthis | wincmd p | diffthis
 nnoremap <leader>O :DiffOrig<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
+
+" Auto-pairs
+imap æ <alt-w>
+let g:AutoPairsShortcutFastWrap = '<alt-w>'
 
 " FZF
 nnoremap <silent><leader>b :Buffers<cr>
@@ -273,7 +277,7 @@ nnoremap <silent><leader>C :Commands<cr>
 nnoremap <silent><leader>h :History<cr>
 nnoremap <silent><leader>S :Snippets<cr>
 
-" Customize fzf colors to match your color scheme
+"' Customize fzf colors to match your color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
 \ 'bg':      ['bg', 'Normal'],
@@ -328,6 +332,7 @@ let g:ycm_always_populate_location_list = 1
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_global_ycm_extra_conf = '/Users/david/temp/cpp/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
+let g:jedi#show_call_signatures = "0"
 
 " A (switch header/implementation)
 nnoremap <silent><leader>H :A<CR>
@@ -396,7 +401,7 @@ let g:airline_symbols = {}
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline_theme = 'gruvbox'
 
 " Vim incsearch
