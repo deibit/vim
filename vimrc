@@ -2,11 +2,13 @@
 
 if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
+    Plug 'roxma/nvim-completion-manager'
+    Plug 'roxma/clang_complete'
 else
     call plug#begin('~/.vim/bundle')
+    Plug 'Valloric/YouCompleteMe'
 endif
 
-Plug 'Valloric/YouCompleteMe'
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
 Plug 'lyuts/vim-rtags'
@@ -28,6 +30,7 @@ Plug 'davidhalter/jedi-vim'
 " Plugins related to save moves
 Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
+
 " Plug 'haya14busa/incsearch.vim'
 Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
 Plug 'kana/vim-operator-user'
@@ -55,10 +58,11 @@ Plug 'jansenm/vim-cmake'
 Plug 'xolox/vim-misc'
 
 " Themes
-Plug 'altercation/vim-colors-solarized'
-Plug 'sickill/vim-monokai'
-Plug 'morhetz/gruvbox'
-Plug 'hzchirs/vim-material'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'sickill/vim-monokai'
+" Plug 'morhetz/gruvbox'
+" Plug 'hzchirs/vim-material'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -145,7 +149,7 @@ set wildignorecase
 set foldmethod=marker
 
 " Colorscheme
-colorscheme gruvbox
+colorscheme onedark
 set background=dark
 
 " Macvim zone
@@ -156,6 +160,13 @@ if has("gui_macvim")
 set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
 " set guifont=Anonymous\ Pro:h13
 endif
+
+" Use persistent history.
+if !isdirectory("/tmp/.vim-undo-dir")
+    call mkdir("/tmp/.vim-undo-dir", "", 0700)
+endif
+set undodir=/tmp/.vim-undo-dir
+set undofile
 
 " MAPPINGS---------------------------------------------------------------------
 
@@ -174,9 +185,6 @@ let g:mapleader = ","
 
 " Non-english keyboard tag navigation fix
 nnoremap <silent><leader>g <c-]>
-
-" tselect convenient shortcut
-nnoremap <leader>e :exec 'tselect' expand('<cword>')<cr>
 
 " Fast escape
 inoremap jj <ESC>
@@ -259,14 +267,22 @@ nnoremap <leader>O :DiffOrig<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
 
+" Onedark
+let g:onedark_termcolors = 256
+
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
+inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+
 " Auto-pairs
 imap æ <alt-w>
 let g:AutoPairsShortcutFastWrap = '<alt-w>'
 
 " FZF
 nnoremap <silent><leader>b :Buffers<cr>
-nnoremap <silent><leader>a :Ag <c-r><c-w><cr> 
-nnoremap <silent><leader>A :Ag! <c-r><c-w><cr> 
+nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
+nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
 nnoremap <silent><leader>f :Files<cr>
 nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>l :BLines<cr>
@@ -326,12 +342,24 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <leader>gr <Plug>(go-run)
 au FileType go nmap <leader>gt <Plug>(go-test)
 
+" nvim-completion-manager
+if has('nvim')
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    let g:clang_library_path='/usr/local/opt/llvm/lib'
+    au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration)
+endif
+
 " YCM
-let g:ycm_python_binary_path = '/usr/local/bin/python3'
-let g:ycm_always_populate_location_list = 1
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_global_ycm_extra_conf = '/Users/david/temp/cpp/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
+if !has('nvim')
+    let g:ycm_python_binary_path = '/usr/local/bin/python3'
+    let g:ycm_always_populate_location_list = 1
+    let g:ycm_show_diagnostics_ui = 0
+    let g:ycm_global_ycm_extra_conf = '/Users/david/temp/cpp/.ycm_extra_conf.py'
+    let g:ycm_confirm_extra_conf = 0
+endif
+
+" Jedi
 let g:jedi#show_call_signatures = "0"
 
 " A (switch header/implementation)
@@ -343,22 +371,11 @@ nnoremap <silent><leader>HV :AV<CR>
 nmap <leader>- <Plug>(easymotion-s2)
 nmap <leader>. <Plug>(easymotion-t2)
 
-" clang-completer
-let g:clang_library_path='/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
-" <Plug>(clang_complete_goto_declaration_preview)
-au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration_preview)
-
 " Ack
 if executable('ag')
 let g:ackprg = 'ag --vimgrep'
 endif
 " nnoremap <leader>a :Ack! <cword><space>
-
-" Completion
-" This prevents CR from feed a new line when selecting an option in popup menu
-" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>" 
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Rainbow
 let g:rainbow_active = 1
@@ -378,6 +395,7 @@ let g:ale_cpp_cpplint_options = "--filter=legal"
 let g:ale_sign_column_always = 1
 nnoremap <silent><leader>c :lcl<cr>
 nnoremap <silent><leader>o :lop<cr>
+nnoremap <silent><leader>e :ALEToggle<cr>
 let g:ale_linters = {
 \   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
 \}
@@ -402,7 +420,7 @@ endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_powerline_fonts = 0
-let g:airline_theme = 'gruvbox'
+let g:airline_theme = 'onedark'
 
 " Vim incsearch
 " let g:incsearch#auto_nohlsearch = 1
@@ -457,7 +475,8 @@ let c = col(".")
 %s/\s\+$//e
 call cursor(l, c)
 endfun
-autocmd FileType c,cpp,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType * autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+" autocmd FileType c,cpp,go,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
