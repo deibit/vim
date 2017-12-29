@@ -11,7 +11,7 @@ endif
 
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
-Plug 'lyuts/vim-rtags'
+" Plug 'lyuts/vim-rtags'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -30,9 +30,11 @@ Plug 'davidhalter/jedi-vim'
 " Plugins related to save moves
 Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
+Plug 'michaeljsmith/vim-indent-object'
 
 " Plug 'haya14busa/incsearch.vim'
-Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
+" Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
+Plug 'cohama/lexima.vim'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'tommcdo/vim-lion'                                 " Align text
@@ -40,7 +42,7 @@ Plug 'tpope/vim-commentary'
 
 " Plugins related to improved the interface
 Plug 'luochen1990/rainbow'
-Plug 'machakann/vim-sandwich'                           " Parents operations
+Plug 'tpope/vim-surround'                           " Parents operations
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
@@ -49,10 +51,12 @@ Plug 'w0rp/ale'
 " Syntax related plugins
 Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'bbchung/Clamp'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
 Plug 'jansenm/vim-cmake'
+Plug 'leafgarland/typescript-vim'
 
 " Misc. Plugins
 Plug 'xolox/vim-misc'
@@ -60,7 +64,7 @@ Plug 'xolox/vim-misc'
 " Themes
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'sickill/vim-monokai'
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 " Plug 'hzchirs/vim-material'
 Plug 'joshdick/onedark.vim'
 
@@ -149,7 +153,7 @@ set wildignorecase
 set foldmethod=marker
 
 " Colorscheme
-colorscheme onedark
+colorscheme gruvbox
 set background=dark
 
 " Macvim zone
@@ -350,6 +354,9 @@ if has('nvim')
     au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration)
 endif
 
+" Clamp
+let g:clamp_libclang_file = '/usr/local/opt/llvm/lib/libclang.dylib'
+
 " YCM
 if !has('nvim')
     let g:ycm_python_binary_path = '/usr/local/bin/python3'
@@ -403,15 +410,12 @@ let g:ale_linters = {
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
-" Remapped because of vim-sandwich
-nmap s <Nop>
-xmap s <Nop>
-
 " Clangformat
 autocmd FileType c,cpp ClangFormatAutoEnable
 
 " Python syntax
 let python_highlight_all=1
+let python_highlight_space_errors=0
 
 " Airline
 if !exists('g:airline_symbols')
@@ -421,6 +425,7 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_powerline_fonts = 0
 let g:airline_theme = 'onedark'
+let g:airline#extensions#ale#enabled = 1
 
 " Vim incsearch
 " let g:incsearch#auto_nohlsearch = 1
@@ -470,10 +475,10 @@ nnoremap <leader>T :TagbarToggle<cr>
 "
 " Deletes trailing whitespaces on save
 fun! <SID>StripTrailingWhitespaces()
-let l = line(".")
-let c = col(".")
-%s/\s\+$//e
-call cursor(l, c)
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
 endfun
 autocmd FileType * autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 " autocmd FileType c,cpp,go,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
@@ -493,3 +498,13 @@ autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 " HTML Config
 autocmd BufNewFile,BufReadPost *.html set filetype=html
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+
+fun! CppRef()
+    let s:keyword = expand("<cword>")
+    let s:url = "http://en.cppreference.com/mwiki/index.php?title=Special:Search&search=" . s:keyword
+    if s:url != ""
+        silent exec "!open '".s:url."'"
+    endif
+endfun
+nmap <leader>q :call CppRef()<CR>
+
