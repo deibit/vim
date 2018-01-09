@@ -11,7 +11,6 @@ endif
 
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
-" Plug 'lyuts/vim-rtags'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -19,16 +18,11 @@ Plug 'mileszs/ack.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-" Git related plugins
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'                               " Integrates Git
-
 " Temporaly deactivated (or not) plugins
 Plug 'fatih/vim-go'
 Plug 'davidhalter/jedi-vim'
 
 " Plugins related to save moves
-Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
 Plug 'michaeljsmith/vim-indent-object'
 
@@ -43,8 +37,6 @@ Plug 'tpope/vim-commentary'
 " Plugins related to improved the interface
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-surround'                           " Parents operations
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 
@@ -66,7 +58,7 @@ Plug 'xolox/vim-misc'
 " Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
 " Plug 'hzchirs/vim-material'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -274,7 +266,6 @@ nnoremap <leader>O :DiffOrig<cr>
 " Onedark
 let g:onedark_termcolors = 256
 
-
 " Ultisnips
 let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
 inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
@@ -374,10 +365,6 @@ nnoremap <silent><leader>H :A<CR>
 nnoremap <silent><leader>HS :AS<CR>
 nnoremap <silent><leader>HV :AV<CR>
 
-" EasyMotion
-nmap <leader>- <Plug>(easymotion-s2)
-nmap <leader>. <Plug>(easymotion-t2)
-
 " Ack
 if executable('ag')
 let g:ackprg = 'ag --vimgrep'
@@ -416,16 +403,6 @@ autocmd FileType c,cpp ClangFormatAutoEnable
 " Python syntax
 let python_highlight_all=1
 let python_highlight_space_errors=0
-
-" Airline
-if !exists('g:airline_symbols')
-let g:airline_symbols = {}
-endif
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_powerline_fonts = 0
-let g:airline_theme = 'onedark'
-let g:airline#extensions#ale#enabled = 1
 
 " Vim incsearch
 " let g:incsearch#auto_nohlsearch = 1
@@ -471,34 +448,42 @@ nnoremap <leader>T :TagbarToggle<cr>
 " Fast format a json file or chunk
 " :%!python -m json.tool
 "
-" FUNCTIONS
-"
+" FUNCTIONS------------------------------------
+
 " Deletes trailing whitespaces on save
+"------------------------------------------------------------------------------
 fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
+    let l:saved_winview = winsaveview()
+    " let l = line(".")
+    " let c = col(".")
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:saved_winview)
+    " call cursor(l, c)
 endfun
 autocmd FileType * autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-" autocmd FileType c,cpp,go,java,javascript,php,ruby,python,css,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
+"------------------------------------------------------------------------------
 autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal! g`\"" |
         \ endif
-"
+
 " Autosaving when leaving insert mode
+"------------------------------------------------------------------------------
 autocmd InsertLeave * if expand('%') != '' | update | endif
 
 " Make preview window close when leaving insert mode
+"------------------------------------------------------------------------------
 autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
 " HTML Config
+"------------------------------------------------------------------------------
 autocmd BufNewFile,BufReadPost *.html set filetype=html
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 
+" cppreference (will open a browser with a search in www.cppreference.com)
+"------------------------------------------------------------------------------
 fun! CppRef()
     let s:keyword = expand("<cword>")
     let s:url = "http://en.cppreference.com/mwiki/index.php?title=Special:Search&search=" . s:keyword
@@ -508,3 +493,40 @@ fun! CppRef()
 endfun
 nmap <leader>q :call CppRef()<CR>
 
+" Auto Relative Numbers Toggle
+"------------------------------------------------------------------------------
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
+augroup END
+
+" Statusline configuration
+" (https://medium.com/@kadek/the-last-statusline-for-vim-a613048959b2)
+"------------------------------------------------------------------------------
+function! LinterStatus() abort
+   let l:counts = ale#statusline#Count(bufnr(''))
+   let l:all_errors = l:counts.error + l:counts.style_error
+   let l:all_non_errors = l:counts.total - l:all_errors
+   return l:counts.total == 0 ? '' : printf(
+   \ 'W:%d E:%d',
+   \ l:all_non_errors,
+   \ l:all_errors
+   \)
+endfunction
+set laststatus=2
+set statusline=
+set statusline+=\ %*
+set statusline+=\ %n
+set statusline+=\ %p%%
+set statusline+=\ %h
+set statusline+=\ %m
+set statusline+=\ %y
+set statusline+=\ %q
+set statusline+=\ %w
+set statusline+=\ %r
+set statusline+=%=
+set statusline+=%1*\ %F
+set statusline+=\ %{LinterStatus()}
+set statusline+=\ %*
+hi User1 guifg=#FF8000 guibg=#504945
