@@ -2,12 +2,18 @@
 
 if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
-    Plug 'roxma/nvim-completion-manager'
-    Plug 'roxma/clang_complete'
 else
     call plug#begin('~/.vim/bundle')
-    Plug 'Valloric/YouCompleteMe'
 endif
+
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+" Plug 'ervandew/supertab'
 
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
@@ -15,12 +21,12 @@ Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Temporaly deactivated (or not) plugins
-Plug 'fatih/vim-go'
-Plug 'davidhalter/jedi-vim'
+" Plug 'fatih/vim-go'
+" Plug 'davidhalter/jedi-vim'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
@@ -43,7 +49,6 @@ Plug 'w0rp/ale'
 " Syntax related plugins
 Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
-" Plug 'bbchung/Clamp'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
@@ -148,19 +153,11 @@ set foldmethod=marker
 colorscheme gruvbox
 set background=dark
 
-" Macvim zone
-if has("gui_macvim")
-" set guifont=Envy\ Code\ R\ For\ PowerLine:h13
-" let macvim_skip_colorscheme=1
-" set guifont=Literation\ Mono\ PowerLine:h13
-set guifont=InconsolataForPowerline\ Nerd\ Font\ Mediana:h13
-" set guifont=Anonymous\ Pro:h13
-endif
-
 " Use persistent history.
 if !isdirectory("/tmp/.vim-undo-dir")
     call mkdir("/tmp/.vim-undo-dir", "", 0700)
 endif
+
 set undodir=/tmp/.vim-undo-dir
 set undofile
 
@@ -263,12 +260,54 @@ nnoremap <leader>O :DiffOrig<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
 
+" LSP Clangd
+if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'clangd',
+        \ 'cmd': {server_info->['clangd']},
+        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+        \ })
+endif
+
+if has('python3')
+    let g:UltiSnipsExpandTrigger="<c-e>"
+    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+        \ 'name': 'ultisnips',
+        \ 'whitelist': ['*'],
+        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+        \ }))
+endif
+
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
+
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ }))
+
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+
+autocmd FileType c,cpp,py setlocal omnifunc=lsp#complete
+let g:asyncomplete_remove_duplicates = 1
+let g:lsp_async_completion = 1
+" let g:asyncomplete_auto_popup = 1
+
 " Onedark
 let g:onedark_termcolors = 256
-
-" Ultisnips
-let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
-inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 
 " Auto-pairs
 imap æ <alt-w>
@@ -337,29 +376,12 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <leader>gr <Plug>(go-run)
 au FileType go nmap <leader>gt <Plug>(go-test)
 
-" nvim-completion-manager
-if has('nvim')
-    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    let g:clang_library_path='/usr/local/opt/llvm/lib'
-    au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration)
-endif
+" asyncomplete
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
-" Clamp
-let g:clamp_libclang_file = '/usr/local/opt/llvm/lib/libclang.dylib'
-
-" YCM
-if !has('nvim')
-    let g:ycm_python_binary_path = '/usr/local/bin/python3'
-    let g:ycm_always_populate_location_list = 1
-    let g:ycm_show_diagnostics_ui = 0
-    let g:ycm_global_ycm_extra_conf = '/Users/david/temp/cpp/.ycm_extra_conf.py'
-    let g:ycm_confirm_extra_conf = 0
-endif
-
-" Jedi
-let g:jedi#show_call_signatures = "0"
-
+"
 " A (switch header/implementation)
 nnoremap <silent><leader>H :A<CR>
 nnoremap <silent><leader>HS :AS<CR>
