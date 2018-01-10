@@ -102,12 +102,11 @@ set undolevels=1000
 " Verbosity
 set noerrorbells
 set novisualbell
-set noshowmode
 set laststatus=2
 set shortmess+=I
 set showmatch
 set showcmd
-set cmdheight=2
+set cmdheight=1
 set colorcolumn=80
 set cursorline
 " Indent, case, tabs
@@ -527,16 +526,16 @@ augroup END
 " (https://medium.com/@kadek/the-last-statusline-for-vim-a613048959b2)
 "------------------------------------------------------------------------------
 let g:currentmode={
-    \ 'n'  : 'N ',
+    \ 'n'  : 'Normal ',
     \ 'no' : 'N·Operator Pending ',
-    \ 'v'  : 'V ',
+    \ 'v'  : 'Visual ',
     \ 'V'  : 'V·Line ',
     \ '^V' : 'V·Block ',
     \ 's'  : 'Select ',
     \ 'S'  : 'S·Line ',
     \ '^S' : 'S·Block ',
-    \ 'i'  : 'I ',
-    \ 'R'  : 'R ',
+    \ 'i'  : 'Insert ',
+    \ 'R'  : 'Replace ',
     \ 'Rv' : 'V·Replace ',
     \ 'c'  : 'Command ',
     \ 'cv' : 'Vim Ex ',
@@ -568,12 +567,10 @@ function! PasteForStatusline()
     endif
 endfunction
 
-set laststatus=2
 set statusline=
 set statusline+=\ %*
-" set statusline+=%0*\ %{toupper(g:currentmode[mode()])}
-set statusline+=\ \[%{mode(1)}\]
-" set statusline+=\ %n
+set statusline+=\ -\ %{g:currentmode[mode()]}-
+set statusline+=\ \(%n\)
 set statusline+=\ %c
 set statusline+=\|%p%%
 
@@ -583,6 +580,7 @@ set statusline+=\ %h
 set statusline+=\ %q
 set statusline+=\ %w
 set statusline+=\ %r
+set statusline+=\ %{tagbar#currenttag('%s',\ 'fs')}
 
 set statusline+=%{PasteForStatusline()}
 set statusline+=%=
