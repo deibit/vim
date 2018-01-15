@@ -13,7 +13,6 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/asyncomplete-buffer.vim'
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-" Plug 'ervandew/supertab'
 
 Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
@@ -33,18 +32,20 @@ Plug 'wellle/targets.vim'
 Plug 'michaeljsmith/vim-indent-object'
 
 " Plug 'haya14busa/incsearch.vim'
-" Plug 'jiangmiao/auto-pairs'                             " Autoclosing parents
-Plug 'cohama/lexima.vim'
+" Plug 'jiangmiao/auto-pairs'                             " Autoclosing parens
+Plug 'cohama/lexima.vim'                                " another autoclosing parens
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'tommcdo/vim-lion'                                 " Align text
 Plug 'tpope/vim-commentary'
 
 " Plugins related to improved the interface
-Plug 'luochen1990/rainbow'
+" Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-surround'                           " Parents operations
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 
 " Syntax related plugins
 Plug 'hdima/python-syntax'
@@ -100,6 +101,7 @@ set nobackup
 set nowritebackup
 set undolevels=1000
 " Verbosity
+set noshowmode
 set noerrorbells
 set novisualbell
 set laststatus=2
@@ -408,6 +410,10 @@ let g:ale_enabled = 0
 let g:ale_set_loclist = 1
 let g:ale_cpp_cpplint_options = "--filter=legal"
 let g:ale_sign_column_always = 1
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+hi ALEErrorSign    ctermfg=167 guifg=#fb4934 ctermbg=237
+hi ALEWarningSign  ctermfg=214 guifg=#fabd2f ctermbg=237
 nnoremap <silent><leader>c :lcl<cr>
 nnoremap <silent><leader>o :lop<cr>
 nnoremap <silent><leader>e :ALEToggle<cr>
@@ -569,7 +575,7 @@ endfunction
 
 set statusline=
 set statusline+=\ %*
-set statusline+=\ -\ %{g:currentmode[mode()]}-
+set statusline+=-\ %{g:currentmode[mode()]}-
 set statusline+=\ \(%n\)
 set statusline+=\ %c
 set statusline+=\|%p%%
@@ -580,11 +586,13 @@ set statusline+=\ %h
 set statusline+=\ %q
 set statusline+=\ %w
 set statusline+=\ %r
-set statusline+=\ %{tagbar#currenttag('%s',\ 'fs')}
 
 set statusline+=%{PasteForStatusline()}
 set statusline+=%=
 set statusline+=%1*\ %F
-set statusline+=\ %{LinterStatus()}
+set statusline+=\ >>
+set statusline+=\ %{tagbar#currenttag('%s','','fs')}
+set statusline+=%2*\ %{LinterStatus()}
 set statusline+=\ %*
 hi User1 guifg=#FF8000 guibg=#504945
+hi User2 guifg=#DEE511 guibg=#504945
