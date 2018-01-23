@@ -33,7 +33,7 @@ Plug 'michaeljsmith/vim-indent-object'
 
 " Plug 'haya14busa/incsearch.vim'
 " Plug 'jiangmiao/auto-pairs'                             " Autoclosing parens
-Plug 'cohama/lexima.vim'                                " another autoclosing parens
+" Plug 'cohama/lexima.vim'                                " another autoclosing parens
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'tommcdo/vim-lion'                                 " Align text
@@ -596,3 +596,14 @@ set statusline+=%2*\ %{LinterStatus()}
 set statusline+=\ %*
 hi User1 guifg=#FF8000 guibg=#504945
 hi User2 guifg=#DEE511 guibg=#504945
+
+" Autoclosing
+"-------------------------------------------------------------------------------
+inoremap (; ();<left><left>
+inoremap ( ()<left>
+inoremap {<cr> {<cr>}<esc>O
+inoremap (<cr> (<cr>)<esc>O
+inoremap [<cr> [<cr>]<esc>O
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ` ``<left>
