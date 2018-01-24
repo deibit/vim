@@ -17,11 +17,9 @@ Plug 'prabirshrestha/asyncomplete-buffer.vim'
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
 Plug 'majutsushi/tagbar'
-Plug 'rhysd/vim-clang-format'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'
 " Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
@@ -384,11 +382,6 @@ nnoremap <silent><leader>H :A<CR>
 nnoremap <silent><leader>HS :AS<CR>
 nnoremap <silent><leader>HV :AV<CR>
 
-" Ack
-if executable('ag')
-let g:ackprg = 'ag --vimgrep'
-endif
-
 " Ale
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -415,9 +408,6 @@ let g:ale_linters = {
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
-
-" Clangformat
-autocmd FileType c,cpp ClangFormatAutoEnable
 
 " Python syntax
 let python_highlight_all=1
@@ -615,3 +605,12 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 set grepprg=rg\ --vimgrep
 
 nnoremap <leader>r :Find <C-R><C-W><CR>
+
+" Clang-format
+"-------------------------------------------------------------------------------
+if executable('clang-format')
+    function! ClangFormatOnSave()
+        silent execute '%! clang-format'
+    endfunction
+    autocmd BufWritePre *.cpp call ClangFormatOnSave()
+endif
