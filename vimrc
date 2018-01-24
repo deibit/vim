@@ -1,31 +1,25 @@
 " PLUGINS----------------------------------------------------------------------
-
 if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
 else
     call plug#begin('~/.vim/bundle')
+    if !has('nvim')
+        Plug 'roxma/vim-hug-neovim-rpc'
+    endif
 endif
 
-" The Completion Suite
-"------------------------------------------------------------------------------
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-
+Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/ncm-clang'
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Temporaly deactivated (or not) plugins
 Plug 'fatih/vim-go'
-" Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
@@ -253,57 +247,19 @@ nnoremap U <c-r>
 " ); shortcut for C family languages
 au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 
+" DiffOrig
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
             \ | diffthis | wincmd p | diffthis
 nnoremap <leader>O :DiffOrig<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
 
-" LSP Clangd
-if executable('clangd')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-endif
+" Completion-manager
+"------------------------------------------------------------------------------
 
-if has('python3')
-    let g:UltiSnipsExpandTrigger="<c-e>"
-    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        \ 'name': 'ultisnips',
-        \ 'whitelist': ['*'],
-        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-        \ }))
-endif
-
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-
-call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': ['go'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ }))
-
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
-
-autocmd FileType c,cpp,py setlocal omnifunc=lsp#complete
-let g:asyncomplete_remove_duplicates = 1
-let g:lsp_async_completion = 1
-" let g:asyncomplete_auto_popup = 1
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " FZF
 "------------------------------------------------------------------------------
@@ -370,11 +326,6 @@ au FileType go nmap <leader>gb <Plug>(go-build)
 au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <leader>gr <Plug>(go-run)
 au FileType go nmap <leader>gt <Plug>(go-test)
-
-" asyncomplete
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 "
 " A (switch header/implementation)
@@ -558,10 +509,11 @@ endfunction
 
 set statusline=
 set statusline+=\ %*
-set statusline+=-\ %{g:currentmode[mode()]}-
-set statusline+=\ \(%n\)
+set statusline+=%2*-\ %{g:currentmode[mode()]}-
+set statusline+=%*
+" set statusline+=\ %n
 set statusline+=\ %c
-set statusline+=\|%p%%
+set statusline+=\:%p%%
 
 set statusline+=\ %y
 set statusline+=\ %m
@@ -579,6 +531,7 @@ set statusline+=%2*\ %{LinterStatus()}
 set statusline+=\ %*
 hi User1 guifg=#FF8000 guibg=#504945
 hi User2 guifg=#DEE511 guibg=#504945
+
 
 " Autoclosing
 "-------------------------------------------------------------------------------
