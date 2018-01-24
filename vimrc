@@ -6,6 +6,8 @@ else
     call plug#begin('~/.vim/bundle')
 endif
 
+" The Completion Suite
+"------------------------------------------------------------------------------
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -24,34 +26,29 @@ Plug 'mileszs/ack.vim'
 Plug 'honza/vim-snippets'
 
 " Temporaly deactivated (or not) plugins
-" Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 " Plug 'davidhalter/jedi-vim'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
 Plug 'michaeljsmith/vim-indent-object'
-
-" Plug 'haya14busa/incsearch.vim'
-" Plug 'jiangmiao/auto-pairs'                             " Autoclosing parens
-" Plug 'cohama/lexima.vim'                                " another autoclosing parens
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
+" Plug 'haya14busa/incsearch.vim'
 Plug 'tommcdo/vim-lion'                                 " Align text
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'                           " Parents operations
 
 " Plugins related to improved the interface
-" Plug 'luochen1990/rainbow'
-Plug 'tpope/vim-surround'                           " Parents operations
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
 
 " Syntax related plugins
 Plug 'hdima/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'elzr/vim-json'
 Plug 'jansenm/vim-cmake'
 Plug 'leafgarland/typescript-vim'
@@ -60,10 +57,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'xolox/vim-misc'
 
 " Themes
-" Plug 'altercation/vim-colors-solarized'
 " Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
-" Plug 'hzchirs/vim-material'
 " Plug 'joshdick/onedark.vim'
 
 call plug#end()
@@ -137,34 +132,46 @@ set titleold=0
 set ttimeoutlen=0
 set ttyfast
 if (has("termguicolors"))
-set termguicolors
+    set termguicolors
 endif
 
 " Wildmenu options
 set wildmenu
-set wildmode=longest,list,full
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so,*.pyc,node_modules
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 set wildignore+=*/tmp/,*.swp,*.zip
+set wildignore=*.a,*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.aux,*.out,*.toc " LaTeX intermediate files
+set wildignore+=*.DS_Store " OSX bullshit
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " binary images
+set wildignore+=*.luac " Lua byte code
+set wildignore+=migrations " Django migrations
+set wildignore+=*.orig " Merge resolution file
+set wildignore+=*.pdf,*.zip,*.so " binaries
+set wildignore+=*.pyc,*.pyo " Python byte code
+set wildignore+=*.spl " compiled spelling word lists
+set wildignore+=*.swp,*.bak " ignore these
+set wildignore+=*.sw? " Vim swap files
+set wildignore+=**/vendor " Ignore vendor directory
 set wildignorecase
+set wildmode=longest,list,full
 
 " Fold
 set foldmethod=marker
 
 " Colorscheme
-colorscheme gruvbox
 set background=dark
+colorscheme gruvbox
 
 " Use persistent history.
 if !isdirectory("/tmp/.vim-undo-dir")
     call mkdir("/tmp/.vim-undo-dir", "", 0700)
 endif
-
-set undodir=/tmp/.vim-undo-dir
 set undofile
+set undodir=/tmp/.vim-undo-dir
 
 " MAPPINGS---------------------------------------------------------------------
 
-" Goto the last edited file
+" Goto the last edited file with backspace
 nnoremap <BS> <C-^>
 
 " Move lines and blocks
@@ -187,7 +194,7 @@ inoremap jj <ESC>
 nnoremap Q <nop>
 nnoremap gQ <nop>
 
-" Turn off Highlight
+" Turn off Highlight (although, is not needed if nohl is set)
 nmap <silent><leader><cr> :noh<cr>
 
 " Some convenient shortcuts
@@ -227,9 +234,6 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
-" Toggle relative numbers
-nnoremap <silent><f11> :set relativenumber!<CR>
-
 " Window manipulation
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
@@ -250,10 +254,6 @@ nnoremap U <c-r>
 
 " ); shortcut for C family languages
 au FileType c,cpp,js inoremap ;; <esc>A;<cr>
-
-" Fast buffer browsing
-nnoremap <silent><c-h> :bp<cr>
-nnoremap <silent><c-l> :bn<cr>
 
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
             \ | diffthis | wincmd p | diffthis
@@ -307,14 +307,8 @@ let g:asyncomplete_remove_duplicates = 1
 let g:lsp_async_completion = 1
 " let g:asyncomplete_auto_popup = 1
 
-" Onedark
-let g:onedark_termcolors = 256
-
-" Auto-pairs
-imap æ <alt-w>
-let g:AutoPairsShortcutFastWrap = '<alt-w>'
-
 " FZF
+"------------------------------------------------------------------------------
 nnoremap <silent><leader>b :Buffers<cr>
 nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
 nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
@@ -343,12 +337,14 @@ let g:fzf_colors =
 \ 'spinner': ['fg', 'Label'],
 \ 'header':  ['fg', 'Comment'] }
 
-" Augmenting Ag with a preview window
-command! -bang -nargs=* Ag
-\ call fzf#vim#ag(<q-args>,
-\                 <bang>0 ? fzf#vim#with_preview('up:60%')
-\                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-\                 <bang>0)
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 
 " Vim-go
 let g:go_highlight_types = 1
@@ -392,10 +388,6 @@ nnoremap <silent><leader>HV :AV<CR>
 if executable('ag')
 let g:ackprg = 'ag --vimgrep'
 endif
-" nnoremap <leader>a :Ack! <cword><space>
-
-" Rainbow
-let g:rainbow_active = 1
 
 " Ale
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
@@ -553,6 +545,7 @@ let g:currentmode={
     \ 't'  : 'Terminal '
     \}
 
+
 function! LinterStatus() abort
    let l:counts = ale#statusline#Count(bufnr(''))
    let l:all_errors = l:counts.error + l:counts.style_error
@@ -604,6 +597,21 @@ inoremap ( ()<left>
 inoremap {<cr> {<cr>}<esc>O
 inoremap (<cr> (<cr>)<esc>O
 inoremap [<cr> [<cr>]<esc>O
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ` ``<left>
+
+" Ripgrep integration
+"-------------------------------------------------------------------------------
+
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+set grepprg=rg\ --vimgrep
+
+nnoremap <leader>r :Find <C-R><C-W><CR>
