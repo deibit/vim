@@ -3,18 +3,18 @@ if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
 else
     call plug#begin('~/.vim/bundle')
-    if !has('nvim')
-        Plug 'roxma/vim-hug-neovim-rpc'
-    endif
 endif
 
 Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/ncm-clang'
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Temporaly deactivated (or not) plugins
@@ -464,6 +464,7 @@ augroup END
 " Statusline configuration
 " (https://medium.com/@kadek/the-last-statusline-for-vim-a613048959b2)
 "------------------------------------------------------------------------------
+" [MODE]
 let g:currentmode={
     \ 'n'  : 'Normal ',
     \ 'no' : 'N·Operator Pending ',
@@ -485,8 +486,20 @@ let g:currentmode={
     \ '!'  : 'Shell ',
     \ 't'  : 'Terminal '
     \}
+"
+" Function: return current mode
+" abort -> function will abort soon as error detected
+function! ModeCurrent() abort
+    let l:modecurrent = mode()
+    " use get() -> fails safely, since ^V doesn't seem to register
+    " 3rd arg is used when return of mode() == 0, which is case with ^V
+    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
+    let l:modelist = toupper(get(g:currentmode, l:modecurrent, 'V·Block '))
+    let l:current_status_mode = l:modelist
+    return l:current_status_mode
+endfunction
 
-
+" [ALE]
 function! LinterStatus() abort
    let l:counts = ale#statusline#Count(bufnr(''))
    let l:all_errors = l:counts.error + l:counts.style_error
@@ -498,6 +511,7 @@ function! LinterStatus() abort
    \)
 endfunction
 
+" [PASTE]
 function! PasteForStatusline()
     let paste_status = &paste
     if paste_status == 1
@@ -509,12 +523,14 @@ endfunction
 
 set statusline=
 set statusline+=\ %*
-set statusline+=%2*-\ %{g:currentmode[mode()]}-
+set statusline+=%2*-\ %{ModeCurrent()}-
 set statusline+=%*
 " set statusline+=\ %n
 set statusline+=\ %c
 set statusline+=\:%p%%
-
+" set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
+" current time, when buffer saved
+" set statusline+=\ %{strftime('%R', getftime(expand('%')))}
 set statusline+=\ %y
 set statusline+=\ %m
 set statusline+=\ %h
