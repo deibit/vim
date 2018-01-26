@@ -7,9 +7,11 @@ endif
 
 Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/ncm-clang'
+Plug 'davidhalter/jedi-vim'
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -18,8 +20,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'honza/vim-snippets'
 
 " Temporaly deactivated (or not) plugins
-Plug 'fatih/vim-go'
-Plug 'davidhalter/jedi-vim'
+" Plug 'fatih/vim-go'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
@@ -37,20 +38,20 @@ Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
 
 " Syntax related plugins
-Plug 'hdima/python-syntax'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'pangloss/vim-javascript'
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'elzr/vim-json'
+Plug 'hdima/python-syntax'
 Plug 'jansenm/vim-cmake'
 Plug 'leafgarland/typescript-vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'pangloss/vim-javascript'
 
 " Misc. Plugins
 Plug 'xolox/vim-misc'
 
 " Themes
-" Plug 'sickill/vim-monokai'
 Plug 'morhetz/gruvbox'
+" Plug 'sickill/vim-monokai'
 " Plug 'joshdick/onedark.vim'
 
 call plug#end()
@@ -110,7 +111,7 @@ set tabstop=4
 set softtabstop=4
 " Windows
 set number
-set cot-=preview
+" set cot-=preview
 set lazyredraw
 set splitbelow
 set splitright
@@ -179,6 +180,12 @@ let g:mapleader = ","
 " Non-english keyboard tag navigation fix
 nnoremap <silent><leader>g <c-]>
 
+" quickfix quick navigation
+nnoremap <silent><leader>c :ccl<cr>
+nnoremap <silent><leader>o :cop<cr>
+nnoremap <silent><up> :cp<cr>
+nnoremap <silent><down> :cn<cr>
+
 " Fast escape
 inoremap jj <ESC>
 
@@ -192,12 +199,16 @@ nmap <silent><leader><cr> :noh<cr>
 " Some convenient shortcuts
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
+nnoremap <leader>3 o<esc>0i" <esc>79i-<esc>j
 
 " Get rid of ^M
 noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Fast saving
-nnoremap<leader>w :w<cr>
+nnoremap <leader>w :w<cr>
+
+" Buffer unload
+nnoremap <silent><leader>uu :bd<cr>
 
 " Copy-paste Windows fashioned
 imap <c-v> <esc>"*P}i
@@ -272,8 +283,10 @@ nnoremap <silent><leader>l :BLines<cr>
 nnoremap <silent><leader>t :Tags<cr>
 nnoremap <silent><leader>s :BTags<cr>
 nnoremap <silent><leader>m :Marks<cr>
+nnoremap <silent><leader>mm :Maps<cr>
 nnoremap <silent><leader>C :Commands<cr>
 nnoremap <silent><leader>h :History<cr>
+nnoremap <silent><leader>hh :Helptags<cr>
 nnoremap <silent><leader>S :Snippets<cr>
 
 "' Customize fzf colors to match your color scheme
@@ -334,6 +347,7 @@ nnoremap <silent><leader>HS :AS<CR>
 nnoremap <silent><leader>HV :AV<CR>
 
 " Ale
+nnoremap <silent><leader>e :ALEToggle<cr>
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 highlight clear ALEErrorSign
@@ -350,9 +364,6 @@ let g:ale_sign_error = '•'
 let g:ale_sign_warning = '•'
 hi ALEErrorSign    ctermfg=167 guifg=#fb4934 ctermbg=237
 hi ALEWarningSign  ctermfg=214 guifg=#fabd2f ctermbg=237
-nnoremap <silent><leader>c :lcl<cr>
-nnoremap <silent><leader>o :lop<cr>
-nnoremap <silent><leader>e :ALEToggle<cr>
 let g:ale_linters = {
 \   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
 \}
@@ -542,7 +553,7 @@ set statusline+=%{PasteForStatusline()}
 set statusline+=%=
 set statusline+=%1*\ %F
 set statusline+=\ >>
-set statusline+=\ %{tagbar#currenttag('%s','','fs')}
+set statusline+=\ %{tagbar#currenttag('%s','','f')}
 set statusline+=%2*\ %{LinterStatus()}
 set statusline+=\ %*
 hi User1 guifg=#FF8000 guibg=#504945
