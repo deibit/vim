@@ -13,6 +13,7 @@ if !has('nvim')
 endif
 
 Plug 'majutsushi/tagbar'
+" Plug 'lyuts/vim-rtags'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -130,7 +131,7 @@ endif
 
 " Wildmenu options
 set wildmenu
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.vscode/*
 set wildignore+=*/tmp/,*.swp,*.zip
 set wildignore=*.a,*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.aux,*.out,*.toc " LaTeX intermediate files
@@ -179,12 +180,6 @@ let g:mapleader = ","
 
 " Non-english keyboard tag navigation fix
 nnoremap <silent><leader>g <c-]>
-
-" quickfix quick navigation
-nnoremap <silent><leader>c :ccl<cr>
-nnoremap <silent><leader>o :cop<cr>
-nnoremap <silent><up> :cp<cr>
-nnoremap <silent><down> :cn<cr>
 
 " Fast escape
 inoremap jj <ESC>
@@ -355,9 +350,11 @@ highlight clear ALEWarningSign
 map <silent><c-p> <Plug>(ale_previous_wrap)
 map <silent><c-n> <Plug>(ale_next_wrap)
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_open_list = 1
 let g:ale_lint_on_enter = 0
 let g:ale_enabled = 0
 let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 1
 let g:ale_cpp_cpplint_options = "--filter=legal"
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '•'
@@ -590,7 +587,10 @@ nnoremap <leader>r :Find <C-R><C-W><CR>
 "-------------------------------------------------------------------------------
 if executable('clang-format')
     function! ClangFormatOnSave()
+        let l = line(".")
+        let c = col(".")
         silent execute '%! clang-format'
+        call cursor(l, c)
     endfunction
     autocmd BufWritePre *.cpp call ClangFormatOnSave()
 endif
