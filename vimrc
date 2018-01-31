@@ -5,30 +5,25 @@ else
     call plug#begin('~/.vim/bundle')
 endif
 
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/ncm-clang'
-Plug 'davidhalter/jedi-vim'
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator'
 Plug 'majutsushi/tagbar'
-" Plug 'lyuts/vim-rtags'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Temporaly deactivated (or not) plugins
 " Plug 'fatih/vim-go'
+" Plug 'haya14busa/incsearch.vim'
+" Plug 'SirVer/ultisnips'
+" Plug 'lyuts/vim-rtags'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
-" Plug 'haya14busa/incsearch.vim'
 Plug 'tommcdo/vim-lion'                                 " Align text
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'                           " Parents operations
@@ -232,6 +227,9 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
+" Update plugins
+nnoremap <silent><f11> :PlugUpdate<cr>
+
 " Window manipulation
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
@@ -259,6 +257,19 @@ command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
 nnoremap <leader>O :DiffOrig<cr>
 
 " PLUGINS-CONFIG---------------------------------------------------------------
+
+" YouCompleteMe
+"-------------------------------------------------------------------------------
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_python_binary_path = '/usr/local/bin/python2'
+nnoremap <leader>yt :YcmCompleter GetType<cr>
+nnoremap <leader>yp :YcmCompleter GetParent<cr>
+nnoremap <leader>yd :YcmCompleter GetDeclaration<cr>
+nnoremap <leader>yi :YcmCompleter GetDefinition<cr>
+nnoremap <leader>yy :YcmCompleter GoTo<cr>
+nnoremap <leader>yh :YcmCompleter GoToInclude<cr>
+nnoremap <leader>yD :YcmCompleter GoToDoc<cr>
+nnoremap <leader>yf :FixIt<cr>
 
 " Completion-manager
 "------------------------------------------------------------------------------
@@ -309,31 +320,31 @@ command! -bang -nargs=* Rg
 
 
 " Vim-go
-let g:go_highlight_types = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_interfaces = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_fmt_command = "goimports"
-let g:go_info_mode = 'guru'
-let g:go_list_type = "locationlist"
+" let g:go_highlight_types = 1
+" let g:go_highlight_extra_types = 1
+" let g:go_highlight_interfaces = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_structs = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_build_constraints = 1
+" let g:go_fmt_command = "goimports"
+" let g:go_info_mode = 'guru'
+" let g:go_list_type = "locationlist"
 
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
-au FileType go nmap <Leader>ge <Plug>(go-rename)
-au FileType go nmap <Leader>gi <Plug>(go-info)
-au FileType go nmap <Leader>gm <Plug>(go-implements)
-au FileType go nmap <Leader>gr <Plug>(go-rename)
-au FileType go nmap <Leader>gs <Plug>(go-def-split)
-au FileType go nmap <Leader>gv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gc <Plug>(go-coverage)
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gt <Plug>(go-test)
+" au FileType go nmap <Leader>gd <Plug>(go-doc)
+" au FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
+" au FileType go nmap <Leader>ge <Plug>(go-rename)
+" au FileType go nmap <Leader>gi <Plug>(go-info)
+" au FileType go nmap <Leader>gm <Plug>(go-implements)
+" au FileType go nmap <Leader>gr <Plug>(go-rename)
+" au FileType go nmap <Leader>gs <Plug>(go-def-split)
+" au FileType go nmap <Leader>gv <Plug>(go-def-vertical)
+" au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+" au FileType go nmap <leader>gb <Plug>(go-build)
+" au FileType go nmap <leader>gc <Plug>(go-coverage)
+" au FileType go nmap <leader>gr <Plug>(go-run)
+" au FileType go nmap <leader>gt <Plug>(go-test)
 
 "
 " A (switch header/implementation)
