@@ -12,11 +12,11 @@ Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 
 " Temporaly deactivated (or not) plugins
 " Plug 'fatih/vim-go'
 " Plug 'haya14busa/incsearch.vim'
-" Plug 'SirVer/ultisnips'
 " Plug 'lyuts/vim-rtags'
 
 " Plugins related to save moves
@@ -256,12 +256,20 @@ command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
             \ | diffthis | wincmd p | diffthis
 nnoremap <leader>O :DiffOrig<cr>
 
+" Cheats file
+nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
+
 " PLUGINS-CONFIG---------------------------------------------------------------
 
 " YouCompleteMe
 "-------------------------------------------------------------------------------
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_python_binary_path = '/usr/local/bin/python2'
+let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
+let g:ycm_complete_in_comments = 1 " Completion in comments
+let g:ycm_complete_in_strings = 1 " Completion in string
 nnoremap <leader>yt :YcmCompleter GetType<cr>
 nnoremap <leader>yp :YcmCompleter GetParent<cr>
 nnoremap <leader>yd :YcmCompleter GetDeclaration<cr>
@@ -270,6 +278,12 @@ nnoremap <leader>yy :YcmCompleter GoTo<cr>
 nnoremap <leader>yh :YcmCompleter GoToInclude<cr>
 nnoremap <leader>yD :YcmCompleter GoToDoc<cr>
 nnoremap <leader>yf :FixIt<cr>
+
+" https://code.djangoproject.com/wiki/UsingVimWithDjango
+let g:UltiSnipsExpandTrigger       = "<c-j>"
+let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
+let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on current file
 
 " Completion-manager
 "------------------------------------------------------------------------------
@@ -405,28 +419,6 @@ let g:used_javascript_libs = 'underscore,backbone,react,jquery'
 " Tagbar
 nnoremap <leader>T :TagbarToggle<cr>
 
-" MISC-------------------------------------------------------------------------
-"
-" Delete all ^M Windows line endings
-" :%s/^M$//g
-" But ^M has to be entered by Ctrl+v+Ctrl+m
-"
-" Yank all matches regex with grouping in a register
-" :%s/regex/\=setreg('A', submatch(0), 'V')/n
-" :%s/regex <--- possibly with grouping \(regex\)
-" .../\=setreg('register name', select group (number), 'V' = linewise
-" ... ... /n <--- sandbox, it won't actually make changes
-"
-" Write as sudo
-" :w !sudo tee %
-"
-" Load an hex version of buffer and revert back
-" :%!xxd
-" :%!xxd -r
-"
-" Fast format a json file or chunk
-" :%!python -m json.tool
-"
 " FUNCTIONS------------------------------------
 
 " Deletes trailing whitespaces on save
