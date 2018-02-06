@@ -20,3 +20,9 @@ Load an hex version of buffer and revert back
 Fast format a json file or chunk
 :%!python -m json.tool
 
+Sort and filter duplicates
+:sort u
+
+Grep IP addresses from commandline
+
+grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'

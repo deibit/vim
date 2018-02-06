@@ -32,6 +32,7 @@ Plug 'tpope/vim-surround'                           " Parents operations
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
+Plug 'deibit/scratch.vim'
 
 " Syntax related plugins
 Plug 'elzr/vim-json'
