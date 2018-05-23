@@ -26,3 +26,6 @@ Sort and filter duplicates
 Grep IP addresses from commandline
 
 grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
+
+** Format a XML document
+silent %!xmllint --encode UTF-8 --format -

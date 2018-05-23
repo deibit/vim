@@ -6,7 +6,7 @@ else
 endif
 
 Plug 'Valloric/YouCompleteMe'
-Plug 'rdnetto/YCM-Generator'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -33,6 +33,7 @@ Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'deibit/scratch.vim'
+Plug 'airblade/vim-gitgutter'
 
 " Syntax related plugins
 Plug 'elzr/vim-json'
@@ -234,13 +235,15 @@ nnoremap <silent><f11> :PlugUpdate<cr>
 " Window manipulation
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
-nnoremap <leader>x <c-w>c
+nnoremap <leader><leader>x <c-w>c
 
 " Moving through windows
-nnoremap <c-left> <c-w>h
-nnoremap <c-right> <c-w>l
-nnoremap <c-up> <c-w>k
-nnoremap <c-down> <c-w>j
+nnoremap <leader><leader> <c-w>
+
+" Replace this and next with .
+" Press 2n to skip and n to move to the next one
+nnoremap <leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
+nnoremap <leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 
 " Fast search!
 nnoremap <space> /
@@ -273,8 +276,8 @@ let g:ycm_complete_in_comments = 1 " Completion in comments
 let g:ycm_complete_in_strings = 1 " Completion in string
 nnoremap <leader>yt :YcmCompleter GetType<cr>
 nnoremap <leader>yp :YcmCompleter GetParent<cr>
-nnoremap <leader>yd :YcmCompleter GetDeclaration<cr>
-nnoremap <leader>yi :YcmCompleter GetDefinition<cr>
+nnoremap <leader>yd :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>yi :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>yy :YcmCompleter GoTo<cr>
 nnoremap <leader>yh :YcmCompleter GoToInclude<cr>
 nnoremap <leader>yD :YcmCompleter GoToDoc<cr>
@@ -303,8 +306,8 @@ nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>l :BLines<cr>
 nnoremap <silent><leader>t :Tags<cr>
 nnoremap <silent><leader>s :BTags<cr>
-nnoremap <silent><leader>m :Marks<cr>
-nnoremap <silent><leader>mm :Maps<cr>
+nnoremap <silent><leader>ma :Marks<cr>
+nnoremap <silent><leader>m :Maps<cr>
 nnoremap <silent><leader>C :Commands<cr>
 nnoremap <silent><leader>h :History<cr>
 nnoremap <silent><leader>hh :Helptags<cr>
@@ -552,22 +555,13 @@ set statusline+=\ %r
 
 set statusline+=%{PasteForStatusline()}
 set statusline+=%=
-set statusline+=%1*\ %F
+set statusline+=%1*\ %f
 set statusline+=\ >>
 set statusline+=\ %{tagbar#currenttag('%s','','f')}
 set statusline+=%2*\ %{LinterStatus()}
 set statusline+=\ %*
 hi User1 guifg=#FF8000 guibg=#504945
 hi User2 guifg=#DEE511 guibg=#504945
-
-
-" Autoclosing
-"-------------------------------------------------------------------------------
-inoremap (; ();<left><left>
-inoremap ( ()<left>
-inoremap {<cr> {<cr>}<esc>O
-inoremap (<cr> (<cr>)<esc>O
-inoremap [<cr> [<cr>]<esc>O
 
 " Ripgrep integration
 "-------------------------------------------------------------------------------
