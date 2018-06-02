@@ -15,7 +15,7 @@ Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 
 " Temporaly deactivated (or not) plugins
-" Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 " Plug 'haya14busa/incsearch.vim'
 " Plug 'lyuts/vim-rtags'
 
@@ -338,31 +338,31 @@ command! -bang -nargs=* Rg
 
 
 " Vim-go
-" let g:go_highlight_types = 1
-" let g:go_highlight_extra_types = 1
-" let g:go_highlight_interfaces = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_structs = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_build_constraints = 1
-" let g:go_fmt_command = "goimports"
-" let g:go_info_mode = 'guru'
-" let g:go_list_type = "locationlist"
+let g:go_highlight_types = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+let g:go_info_mode = 'guru'
+let g:go_list_type = "locationlist"
 
-" au FileType go nmap <Leader>gd <Plug>(go-doc)
-" au FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
-" au FileType go nmap <Leader>ge <Plug>(go-rename)
-" au FileType go nmap <Leader>gi <Plug>(go-info)
-" au FileType go nmap <Leader>gm <Plug>(go-implements)
-" au FileType go nmap <Leader>gr <Plug>(go-rename)
-" au FileType go nmap <Leader>gs <Plug>(go-def-split)
-" au FileType go nmap <Leader>gv <Plug>(go-def-vertical)
-" au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-" au FileType go nmap <leader>gb <Plug>(go-build)
-" au FileType go nmap <leader>gc <Plug>(go-coverage)
-" au FileType go nmap <leader>gr <Plug>(go-run)
-" au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
+au FileType go nmap <Leader>ge <Plug>(go-rename)
+au FileType go nmap <Leader>gi <Plug>(go-info)
+au FileType go nmap <Leader>gm <Plug>(go-implements)
+au FileType go nmap <Leader>gr <Plug>(go-rename)
+au FileType go nmap <Leader>gs <Plug>(go-def-split)
+au FileType go nmap <Leader>gv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <leader>gc <Plug>(go-coverage)
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <leader>gt <Plug>(go-test)
 
 "
 " A (switch header/implementation)
@@ -538,30 +538,45 @@ endfunction
 
 set statusline=
 set statusline+=\ %*
+" Mode
 set statusline+=%2*-\ %{ModeCurrent()}-
 set statusline+=%*
-" set statusline+=\ %n
-set statusline+=\ %c
-set statusline+=\:%p%%
-" set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
-" current time, when buffer saved
+" Buffer number
+" set statusline+=\ Buf:\ %n
+" Encoding
+set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
+" Current time, when buffer saved
 " set statusline+=\ %{strftime('%R', getftime(expand('%')))}
 set statusline+=\ %y
-set statusline+=\ %m
-set statusline+=\ %h
+" Help file
+"set statusline+=\ %h
 set statusline+=\ %q
 set statusline+=\ %w
+" Filename
+set statusline+=\ %f
+set statusline+=\ %m
+" Readonly
 set statusline+=\ %r
 
 set statusline+=%{PasteForStatusline()}
+" Right justified
 set statusline+=%=
-set statusline+=%1*\ %f
-set statusline+=\ >>
-set statusline+=\ %{tagbar#currenttag('%s','','f')}
+"set statusline+=%1*\ %f
+"set statusline+=\ >>
+set statusline+=%1*\ %{tagbar#currenttag('%s','','f')}
 set statusline+=%2*\ %{LinterStatus()}
+" Line, lines, percentage
+set statusline+=%3*\ %l
+set statusline+=\/%L\|%c%*
+" set statusline+=\:%p%%%*
 set statusline+=\ %*
+
+" Orange
 hi User1 guifg=#FF8000 guibg=#504945
+" Green
 hi User2 guifg=#DEE511 guibg=#504945
+" Pink
+hi User3 guifg=#EA7E93 guibg=#504945
 
 " Ripgrep integration
 "-------------------------------------------------------------------------------
