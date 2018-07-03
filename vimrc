@@ -7,6 +7,7 @@ endif
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'zchee/deoplete-clang'
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
@@ -77,8 +78,7 @@ set noautochdir
 set hidden
 set tags=./tags;,tags;
 " Mouse
-set clipboard^=unnamed
-set clipboard^=unnamedplus
+set clipboard=unnamedplus
 set mouse=a
 " Search
 set nohlsearch
@@ -127,7 +127,7 @@ set splitright
 set encoding=utf-8
 set t_Co=256
 set termencoding=utf-8
-set timeoutlen=500
+set timeoutlen=1000
 set title
 set titleold=0
 set ttimeoutlen=0
@@ -245,10 +245,6 @@ nnoremap <silent><f11> :PlugUpdate<cr>
 " Window manipulation
 nnoremap <leader>% :split<CR>
 nnoremap <leader>" :vsplit<CR>
-nnoremap <leader><leader>x <c-w>c
-
-" Moving through windows
-nnoremap <leader><leader> <c-w>
 
 " Replace this and next with .
 " Press 2n to skip and n to move to the next one
@@ -280,6 +276,9 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 "
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
+
+let g:deoplete#sources#clang#libclang_path = "/usr/local/lib/libclang.dylib"
+let g:deoplete#sources#clang#clang_header = "/usr/local/opt/llvm/include"
 
 " YouCompleteMe
 "-------------------------------------------------------------------------------
