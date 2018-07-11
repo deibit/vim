@@ -17,7 +17,6 @@ Plug 'zchee/deoplete-go'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'zchee/deoplete-jedi'
 
-"Plug 'Valloric/YouCompleteMe'
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -28,7 +27,6 @@ Plug 'SirVer/ultisnips'
 " Temporaly deactivated (or not) plugins
 Plug 'fatih/vim-go'
 " Plug 'haya14busa/incsearch.vim'
-" Plug 'lyuts/vim-rtags'
 
 " Plugins related to save moves
 Plug 'wellle/targets.vim'
@@ -40,6 +38,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'                           " Parents operations
 
 " Plugins related to improved the interface
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
@@ -175,12 +174,6 @@ set undodir=/tmp/.vim-undo-dir
 
 " Goto the last edited file with backspace
 nnoremap <BS> <C-^>
-
-" Move lines and blocks
-nnoremap <silent><c-k>   :<C-u>move-2<CR>==
-nnoremap <silent><c-j>   :<C-u>move+<CR>==
-xnoremap <silent><c-k>   :move-2<CR>gv=gv
-xnoremap <silent><c-j>   :move'>+<CR>gv=gv
 
 " Leader
 let mapleader = ","
