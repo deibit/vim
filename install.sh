@@ -1,4 +1,5 @@
-git clone https://github.com/deibit/vim
+# execute from $HOME/vim when you are done with git clone
+cd ..
 mv vim .vim
 ln -s .vim/vimrc .vimrc
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
