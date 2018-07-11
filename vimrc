@@ -78,7 +78,8 @@ set noautochdir
 set hidden
 set tags=./tags;,tags;
 " Mouse
-set clipboard=unnamedplus
+set clipboard+=unnamed
+set clipboard+=unnamedplus
 set mouse=a
 " Search
 set nohlsearch
@@ -243,8 +244,8 @@ nnoremap <silent><f12> :set invpaste<CR>
 nnoremap <silent><f11> :PlugUpdate<cr>
 
 " Window manipulation
-nnoremap <leader>% :split<CR>
-nnoremap <leader>" :vsplit<CR>
+nnoremap <leader>% :vsplit<CR>
+nnoremap <leader>" :split<CR>
 
 " Replace this and next with .
 " Press 2n to skip and n to move to the next one
