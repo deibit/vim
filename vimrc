@@ -6,16 +6,25 @@ else
 endif
 
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'zchee/deoplete-clang'
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'zchee/deoplete-clang'
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+  " Plug 'Shougo/deoplete.nvim'
+  " Plug 'roxma/nvim-yarp'
+  " Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'zchee/deoplete-go'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'zchee/deoplete-jedi'
+" Plug 'zchee/deoplete-go'
+" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" Plug 'zchee/deoplete-jedi'
+Plug 'lifepillar/vim-mucomplete'
+Plug 'davidhalter/jedi-vim'
+Plug 'Rip-Rip/clang_complete'
+set completeopt-=preview
+set completeopt+=menuone,noselect
+let g:clang_library_path = '/usr/local/opt/llvm/lib/libclang.dylib'
+let g:clang_user_options = '-std=c++1z'
+let g:clang_complete_auto = 1
+let g:mucomplete#enable_auto_at_startup = 1
 
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
@@ -219,7 +228,7 @@ vmap <Tab> >gv
 vmap <S-Tab> <gv
 
 " vimrc editing and sourcing
-noremap <leader>v :e! $MYVIMRC<CR>
+noremap <leader><leader>v :e! $MYVIMRC<CR>
 noremap <silent><leader>V :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " This command will allow us to save a file we don't have permission to save
@@ -237,8 +246,8 @@ nnoremap <silent><f12> :set invpaste<CR>
 nnoremap <silent><f11> :PlugUpdate<cr>
 
 " Window manipulation
-nnoremap <leader>% :vsplit<CR>
-nnoremap <leader>" :split<CR>
+nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>s :split<CR>
 
 " Replace this and next with .
 " Press 2n to skip and n to move to the next one
@@ -301,9 +310,9 @@ let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on cu
 " Completion-manager
 "------------------------------------------------------------------------------
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " FZF
 "------------------------------------------------------------------------------
@@ -314,7 +323,7 @@ nnoremap <silent><leader>f :Files<cr>
 nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>l :BLines<cr>
 nnoremap <silent><leader>t :Tags<cr>
-nnoremap <silent><leader>s :BTags<cr>
+nnoremap <silent><leader>B :BTags<cr>
 nnoremap <silent><leader>ma :Marks<cr>
 nnoremap <silent><leader>m :Maps<cr>
 nnoremap <silent><leader>C :Commands<cr>
@@ -575,9 +584,9 @@ set statusline+=%=
 set statusline+=%1*\ %{tagbar#currenttag('%s','','f')}
 set statusline+=%2*\ %{LinterStatus()}
 " Line, lines, percentage
-set statusline+=%3*\ %l
-set statusline+=\/%L\|%c%*
-" set statusline+=\:%p%%%*
+set statusline+=%*\ %l
+set statusline+=\/%L\ \|\ %c\ \|
+set statusline+=\ %p%%
 set statusline+=\ %*
 
 " Orange
