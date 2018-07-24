@@ -6,25 +6,27 @@ else
 endif
 
 if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Plug 'zchee/deoplete-clang'
 else
-  " Plug 'Shougo/deoplete.nvim'
-  " Plug 'roxma/nvim-yarp'
-  " Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
-" Plug 'zchee/deoplete-go'
-" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-" Plug 'zchee/deoplete-jedi'
-Plug 'lifepillar/vim-mucomplete'
-Plug 'davidhalter/jedi-vim'
+Plug 'zchee/deoplete-go'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'zchee/deoplete-jedi'
+" Plug 'lifepillar/vim-mucomplete'
+" Plug 'davidhalter/jedi-vim'
 Plug 'Rip-Rip/clang_complete'
 set completeopt-=preview
 set completeopt+=menuone,noselect
 let g:clang_library_path = '/usr/local/opt/llvm/lib/libclang.dylib'
 let g:clang_user_options = '-std=c++1z'
 let g:clang_complete_auto = 1
-let g:mucomplete#enable_auto_at_startup = 1
+" let g:mucomplete#enable_auto_at_startup = 1
+" imap <expr> <down> pumvisible() ? "\<plug>(MUcompleteExtendFwd)" : "\<down>"
+
 
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
@@ -47,7 +49,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'                           " Parents operations
 
 " Plugins related to improved the interface
-Plug 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
@@ -58,8 +60,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'elzr/vim-json'
 Plug 'hdima/python-syntax'
 Plug 'jansenm/vim-cmake'
-Plug 'leafgarland/typescript-vim'
-Plug 'octol/vim-cpp-enhanced-highlight'
+"Plug 'leafgarland/typescript-vim'
+Plug 'bfrg/vim-cpp-modern'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'pangloss/vim-javascript'
 
@@ -228,7 +230,7 @@ vmap <Tab> >gv
 vmap <S-Tab> <gv
 
 " vimrc editing and sourcing
-noremap <leader><leader>v :e! $MYVIMRC<CR>
+noremap <leader>v :e! $MYVIMRC<CR>
 noremap <silent><leader>V :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " This command will allow us to save a file we don't have permission to save
@@ -246,8 +248,12 @@ nnoremap <silent><f12> :set invpaste<CR>
 nnoremap <silent><f11> :PlugUpdate<cr>
 
 " Window manipulation
-nnoremap <leader>v :vsplit<CR>
-nnoremap <leader>s :split<CR>
+nnoremap <leader>" :vsplit<CR>
+nnoremap <leader>% :split<CR>
+nnoremap <c-left> <c-w>h
+nnoremap <c-down> <c-w>j
+nnoremap <c-up> <c-w>k
+nnoremap <c-right> <c-w>l
 
 " Replace this and next with .
 " Press 2n to skip and n to move to the next one
@@ -280,9 +286,6 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 
-let g:deoplete#sources#clang#libclang_path = "/usr/local/lib/libclang.dylib"
-let g:deoplete#sources#clang#clang_header = "/usr/local/opt/llvm/include"
-
 " YouCompleteMe
 "-------------------------------------------------------------------------------
 "let g:ycm_confirm_extra_conf = 0
@@ -301,7 +304,6 @@ let g:deoplete#sources#clang#clang_header = "/usr/local/opt/llvm/include"
 "nnoremap <leader>yD :YcmCompleter GoToDoc<cr>
 "nnoremap <leader>yf :FixIt<cr>
 
-" https://code.djangoproject.com/wiki/UsingVimWithDjango
 let g:UltiSnipsExpandTrigger       = "<c-j>"
 let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
@@ -310,9 +312,9 @@ let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on cu
 " Completion-manager
 "------------------------------------------------------------------------------
 
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " FZF
 "------------------------------------------------------------------------------
@@ -609,8 +611,8 @@ hi User3 guifg=#EA7E93 guibg=#504945
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-set grepprg=rg\ --vimgrep
+" command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+" set grepprg=rg\ --vimgrep
 
 nnoremap <leader>r :Find <C-R><C-W><CR>
 
