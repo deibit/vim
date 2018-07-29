@@ -1,4 +1,4 @@
-" PLUGINS----------------------------------------------------------------------
+" {{{ PLUGINS----------------------------------------------------------------------
 if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
 else
@@ -13,21 +13,11 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
 Plug 'zchee/deoplete-go'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'zchee/deoplete-jedi'
-" Plug 'lifepillar/vim-mucomplete'
-" Plug 'davidhalter/jedi-vim'
 Plug 'Rip-Rip/clang_complete'
-set completeopt-=preview
-set completeopt+=menuone,noselect
-let g:clang_library_path = '/usr/local/opt/llvm/lib/libclang.dylib'
-let g:clang_user_options = '-std=c++1z'
-let g:clang_complete_auto = 1
-" let g:mucomplete#enable_auto_at_startup = 1
-" imap <expr> <down> pumvisible() ? "\<plug>(MUcompleteExtendFwd)" : "\<down>"
-
-
 Plug 'majutsushi/tagbar'
 Plug 'deibit/a.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -49,12 +39,13 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'                           " Parents operations
 
 " Plugins related to improved the interface
-" Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'deibit/scratch.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'RRethy/vim-illuminate'
 
 " Syntax related plugins
 Plug 'elzr/vim-json'
@@ -63,7 +54,8 @@ Plug 'jansenm/vim-cmake'
 "Plug 'leafgarland/typescript-vim'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'pangloss/vim-javascript'
+Plug 'othree/yajs.vim'
+
 
 " Misc. Plugins
 Plug 'xolox/vim-misc'
@@ -75,7 +67,9 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-" SETTINGS--------------------------------------------------------------------
+" }}}
+
+" {{{ SETTINGS--------------------------------------------------------------------
 
 filetype on
 filetype indent on
@@ -181,7 +175,9 @@ endif
 set undofile
 set undodir=/tmp/.vim-undo-dir
 
-" MAPPINGS---------------------------------------------------------------------
+" }}}
+
+" {{{ MAPPINGS---------------------------------------------------------------------
 
 " Goto the last edited file with backspace
 nnoremap <BS> <C-^>
@@ -206,7 +202,8 @@ nmap <silent><leader><cr> :noh<cr>
 " Some convenient shortcuts
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
-nnoremap <leader>3 o<esc>0i" <esc>79i-<esc>j
+nnoremap <leader>3 o<esc>0i"<esc>79i-<esc>j
+
 
 " Get rid of ^M
 noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
@@ -250,10 +247,10 @@ nnoremap <silent><f11> :PlugUpdate<cr>
 " Window manipulation
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>% :split<CR>
-nnoremap <c-left> <c-w>h
-nnoremap <c-down> <c-w>j
-nnoremap <c-up> <c-w>k
-nnoremap <c-right> <c-w>l
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 
 " Replace this and next with .
 " Press 2n to skip and n to move to the next one
@@ -278,7 +275,9 @@ nnoremap <leader>O :DiffOrig<cr>
 " Cheats file
 nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 
-" PLUGINS-CONFIG---------------------------------------------------------------
+" }}}
+
+" {{{ PLUGINS-CONFIG---------------------------------------------------------------
 
 " Deoplete
 "-------------------------------------------------------------------------------
@@ -286,23 +285,11 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 
-" YouCompleteMe
-"-------------------------------------------------------------------------------
-"let g:ycm_confirm_extra_conf = 0
-"let g:ycm_python_binary_path = '/usr/local/bin/python2'
-"let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-"let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
-"let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
-"let g:ycm_complete_in_comments = 1 " Completion in comments
-"let g:ycm_complete_in_strings = 1 " Completion in string
-"nnoremap <leader>yt :YcmCompleter GetType<cr>
-"nnoremap <leader>yp :YcmCompleter GetParent<cr>
-"nnoremap <leader>yd :YcmCompleter GoToDeclaration<cr>
-"nnoremap <leader>yi :YcmCompleter GoToDefinition<cr>
-"nnoremap <leader>yy :YcmCompleter GoTo<cr>
-"nnoremap <leader>yh :YcmCompleter GoToInclude<cr>
-"nnoremap <leader>yD :YcmCompleter GoToDoc<cr>
-"nnoremap <leader>yf :FixIt<cr>
+set completeopt-=preview
+set completeopt+=menuone,noselect
+let g:clang_library_path = '/usr/local/opt/llvm/lib/libclang.dylib'
+let g:clang_user_options = '-std=c++1z'
+let g:clang_complete_auto = 1
 
 let g:UltiSnipsExpandTrigger       = "<c-j>"
 let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
@@ -408,11 +395,15 @@ let g:ale_cpp_cpplint_options = "--filter=legal"
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '•'
+let g:ale_fix_on_save = 1
+
 hi ALEErrorSign    ctermfg=167 guifg=#fb4934 ctermbg=237
 hi ALEWarningSign  ctermfg=214 guifg=#fabd2f ctermbg=237
 let g:ale_linters = {
 \   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
 \}
+let g:ale_fixers = {}
+let g:ale_fixers['javascript'] = ['prettier']
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -443,7 +434,9 @@ let g:used_javascript_libs = 'underscore,backbone,react,jquery'
 " Tagbar
 nnoremap <leader>T :TagbarToggle<cr>
 
-" FUNCTIONS------------------------------------
+" }}}
+
+" {{{ FUNCTIONS------------------------------------
 
 " Deletes trailing whitespaces on save
 "------------------------------------------------------------------------------
@@ -486,7 +479,7 @@ fun! CppRef()
         silent exec "!open '".s:url."'"
     endif
 endfun
-nmap <leader>q :call CppRef()<CR>
+nnoremap <leader>q :call CppRef()<CR>
 
 " Auto Relative Numbers Toggle
 "------------------------------------------------------------------------------
@@ -627,3 +620,5 @@ if executable('clang-format')
     endfunction
     autocmd BufWritePre *.cpp call ClangFormatOnSave()
 endif
+
+" }}}
