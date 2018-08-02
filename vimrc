@@ -77,7 +77,6 @@ syntax enable
 
 " Behaviour
 set autoread
-set noautochdir
 set hidden
 set tags=./tags;,tags;
 " Mouse
@@ -85,7 +84,7 @@ set clipboard+=unnamed
 set clipboard+=unnamedplus
 set mouse=a
 " Search
-set nohlsearch
+set hlsearch
 set ignorecase
 set incsearch
 set indentkeys-=0#
@@ -108,7 +107,6 @@ set laststatus=2
 set shortmess+=I
 set showmatch
 set showcmd
-set cmdheight=1
 set colorcolumn=80
 set cursorline
 " Indent, case, tabs
@@ -201,8 +199,6 @@ nmap <silent><leader><cr> :noh<cr>
 " Some convenient shortcuts
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
-nnoremap <leader>3 o<esc>0i"<esc>79i-<esc>j
-
 
 " Get rid of ^M
 noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
@@ -302,7 +298,6 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
-
 " vim-bookmarks
 "-------------------------------------------------------------------------------
 let g:bookmark_save_per_working_dir = 1
@@ -321,11 +316,11 @@ nnoremap <silent><leader>B :BTags<cr>
 nnoremap <silent><leader>ma :Marks<cr>
 nnoremap <silent><leader>m :Maps<cr>
 nnoremap <silent><leader>C :Commands<cr>
-nnoremap <silent><leader>h :History<cr>
-nnoremap <silent><leader>hh :Helptags<cr>
+nnoremap <silent><leader>hh :History<cr>
+nnoremap <silent><leader>h :Helptags<cr>
 nnoremap <silent><leader>S :Snippets<cr>
 
-"' Customize fzf colors to match your color scheme
+" Customize fzf colors to match your color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
 \ 'bg':      ['bg', 'Normal'],
@@ -401,7 +396,6 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '•'
 let g:ale_fix_on_save = 1
-
 hi ALEErrorSign    ctermfg=167 guifg=#fb4934 ctermbg=237
 hi ALEWarningSign  ctermfg=214 guifg=#fabd2f ctermbg=237
 let g:ale_linters = {
@@ -593,7 +587,7 @@ hi User3 guifg=#EA7E93 guibg=#504945
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-" command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 " set grepprg=rg\ --vimgrep
 
 nnoremap <leader>r :Find <C-R><C-W><CR>
