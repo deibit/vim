@@ -7,63 +7,62 @@ endif
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Plug 'zchee/deoplete-clang'
 else
   Plug 'Shougo/deoplete.nvim'
+  " Deoplete needs this to work in Vim
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+" Golang
 Plug 'zchee/deoplete-go'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'zchee/deoplete-jedi'
-Plug 'Rip-Rip/clang_complete'
-Plug 'majutsushi/tagbar'
-Plug 'deibit/a.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
-
-" Temporaly deactivated (or not) plugins
 Plug 'fatih/vim-go'
-" Plug 'haya14busa/incsearch.vim'
 
-" Plugins related to save moves
-Plug 'wellle/targets.vim'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'kana/vim-operator-user'
-Plug 'kana/vim-textobj-user'
-Plug 'tommcdo/vim-lion'                                 " Align text
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'                           " Parents operations
-
-" Plugins related to improved the interface
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'mbbill/undotree'
-Plug 'w0rp/ale'
-Plug 'tpope/vim-fugitive'
-Plug 'deibit/scratch.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'RRethy/vim-illuminate'
-
-" Syntax related plugins
+" Javascript
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'elzr/vim-json'
-Plug 'hdima/python-syntax'
-Plug 'jansenm/vim-cmake'
-"Plug 'leafgarland/typescript-vim'
-Plug 'bfrg/vim-cpp-modern'
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
 
+" Python
+Plug 'zchee/deoplete-jedi'
+Plug 'hdima/python-syntax'
 
-" Misc. Plugins
-Plug 'xolox/vim-misc'
+" C / C++
+Plug 'Rip-Rip/clang_complete'
+Plug 'jansenm/vim-cmake'
+Plug 'bfrg/vim-cpp-modern'
+" Change between header and implementation
+Plug 'deibit/a.vim'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'majutsushi/tagbar'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-textobj-user'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+" Better bookmarks
+Plug 'MattesGroeger/vim-bookmarks'
+" Better integration with tmux
+Plug 'christoomey/vim-tmux-navigator'
+" Better undo
+Plug 'mbbill/undotree'
+Plug 'w0rp/ale'
+" Scratch buffer (with gs)
+Plug 'deibit/scratch.vim'
+" Visually remark word under cursor
+Plug 'RRethy/vim-illuminate'
+
+" Plug 'xolox/vim-misc'
 
 " Themes
 Plug 'morhetz/gruvbox'
-" Plug 'sickill/vim-monokai'
-" Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -303,6 +302,12 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
+
+" vim-bookmarks
+"-------------------------------------------------------------------------------
+let g:bookmark_save_per_working_dir = 1
+let g:bookmark_auto_save = 1
+
 " FZF
 "------------------------------------------------------------------------------
 nnoremap <silent><leader>b :Buffers<cr>
@@ -412,24 +417,8 @@ nnoremap <leader>u :UndotreeToggle<cr>
 let python_highlight_all=1
 let python_highlight_space_errors=0
 
-" Vim incsearch
-" let g:incsearch#auto_nohlsearch = 1
-" let g:incsearch#do_not_save_error_message_history = 1
-" map /  <Plug>(incsearch-forward)
-" map ?  <Plug>(incsearch-backward)
-" map g/ <Plug>(incsearch-stay)
-" map n  <Plug>(incsearch-nohl-n)
-" map N  <Plug>(incsearch-nohl-N)
-" map *  <Plug>(incsearch-nohl-*)
-" map #  <Plug>(incsearch-nohl-#)
-" map g* <Plug>(incsearch-nohl-g*)
-" map g# <Plug>(incsearch-nohl-g#)
-
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-
-" Javascript-libraries-syntax
-let g:used_javascript_libs = 'underscore,backbone,react,jquery'
 
 " Tagbar
 nnoremap <leader>T :TagbarToggle<cr>
