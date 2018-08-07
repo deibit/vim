@@ -53,11 +53,19 @@ Plug 'MattesGroeger/vim-bookmarks'
 Plug 'christoomey/vim-tmux-navigator'
 " Better undo
 Plug 'mbbill/undotree'
+" Async Linting
+" https://github.com/w0rp/ale
 Plug 'w0rp/ale'
+" Async works
+" https://github.com/skywind3000/asyncrun.vim
+Plug 'skywind3000/asyncrun.vim'
 " Scratch buffer (with gs)
 Plug 'deibit/scratch.vim'
 " Visually remark word under cursor
 Plug 'RRethy/vim-illuminate'
+" Devdocs
+" https://github.com/rhysd/devdocs.vim
+Plug 'rhysd/devdocs.vim'
 
 " Plug 'xolox/vim-misc'
 
@@ -274,6 +282,13 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 
 " {{{ PLUGINS-CONFIG---------------------------------------------------------------
 
+" Devdocs
+"-------------------------------------------------------------------------------
+augroup plugin-devdocs
+  autocmd!
+  autocmd FileType c,cpp,python,js,go nmap <buffer>K <Plug>(devdocs-under-cursor)
+augroup END
+
 " Deoplete
 "-------------------------------------------------------------------------------
 "
@@ -297,6 +312,15 @@ let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on cu
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+
+" Asyncrun
+"------------------------------------------------------------------------------
+let g:asyncrun_open = 6
+nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+nnoremap <silent> <F6> :AsyncRun -cwd=<root> cmake . <cr>
+nnoremap <silent> <F9> :AsyncRun clang++ -std=c++1z -stdlib=libc++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
+
 
 " vim-bookmarks
 "-------------------------------------------------------------------------------
@@ -457,10 +481,11 @@ autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 "------------------------------------------------------------------------------
 fun! CppRef()
     let s:keyword = expand("<cword>")
-    let s:url = "http://en.cppreference.com/mwiki/index.php?title=Special:Search&search=" . s:keyword
+    let s:url = "http://en.cppreference.com/mwiki/index.php?title=Special:Search&search=std::" . s:keyword
     if s:url != ""
         silent exec "!open '".s:url."'"
     endif
+    redraw!
 endfun
 nnoremap <leader>q :call CppRef()<CR>
 
