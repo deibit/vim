@@ -5,34 +5,29 @@ else
     call plug#begin('~/.vim/bundle')
 endif
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  " Deoplete needs this to work in Vim
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
 " Golang
-Plug 'zchee/deoplete-go'
-Plug 'fatih/vim-go'
+" Plug 'zchee/deoplete-go'
+" Plug 'fatih/vim-go'
 
 " Javascript
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'elzr/vim-json'
-Plug 'othree/yajs.vim'
+" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" Plug 'elzr/vim-json'
+" Plug 'othree/yajs.vim'
 
 " Python
-Plug 'zchee/deoplete-jedi'
 Plug 'hdima/python-syntax'
 
 " C / C++
-Plug 'Rip-Rip/clang_complete'
+" YouCompleteMe
+" https://github.com/Valloric/YouCompleteMe
+Plug 'Valloric/YouCompleteMe'
+" https://github.com/jansenm/vim-cmake
 Plug 'jansenm/vim-cmake'
 Plug 'bfrg/vim-cpp-modern'
 " Change between header and implementation
 Plug 'deibit/a.vim'
+" Tags
+" Plug 'ludovicchabant/vim-gutentags'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -59,13 +54,13 @@ Plug 'w0rp/ale'
 " Async works
 " https://github.com/skywind3000/asyncrun.vim
 Plug 'skywind3000/asyncrun.vim'
-" Scratch buffer (with gs)
-Plug 'deibit/scratch.vim'
 " Visually remark word under cursor
 Plug 'RRethy/vim-illuminate'
 " Devdocs
 " https://github.com/rhysd/devdocs.vim
 Plug 'rhysd/devdocs.vim'
+" AutoPairs
+Plug 'jiangmiao/auto-pairs'
 
 " Plug 'xolox/vim-misc'
 
@@ -262,13 +257,9 @@ nnoremap <leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 
 " Fast search!
 nnoremap <space> /
-nnoremap <leader><space> ?
 
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
-
-" ); shortcut for C family languages
-au FileType c,cpp,js inoremap ;; <esc>A;<cr>
 
 " DiffOrig
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
@@ -285,42 +276,39 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 " Devdocs
 "-------------------------------------------------------------------------------
 augroup plugin-devdocs
-  autocmd!
-  autocmd FileType c,cpp,python,js,go nmap <buffer>K <Plug>(devdocs-under-cursor)
+    autocmd!
+    autocmd FileType c,cpp,python,js,go nmap <buffer>K <Plug>(devdocs-under-cursor)
 augroup END
 
-" Deoplete
+
+" YouCompleteMe
 "-------------------------------------------------------------------------------
-"
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
+let g:ycm_server_python_interpreter = '/usr/local/bin/python2.7'
+let g:ycm_confirm_extra_conf = 0
+augroup YouCompleteMe
+    autocmd!
+    autocmd FileType c,cpp nnoremap gd :YcmCompleter GoToDeclaration<cr>
+    autocmd FileType c,cpp nnoremap gD :YcmCompleter GoToDefinition<cr>
+    autocmd FileType c,cpp nnoremap gt :YcmCompleter GetType<cr>
+    autocmd FileType c,cpp nnoremap gp :YcmCompleter GetParent<cr>
+augroup END
 
-set completeopt-=preview
-set completeopt+=menuone,noselect
-let g:clang_library_path = '/usr/local/opt/llvm/lib/libclang.dylib'
-let g:clang_user_options = '-std=c++1z'
-let g:clang_complete_auto = 1
+" let g:UltiSnipsExpandTrigger       = "<c-j>"
+" let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
+" let g:UltiSnipsListSnippets        = "<c-k>"
 
-let g:UltiSnipsExpandTrigger       = "<c-j>"
-let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
-let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on current file
-
-" Completion-manager
+" Gutentags
 "------------------------------------------------------------------------------
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " Asyncrun
 "------------------------------------------------------------------------------
 let g:asyncrun_open = 6
 nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
-nnoremap <silent> <F6> :AsyncRun -cwd=<root> cmake . <cr>
+nnoremap <silent> <F8> :AsyncRun -cwd=<root> cmake . <cr>
 nnoremap <silent> <F9> :AsyncRun clang++ -std=c++1z -stdlib=libc++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
-
 
 " vim-bookmarks
 "-------------------------------------------------------------------------------
@@ -346,26 +334,26 @@ nnoremap <silent><leader>S :Snippets<cr>
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-\ 'bg':      ['bg', 'Normal'],
-\ 'hl':      ['fg', 'Comment'],
-\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-\ 'hl+':     ['fg', 'Statement'],
-\ 'info':    ['fg', 'PreProc'],
-\ 'prompt':  ['fg', 'Conditional'],
-\ 'pointer': ['fg', 'Exception'],
-\ 'marker':  ['fg', 'Keyword'],
-\ 'spinner': ['fg', 'Label'],
-\ 'header':  ['fg', 'Comment'] }
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
 
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
 
 
 " Vim-go
@@ -423,8 +411,8 @@ let g:ale_fix_on_save = 1
 hi ALEErrorSign    ctermfg=167 guifg=#fb4934 ctermbg=237
 hi ALEWarningSign  ctermfg=214 guifg=#fabd2f ctermbg=237
 let g:ale_linters = {
-\   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
-\}
+            \   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
+            \}
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 
@@ -460,9 +448,9 @@ autocmd FileType * autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespa
 " Return to last edit position when opening files (You want this!)
 "------------------------------------------------------------------------------
 autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal! g`\"" |
-        \ endif
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
 
 " Autosaving when leaving insert mode
 "------------------------------------------------------------------------------
@@ -492,9 +480,9 @@ nnoremap <leader>q :call CppRef()<CR>
 " Auto Relative Numbers Toggle
 "------------------------------------------------------------------------------
 augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
+    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
 augroup END
 
 " Statusline configuration
@@ -502,26 +490,26 @@ augroup END
 "------------------------------------------------------------------------------
 " [MODE]
 let g:currentmode={
-    \ 'n'  : 'Normal ',
-    \ 'no' : 'N·Operator Pending ',
-    \ 'v'  : 'Visual ',
-    \ 'V'  : 'V·Line ',
-    \ '^V' : 'V·Block ',
-    \ 's'  : 'Select ',
-    \ 'S'  : 'S·Line ',
-    \ '^S' : 'S·Block ',
-    \ 'i'  : 'Insert ',
-    \ 'R'  : 'Replace ',
-    \ 'Rv' : 'V·Replace ',
-    \ 'c'  : 'Command ',
-    \ 'cv' : 'Vim Ex ',
-    \ 'ce' : 'Ex ',
-    \ 'r'  : 'Prompt ',
-    \ 'rm' : 'More ',
-    \ 'r?': 'Confirm ',
-    \ '!'  : 'Shell ',
-    \ 't'  : 'Terminal '
-    \}
+            \ 'n'  : 'Normal ',
+            \ 'no' : 'N·Operator Pending ',
+            \ 'v'  : 'Visual ',
+            \ 'V'  : 'V·Line ',
+            \ '^V' : 'V·Block ',
+            \ 's'  : 'Select ',
+            \ 'S'  : 'S·Line ',
+            \ '^S' : 'S·Block ',
+            \ 'i'  : 'Insert ',
+            \ 'R'  : 'Replace ',
+            \ 'Rv' : 'V·Replace ',
+            \ 'c'  : 'Command ',
+            \ 'cv' : 'Vim Ex ',
+            \ 'ce' : 'Ex ',
+            \ 'r'  : 'Prompt ',
+            \ 'rm' : 'More ',
+            \ 'r?': 'Confirm ',
+            \ '!'  : 'Shell ',
+            \ 't'  : 'Terminal '
+            \}
 "
 " Function: return current mode
 " abort -> function will abort soon as error detected
@@ -537,14 +525,14 @@ endfunction
 
 " [ALE]
 function! LinterStatus() abort
-   let l:counts = ale#statusline#Count(bufnr(''))
-   let l:all_errors = l:counts.error + l:counts.style_error
-   let l:all_non_errors = l:counts.total - l:all_errors
-   return l:counts.total == 0 ? '' : printf(
-   \ 'W:%d E:%d',
-   \ l:all_non_errors,
-   \ l:all_errors
-   \)
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+    return l:counts.total == 0 ? '' : printf(
+                \ 'W:%d E:%d',
+                \ l:all_non_errors,
+                \ l:all_errors
+                \)
 endfunction
 
 " [PASTE]
