@@ -6,7 +6,6 @@ else
 endif
 
 " Golang
-" Plug 'zchee/deoplete-go'
 " Plug 'fatih/vim-go'
 
 " Javascript
@@ -61,8 +60,6 @@ Plug 'RRethy/vim-illuminate'
 Plug 'rhysd/devdocs.vim'
 " AutoPairs
 Plug 'jiangmiao/auto-pairs'
-
-" Plug 'xolox/vim-misc'
 
 " Themes
 Plug 'morhetz/gruvbox'
