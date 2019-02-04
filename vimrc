@@ -306,10 +306,10 @@ augroup END
 
 " YouCompleteMe
 "-------------------------------------------------------------------------------
-if has('unix')
-    let g:ycm_server_python_interpreter = '/usr/bin/python3'
-else
+if has('mac')
     let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
+else
+    let g:ycm_server_python_interpreter = '/usr/bin/python3'
 endif
 
 let g:ycm_confirm_extra_conf = 1
