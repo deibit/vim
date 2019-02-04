@@ -5,14 +5,6 @@ else
     call plug#begin('~/.vim/bundle')
 endif
 
-" Golang
-" Plug 'fatih/vim-go'
-
-" Javascript
-" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-" Plug 'elzr/vim-json'
-" Plug 'othree/yajs.vim'
-
 " Python
 Plug 'hdima/python-syntax'
 
@@ -44,7 +36,7 @@ Plug 'tpope/vim-surround'
 " Better bookmarks
 Plug 'MattesGroeger/vim-bookmarks'
 " Better integration with tmux
-Plug 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 " Better undo
 Plug 'mbbill/undotree'
 " Async Linting
@@ -60,6 +52,15 @@ Plug 'RRethy/vim-illuminate'
 Plug 'rhysd/devdocs.vim'
 " AutoPairs
 Plug 'jiangmiao/auto-pairs'
+" Sneak
+" https://github.com/justinmk/vim-sneak
+Plug 'justinmk/vim-sneak'
+" NERDtree
+" https://github.com/scrooloose/nerdtree
+Plug 'scrooloose/nerdtree'
+" NERDtree git plugin
+" https://github.com/Xuyuanp/nerdtree-git-plugin
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Themes
 Plug 'morhetz/gruvbox'
@@ -270,6 +271,31 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 
 " {{{ PLUGINS-CONFIG---------------------------------------------------------------
 
+" NERDtree
+"-------------------------------------------------------------------------------
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+" Close Vim if nerdtree is the only one page remainded
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Open nerdtree when Vim starts
+" autocmd vimenter * NERDTree
+" Show hidden files
+let NERDTreeShowHidden=1
+" Do not open other files in a Nerdtree buffer
+autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" | b# | endif
+
 " Devdocs
 "-------------------------------------------------------------------------------
 augroup plugin-devdocs
@@ -280,7 +306,7 @@ augroup END
 
 " YouCompleteMe
 "-------------------------------------------------------------------------------
-let g:ycm_server_python_interpreter = '/usr/local/bin/python2.7'
+let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
 let g:ycm_confirm_extra_conf = 0
 augroup YouCompleteMe
     autocmd!
