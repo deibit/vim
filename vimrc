@@ -306,8 +306,13 @@ augroup END
 
 " YouCompleteMe
 "-------------------------------------------------------------------------------
-let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
-let g:ycm_confirm_extra_conf = 0
+if has('unix')
+    let g:ycm_server_python_interpreter = '/usr/bin/python3'
+else
+    let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
+endif
+
+let g:ycm_confirm_extra_conf = 1
 augroup YouCompleteMe
     autocmd!
     autocmd FileType c,cpp nnoremap gd :YcmCompleter GoToDeclaration<cr>
