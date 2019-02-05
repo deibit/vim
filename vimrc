@@ -6,7 +6,7 @@ else
 endif
 
 " Golang
-" Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 
 " Javascript
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
