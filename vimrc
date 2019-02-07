@@ -5,6 +5,10 @@ else
     call plug#begin('~/.vim/bundle')
 endif
 
+if !has('mac')
+    Plug 'KabbAmine/zeavim.vim'
+endif
+
 " Golang
 Plug 'fatih/vim-go'
 
