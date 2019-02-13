@@ -183,7 +183,7 @@ if !isdirectory("/tmp/.vim-undo-dir")
     call mkdir("/tmp/.vim-undo-dir", "", 0700)
 endif
 set undofile
-set undodir=/tmp/.vim-undo-dir
+set undodir=/tmp/
 
 " }}}
 
