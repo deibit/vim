@@ -619,7 +619,7 @@ set statusline+=%2*\ %{LinterStatus()}
 set statusline+=%*\ %l
 set statusline+=\/%L\ \|\ %c\ \|
 set statusline+=\ %p%%
-set statusline+=\ %*
+set statusline+=\ %{FugitiveStatusline()}%*
 
 " Orange
 hi User1 guifg=#FF8000 guibg=#504945
