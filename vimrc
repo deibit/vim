@@ -360,7 +360,8 @@ let g:bookmark_auto_save = 1
 nnoremap <silent><leader>b :Buffers<cr>
 nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
 nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
-nnoremap <silent><leader>f :Files<cr>
+nnoremap <silent><leader>F :Files<cr>
+nnoremap <silent><leader>f :GFiles<cr>
 nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>l :BLines<cr>
 nnoremap <silent><leader>t :Tags<cr>
@@ -387,10 +388,10 @@ let g:fzf_colors =
             \ 'spinner': ['fg', 'Label'],
             \ 'header':  ['fg', 'Comment'] }
 
-" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-command! -bang -nargs=* Rg
+" Similarly, we can apply it to fzf#vim#grep:
+command! -bang -nargs=* Ag
             \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   'ag --column --line-number --no-heading --color '.shellescape(<q-args>), 1,
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)
@@ -627,7 +628,7 @@ hi User2 guifg=#DEE511 guibg=#504945
 " Pink
 hi User3 guifg=#EA7E93 guibg=#504945
 
-" Ripgrep integration
+" Ag integration
 "-------------------------------------------------------------------------------
 
 " --column: Show column number
@@ -635,13 +636,16 @@ hi User3 guifg=#EA7E93 guibg=#504945
 " --no-heading: Do not show file headings in results
 " --fixed-strings: Search term as a literal string
 " --ignore-case: Case insensitive search
-" --no-ignore: Do not respect .gitignore, etc...
 " --hidden: Search hidden files and folders
 " --follow: Follow symlinks
-" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-" set grepprg=rg\ --vimgrep
+command! -bang -nargs=* Find call fzf#vim#grep('ag --column --numbers --noheading --fixed-strings --ignore-case --hidden --follow --ignore ".git/*" --color '.shellescape(<q-args>), 1, <bang>0)
+
+if executable('ag')
+    let &grepprg = 'ag --nogroup --column'
+else
+    let &grepprg = 'grep -rn $* *'
+endif
 
 nnoremap <leader>r :Find <C-R><C-W><CR>
 
