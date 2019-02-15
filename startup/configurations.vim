@@ -36,8 +36,14 @@ augroup END
 if has('mac')
     let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
 else
-    let g:ycm_server_python_interpreter = '/usr/bin/python3'
+    " Here just for virtual enviroment of thethe
+    if hostname() == 'thethe'
+        let g:ycm_server_python_interpreter = '/home/david/thethe/thethe_env/bin/python3'
+    else
+        let g:ycm_server_python_interpreter = '/usr/bin/python3'
+    endif
 endif
+
 
 let g:ycm_confirm_extra_conf = 1
 augroup YouCompleteMe
