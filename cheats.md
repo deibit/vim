@@ -51,4 +51,6 @@ Good links
 
 [Using external tools with Vim](https://www.reddit.com/r/vim/comments/7bj837/favorite_console_tools_to_use_with_vim/)
 [Reddit's Vim Wiki](https://www.reddit.com/r/vim/wiki/index)
+[The Patient's Vimmer](http://romainl.github.io/the-patient-vimmer/)
+[Vi-improved](https://www.vi-improved.org/)
 
