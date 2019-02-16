@@ -44,3 +44,11 @@ Apply a macro in a range
 :3,15norm! @a
 
 Will apply macro in register 'a' from line 3 to line 15
+
+
+Good links
+==========
+
+[Using external tools with Vim](https://www.reddit.com/r/vim/comments/7bj837/favorite_console_tools_to_use_with_vim/)
+[Reddit's Vim Wiki](https://www.reddit.com/r/vim/wiki/index)
+
