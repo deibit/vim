@@ -8,8 +8,8 @@ set autoread
 set hidden
 set tags=./tags;,tags;
 " Mouse
-set clipboard+=unnamed
-set clipboard+=unnamedplus
+set clipboard^=unnamed
+" set clipboard+=unnamedplus
 set mouse=a
 " Search
 set hlsearch
@@ -43,7 +43,6 @@ set autoindent
 set expandtab
 set shiftwidth=4
 set smartcase
-set smartindent
 set smarttab
 set tabstop=4
 set softtabstop=4
