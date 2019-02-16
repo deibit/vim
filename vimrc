@@ -50,9 +50,6 @@ Plug 'MattesGroeger/vim-bookmarks'
 " Plug 'christoomey/vim-tmux-navigator'
 " Better undo
 Plug 'mbbill/undotree'
-" Async Linting
-" https://github.com/w0rp/ale
-Plug 'w0rp/ale'
 " Async works
 " https://github.com/skywind3000/asyncrun.vim
 Plug 'skywind3000/asyncrun.vim'

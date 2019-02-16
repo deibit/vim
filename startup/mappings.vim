@@ -16,7 +16,7 @@ nnoremap Q <nop>
 nnoremap gQ <nop>
 
 " Turn off Highlight (although, is not needed if nohl is set)
-nmap <silent><leader><cr> :noh<cr>
+nnoremap <silent><leader><cr> :noh<cr>
 
 " Some convenient shortcuts
 nnoremap <leader>1 yypVr=
@@ -32,16 +32,16 @@ nnoremap <leader>w :w<cr>
 nnoremap <silent><leader>uu :bd<cr>
 
 " Copy-paste Windows fashioned
-imap <c-v> <esc>"*P}i
-vmap <c-c> "*y<esc>
+inoremap <c-v> <esc>"*P}i
+vnoremap <c-c> "*y<esc>
 
 " Moving through wrapped lines
 nnoremap j gj
 nnoremap k gk
 
 " Use tab and s-tab for indenting blocks in Visual Mode
-vmap <Tab> >gv
-vmap <S-Tab> <gv
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
 
 " vimrc editing and sourcing
 noremap <leader>v :e! $MYVIMRC<CR>
@@ -79,11 +79,6 @@ nnoremap <space> /
 
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
-
-" DiffOrig
-command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
-            \ | diffthis | wincmd p | diffthis
-nnoremap <leader>O :DiffOrig<cr>
 
 " Cheats file
 nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>

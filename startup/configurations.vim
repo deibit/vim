@@ -54,11 +54,6 @@ augroup YouCompleteMe
     autocmd FileType c,cpp nnoremap gp :YcmCompleter GetParent<cr>
 augroup END
 
-" let g:UltiSnipsExpandTrigger       = "<c-j>"
-" let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
-" let g:UltiSnipsListSnippets        = "<c-k>"
-
 " Gutentags
 "------------------------------------------------------------------------------
 
@@ -78,21 +73,21 @@ let g:bookmark_auto_save = 1
 
 " FZF
 "------------------------------------------------------------------------------
-nnoremap <silent><leader>b :Buffers<cr>
-nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
 nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
-nnoremap <silent><leader>F :Files<cr>
-nnoremap <silent><leader>f :GFiles<cr>
-nnoremap <silent><leader>L :Lines<cr>
-nnoremap <silent><leader>l :BLines<cr>
-nnoremap <silent><leader>t :Tags<cr>
 nnoremap <silent><leader>B :BTags<cr>
-nnoremap <silent><leader>ma :Marks<cr>
-nnoremap <silent><leader>m :Maps<cr>
 nnoremap <silent><leader>C :Commands<cr>
-nnoremap <silent><leader>hh :History<cr>
-nnoremap <silent><leader>h :Helptags<cr>
+nnoremap <silent><leader>F :Files<cr>
+nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>S :Snippets<cr>
+nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
+nnoremap <silent><leader>b :Buffers<cr>
+nnoremap <silent><leader>f :GFiles<cr>
+nnoremap <silent><leader>h :Helptags<cr>
+nnoremap <silent><leader>hh :History<cr>
+nnoremap <silent><leader>l :BLines<cr>
+nnoremap <silent><leader>m :Maps<cr>
+nnoremap <silent><leader>ma :Marks<cr>
+nnoremap <silent><leader>t :Tags<cr>
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -119,15 +114,15 @@ command! -bang -nargs=* Ag
 
 
 " Vim-go
-let g:go_highlight_types = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_interfaces = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
 let g:go_info_mode = 'guru'
 let g:go_list_type = "locationlist"
 
@@ -150,33 +145,6 @@ au FileType go nmap <leader>gt <Plug>(go-test)
 nnoremap <silent><leader>H :A<CR>
 nnoremap <silent><leader>HS :AS<CR>
 nnoremap <silent><leader>HV :AV<CR>
-
-" Ale
-nnoremap <silent><leader>e :ALEToggle<cr>
-let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
-map <silent><c-p> <Plug>(ale_previous_wrap)
-map <silent><c-n> <Plug>(ale_next_wrap)
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_open_list = 1
-let g:ale_lint_on_enter = 0
-let g:ale_enabled = 0
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 1
-let g:ale_cpp_cpplint_options = "--filter=legal"
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = '•'
-let g:ale_sign_warning = '•'
-let g:ale_fix_on_save = 1
-hi ALEErrorSign    ctermfg=167 guifg=#fb4934 ctermbg=237
-hi ALEWarningSign  ctermfg=214 guifg=#fabd2f ctermbg=237
-let g:ale_linters = {
-            \   'cpp': ['clang', 'cppcheck', 'cpplint', 'clangcheck', 'clangtidy'],
-            \}
-let g:ale_fixers = {}
-let g:ale_fixers['javascript'] = ['prettier']
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<cr>

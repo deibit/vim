@@ -36,18 +36,6 @@ function! ModeCurrent() abort
     return l:current_status_mode
 endfunction
 
-" [ALE]
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-    return l:counts.total == 0 ? '' : printf(
-                \ 'W:%d E:%d',
-                \ l:all_non_errors,
-                \ l:all_errors
-                \)
-endfunction
-
 " [PASTE]
 function! PasteForStatusline()
     let paste_status = &paste
@@ -86,7 +74,6 @@ set statusline+=%=
 "set statusline+=%1*\ %f
 "set statusline+=\ >>
 set statusline+=%1*\ %{tagbar#currenttag('%s','','f')}
-set statusline+=%2*\ %{LinterStatus()}
 " Line, lines, percentage
 set statusline+=%*\ %l
 set statusline+=\/%L\ \|\ %c\ \|
