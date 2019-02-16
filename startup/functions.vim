@@ -64,10 +64,11 @@ augroup END
 command! -bang -nargs=* Find call fzf#vim#grep('ag --column --numbers --noheading --fixed-strings --ignore-case --hidden --follow --ignore ".git/*" --color '.shellescape(<q-args>), 1, <bang>0)
 
 if executable('ag')
-    let &grepprg = 'ag --nogroup --column'
+    set grepprg=ag\ --vimgrep\ $*
 else
-    let &grepprg = 'grep -rn $* *'
+    set grepprg=grep\ -rn\ $*\ *
 endif
+set grepformat=%f:%l:%c:%m
 
 nnoremap <leader>r :Find <C-R><C-W><CR>
 
