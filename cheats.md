@@ -53,4 +53,5 @@ Good links
 [Reddit's Vim Wiki](https://www.reddit.com/r/vim/wiki/index)
 [The Patient's Vimmer](http://romainl.github.io/the-patient-vimmer/)
 [Vi-improved](https://www.vi-improved.org/)
+[Power Of Vim](https://gist.github.com/ajh17)
 
