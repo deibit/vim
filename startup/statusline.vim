@@ -46,6 +46,7 @@ function! PasteForStatusline()
     endif
 endfunction
 
+" [START OF STATUSLINE]"
 set statusline=
 set statusline+=\ %*
 " Mode
@@ -79,7 +80,9 @@ set statusline+=%*\ %l
 set statusline+=\/%L\ \|\ %c\ \|
 set statusline+=\ %p%%
 set statusline+=\ %{FugitiveStatusline()}%*
+" [END OF STATUSLINE]"
 
+" [COLORS]
 " Orange
 hi User1 guifg=#FF8000 guibg=#504945
 " Green

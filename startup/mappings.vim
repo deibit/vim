@@ -68,11 +68,7 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
-
-" Replace this and next with .
-" Press 2n to skip and n to move to the next one
-nnoremap <leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
-nnoremap <leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+nnoremap <leader>c <c-w>c
 
 " Fast search!
 nnoremap <space> /

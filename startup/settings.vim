@@ -91,6 +91,9 @@ set foldmethod=marker
 " Colorscheme
 set background=dark
 colorscheme gruvbox
+if has('mac')
+    set termguicolors
+endif
 
 " Use persistent history.
 if !isdirectory("/tmp/.vim-undo-dir")

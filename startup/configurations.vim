@@ -16,12 +16,13 @@ let g:NERDTreeIndicatorMapCustom = {
 
 " Close Vim if nerdtree is the only one page remainded
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Open nerdtree when Vim starts
-" autocmd vimenter * NERDTree
 " Show hidden files
-let NERDTreeShowHidden=1
+" let NERDTreeShowHidden=1
 " Do not open other files in a Nerdtree buffer
 autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" | b# | endif
+"NerdTreeToggle
+nnoremap <leader>n :NERDTreeToggle<CR>
+
 
 " Devdocs
 "-------------------------------------------------------------------------------
@@ -54,15 +55,15 @@ augroup YouCompleteMe
     autocmd FileType c,cpp nnoremap gp :YcmCompleter GetParent<cr>
 augroup END
 
-" Gutentags
-"------------------------------------------------------------------------------
-
 
 " Asyncrun
 "------------------------------------------------------------------------------
 let g:asyncrun_open = 6
+"MAKE"
 nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+"CMAKE"
 nnoremap <silent> <F8> :AsyncRun -cwd=<root> cmake . <cr>
+"Single file compilation"
 nnoremap <silent> <F9> :AsyncRun clang++ -std=c++1z -stdlib=libc++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
 
@@ -76,12 +77,12 @@ let g:bookmark_auto_save = 1
 nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
 nnoremap <silent><leader>B :BTags<cr>
 nnoremap <silent><leader>C :Commands<cr>
-nnoremap <silent><leader>F :Files<cr>
+nnoremap <silent><leader>F :GFiles<cr>
 nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>S :Snippets<cr>
 nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
 nnoremap <silent><leader>b :Buffers<cr>
-nnoremap <silent><leader>f :GFiles<cr>
+nnoremap <silent><leader>f :Files<cr>
 nnoremap <silent><leader>h :Helptags<cr>
 nnoremap <silent><leader>hh :History<cr>
 nnoremap <silent><leader>l :BLines<cr>
@@ -126,19 +127,21 @@ let g:go_highlight_types = 1
 let g:go_info_mode = 'guru'
 let g:go_list_type = "locationlist"
 
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
-au FileType go nmap <Leader>ge <Plug>(go-rename)
-au FileType go nmap <Leader>gi <Plug>(go-info)
-au FileType go nmap <Leader>gm <Plug>(go-implements)
-au FileType go nmap <Leader>gr <Plug>(go-rename)
-au FileType go nmap <Leader>gs <Plug>(go-def-split)
-au FileType go nmap <Leader>gv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gc <Plug>(go-coverage)
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gt <Plug>(go-test)
+augroup Golang_mappings
+    autocmd!
+    autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
+    autocmd FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
+    autocmd FileType go nmap <Leader>ge <Plug>(go-rename)
+    autocmd FileType go nmap <Leader>gi <Plug>(go-info)
+    autocmd FileType go nmap <Leader>gm <Plug>(go-implements)
+    autocmd FileType go nmap <Leader>gr <Plug>(go-rename)
+    autocmd FileType go nmap <Leader>gs <Plug>(go-def-split)
+    autocmd FileType go nmap <Leader>gv <Plug>(go-def-vertical)
+    autocmd FileType go nmap <leader>gb <Plug>(go-build)
+    autocmd FileType go nmap <leader>gc <Plug>(go-coverage)
+    autocmd FileType go nmap <leader>gr <Plug>(go-run)
+    autocmd FileType go nmap <leader>gt <Plug>(go-test)
+augroup END
 
 "
 " A (switch header/implementation)
@@ -158,3 +161,31 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Tagbar
 nnoremap <leader>T :TagbarToggle<cr>
+
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }

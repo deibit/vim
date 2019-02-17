@@ -74,11 +74,12 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'junegunn/vim-easy-align'
 " Themes
 Plug 'morhetz/gruvbox'
+" Plug 'crusoexia/vim-monokai'
 
 call plug#end()
 
 source ~/.vim/startup/settings.vim
 source ~/.vim/startup/mappings.vim
 source ~/.vim/startup/configurations.vim
-source ~/.vim/startup/statusline.vim
 source ~/.vim/startup/functions.vim
+source ~/.vim/startup/statusline.vim
