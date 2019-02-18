@@ -82,8 +82,9 @@ set wildignore+=*.spl " compiled spelling word lists
 set wildignore+=*.swp,*.bak " ignore these
 set wildignore+=*.sw? " Vim swap files
 set wildignore+=**/vendor " Ignore vendor directory
-set wildignorecase
+set wildignore+=tags " tag files
 set wildmode=longest,list,full
+set wildignorecase
 
 " Fold
 set foldmethod=marker

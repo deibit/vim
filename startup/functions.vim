@@ -8,27 +8,27 @@ fun! <SID>StripTrailingWhitespaces()
     call winrestview(l:saved_winview)
     " call cursor(l, c)
 endfun
-autocmd FileType * autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd! FileType * autocmd! BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Return to last edit position when opening files (You want this!)
 "------------------------------------------------------------------------------
-autocmd BufReadPost *
+autocmd! BufReadPost *
             \ if line("'\"") > 0 && line("'\"") <= line("$") |
             \   exe "normal! g`\"" |
             \ endif
 
 " Autosaving when leaving insert mode
 "------------------------------------------------------------------------------
-autocmd InsertLeave * if expand('%') != '' | update | endif
+" autocmd! InsertLeave * if expand('%') != '' | update | endif
 
 " Make preview window close when leaving insert mode
 "------------------------------------------------------------------------------
-autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+autocmd! CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
 " HTML Config
 "------------------------------------------------------------------------------
-autocmd BufNewFile,BufReadPost *.html set filetype=html
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd! BufNewFile,BufReadPost *.html set filetype=html
+autocmd! FileType html set omnifunc=htmlcomplete#CompleteTags
 
 " cppreference (will open a browser with a search in www.cppreference.com)
 "------------------------------------------------------------------------------
@@ -81,5 +81,5 @@ if executable('clang-format')
         silent execute '%! clang-format'
         call cursor(l, c)
     endfunction
-    autocmd BufWritePre *.cpp call ClangFormatOnSave()
+    autocmd! BufWritePre *.cpp call ClangFormatOnSave()
 endif

@@ -189,3 +189,7 @@ let g:tagbar_type_go = {
 	\ 'ctagsbin'  : 'gotags',
 	\ 'ctagsargs' : '-sort -silent'
 \ }
+
+" Illuminati
+let g:Illuminate_ftblacklist = ['nerdtree']
+hi illuminatedWord cterm=underline gui=underline
