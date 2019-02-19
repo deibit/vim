@@ -64,11 +64,13 @@ nnoremap <silent><f11> :PlugUpdate<cr>
 " Window manipulation
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>% :split<CR>
-nnoremap <c-h> <c-w>h
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
+nnoremap <c-left> <c-w>h
+nnoremap <c-down> <c-w>j
+nnoremap <c-up> <c-w>k
+nnoremap <c-right> <c-w>l
 nnoremap <leader>c <c-w>c
+
+
 
 " Fast search!
 nnoremap <space> /
