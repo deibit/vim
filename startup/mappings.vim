@@ -58,9 +58,6 @@ nnoremap <silent> zk O<Esc>j
 " Toggle paste
 nnoremap <silent><f12> :set invpaste<CR>
 
-" Update plugins
-nnoremap <silent><f11> :PlugUpdate<cr>
-
 " Window manipulation
 nnoremap <leader>" :vsplit<CR>
 nnoremap <leader>% :split<CR>
@@ -70,7 +67,13 @@ nnoremap <c-up> <c-w>k
 nnoremap <c-right> <c-w>l
 nnoremap <leader>c <c-w>c
 
-
+" Move lines ala Sublime Text
+nnoremap [B :m .+1<CR>==
+nnoremap [A :m .-2<CR>==
+inoremap [B <Esc>:m .+1<CR>==gi
+inoremap [A <Esc>:m .-2<CR>==gi
+vnoremap [B :m '>+1<CR>gv=gv
+vnoremap [A :m '<-2<CR>gv=gv
 
 " Fast search!
 nnoremap <space> /
