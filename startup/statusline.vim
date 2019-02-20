@@ -36,7 +36,7 @@ function! ModeCurrent() abort
     return l:current_status_mode
 endfunction
 
-" [PASTE]
+" Paste: [PASTE]
 function! PasteForStatusline()
     let paste_status = &paste
     if paste_status == 1
