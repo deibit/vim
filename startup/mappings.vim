@@ -68,12 +68,21 @@ nnoremap <c-right> <c-w>l
 nnoremap <leader>c <c-w>c
 
 " Move lines ala Sublime Text
-nnoremap [B :m .+1<CR>==
-nnoremap [A :m .-2<CR>==
-inoremap [B <Esc>:m .+1<CR>==gi
-inoremap [A <Esc>:m .-2<CR>==gi
-vnoremap [B :m '>+1<CR>gv=gv
-vnoremap [A :m '<-2<CR>gv=gv
+if has('mac')
+    nnoremap [B :m .+1<CR>==
+    nnoremap [A :m .-2<CR>==
+    inoremap [B <Esc>:m .+1<CR>==gi
+    inoremap [A <Esc>:m .-2<CR>==gi
+    vnoremap [B :m '>+1<CR>gv=gv
+    vnoremap [A :m '<-2<CR>gv=gv
+else
+    nnoremap <A-down> :m .+1<CR>==
+    nnoremap <A-up> :m .-2<CR>==
+    inoremap <A-down> <Esc>:m .+1<CR>==gi
+    inoremap <A-up> <Esc>:m .-2<CR>==gi
+    vnoremap <A-down> :m '>+1<CR>gv=gv
+    vnoremap <A-up> :m '<-2<CR>gv=gv
+endif
 
 " Fast search!
 nnoremap <space> /
