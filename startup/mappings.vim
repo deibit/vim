@@ -40,12 +40,12 @@ nnoremap j gj
 nnoremap k gk
 
 " Use tab and s-tab for indenting blocks in Visual Mode
-vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
+xnoremap <  <gv
+xnoremap >  >gv
 
 " vimrc editing and sourcing
 noremap <leader>v :e! $MYVIMRC<CR>
-noremap <silent><leader>V :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+autocmd! BufWritePost $MYVIMRC source $MYVIMRC
 
 " This command will allow us to save a file we don't have permission to save
 " *after* we have already opened it. Super useful.

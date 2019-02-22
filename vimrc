@@ -71,6 +71,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " EasyAlign
 " https://github.com/junegunn/vim-easy-align
+Plug 'romainl/vim-qf'
 Plug 'junegunn/vim-easy-align'
 " Themes
 Plug 'morhetz/gruvbox'
