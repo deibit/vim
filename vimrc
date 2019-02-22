@@ -8,74 +8,42 @@ if !has('mac')
     Plug 'KabbAmine/zeavim.vim'
 endif
 
-" Golang
-Plug 'fatih/vim-go'
-
-" Javascript
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" Plug 'christoomey/vim-tmux-navigator'
+" Plug 'crusoexia/vim-monokai'
 " Plug 'elzr/vim-json'
-" Plug 'othree/yajs.vim'
-
-" Python
-Plug 'hdima/python-syntax'
-
-" C / C++
-" YouCompleteMe
-" https://github.com/Valloric/YouCompleteMe
-Plug 'Valloric/YouCompleteMe'
-" https://github.com/jansenm/vim-cmake
-Plug 'jansenm/vim-cmake'
-Plug 'bfrg/vim-cpp-modern'
-" Change between header and implementation
-Plug 'deibit/a.vim'
-" Tags
 " Plug 'ludovicchabant/vim-gutentags'
-
-" Git
+" Plug 'othree/yajs.vim'
+Plug 'MattesGroeger/vim-bookmarks'
+Plug 'RRethy/vim-illuminate'
+Plug 'SirVer/ultisnips'
+Plug 'Valloric/YouCompleteMe'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-
+Plug 'bfrg/vim-cpp-modern'
+Plug 'deibit/a.vim'
+Plug 'fatih/vim-go'
+Plug 'hdima/python-syntax'
+Plug 'honza/vim-snippets'
+Plug 'jansenm/vim-cmake'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'majutsushi/tagbar'
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
+Plug 'junegunn/vim-easy-align'
+Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-" Better bookmarks
-Plug 'MattesGroeger/vim-bookmarks'
-" Better integration with tmux
-" Plug 'christoomey/vim-tmux-navigator'
-" Better undo
+Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree'
-" Async works
-" https://github.com/skywind3000/asyncrun.vim
-Plug 'skywind3000/asyncrun.vim'
-" Visually remark word under cursor
-Plug 'RRethy/vim-illuminate'
-" Devdocs
-" https://github.com/rhysd/devdocs.vim
-Plug 'rhysd/devdocs.vim'
-" AutoPairs
-Plug 'jiangmiao/auto-pairs'
-" Sneak
-" https://github.com/justinmk/vim-sneak
-Plug 'justinmk/vim-sneak'
-" NERDtree
-" https://github.com/scrooloose/nerdtree
-Plug 'scrooloose/nerdtree'
-" NERDtree git plugin
-" https://github.com/Xuyuanp/nerdtree-git-plugin
-Plug 'Xuyuanp/nerdtree-git-plugin'
-" EasyAlign
-" https://github.com/junegunn/vim-easy-align
-Plug 'romainl/vim-qf'
-Plug 'junegunn/vim-easy-align'
-" Themes
 Plug 'morhetz/gruvbox'
-" Plug 'crusoexia/vim-monokai'
+Plug 'rhysd/devdocs.vim'
+Plug 'romainl/vim-cool'
+Plug 'romainl/vim-qf'
+Plug 'scrooloose/nerdtree'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
