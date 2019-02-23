@@ -44,6 +44,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'w0rp/ale'
 
 call plug#end()
 

@@ -89,3 +89,7 @@ hi User1 guifg=#FF8000 guibg=#504945
 hi User2 guifg=#DEE511 guibg=#504945
 " Pink
 hi User3 guifg=#EA7E93 guibg=#504945
+
+" Always dark-grey statusline
+autocmd! ColorScheme * highlight StatusLine ctermbg=darkgray cterm=NONE guibg=darkgray gui=NONE
+

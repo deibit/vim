@@ -15,10 +15,8 @@ set mouse=a
 set hlsearch
 set ignorecase
 set incsearch
-set indentkeys-=0#
 set magic
 set matchpairs+=<:>
-set matchtime=1
 " Backup
 set noswapfile
 set backupdir=/tmp
@@ -67,6 +65,8 @@ endif
 
 " Wildmenu options
 set wildmenu
+set wildmode=list:longest,full
+set wildignorecase
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.vscode/*
 set wildignore+=*/tmp/,*.swp,*.zip
 set wildignore+=*.a,*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
@@ -83,8 +83,6 @@ set wildignore+=*.swp,*.bak " ignore these
 set wildignore+=*.sw? " Vim swap files
 set wildignore+=**/vendor " Ignore vendor directory
 set wildignore+=tags " tag files
-set wildmode=longest,list,full
-set wildignorecase
 
 " Fold
 set foldmethod=marker
