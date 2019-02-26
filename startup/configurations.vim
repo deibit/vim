@@ -37,14 +37,12 @@ augroup END
 if has('mac')
     let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
 else
-    " Here just for virtual enviroment of thethe
-    if hostname() == 'thethe'
-        let g:ycm_server_python_interpreter = '/home/david/thethe/thethe_env/bin/python3'
-    else
-        let g:ycm_server_python_interpreter = '/usr/bin/python3'
-    endif
+    let g:ycm_server_python_interpreter = '/usr/bin/python3'
 endif
 
+if $THETHEENV == 'active'
+    let g:ycm_python_binary_path = 'python'
+endif
 
 let g:ycm_confirm_extra_conf = 1
 augroup YouCompleteMe

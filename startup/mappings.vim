@@ -9,7 +9,7 @@ let g:mapleader = ","
 nnoremap <silent><leader>g <c-]>
 
 " Fast escape
-inoremap jj <ESC>
+inoremap jk <ESC>
 
 " Nop some keys
 nnoremap Q <nop>

@@ -54,7 +54,7 @@ set splitright
 set encoding=utf-8
 set t_Co=256
 set termencoding=utf-8
-set timeoutlen=1000
+set timeoutlen=250
 set title
 set titleold=0
 set ttimeoutlen=0
@@ -77,7 +77,7 @@ set wildignore+=*.luac " Lua byte code
 set wildignore+=migrations " Django migrations
 set wildignore+=*.orig " Merge resolution file
 set wildignore+=*.pdf,*.zip,*.so " binaries
-set wildignore+=*.pyc,*.pyo " Python byte code
+set wildignore+=*.pyc,*.pyo,*/__pycache__/* " Python byte code
 set wildignore+=*.spl " compiled spelling word lists
 set wildignore+=*.swp,*.bak " ignore these
 set wildignore+=*.sw? " Vim swap files
