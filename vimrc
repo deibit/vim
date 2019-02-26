@@ -9,10 +9,7 @@ if !has('mac')
 endif
 
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-" Plug 'christoomey/vim-tmux-navigator'
-" Plug 'crusoexia/vim-monokai'
 " Plug 'elzr/vim-json'
-" Plug 'ludovicchabant/vim-gutentags'
 " Plug 'othree/yajs.vim'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'RRethy/vim-illuminate'
@@ -30,7 +27,6 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'majutsushi/tagbar'
