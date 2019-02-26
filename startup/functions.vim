@@ -93,5 +93,10 @@ augroup END
 
 " Smarter cursorline
 "-------------------------------------------------------------------------------
-autocmd InsertLeave,WinEnter * set cursorline
-autocmd InsertEnter,WinLeave * set nocursorline
+autocmd! InsertLeave,WinEnter * set cursorline
+autocmd! InsertEnter,WinLeave * set nocursorline
+
+" Change current directory
+"
+autocmd! BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
+

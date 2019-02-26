@@ -81,7 +81,7 @@ nnoremap <silent><leader>F :GFiles<cr>
 nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>S :Snippets<cr>
 nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
-nnoremap <silent><leader>b :Buffers<cr>
+nnoremap <silent><leader><leader> :Buffers<cr>
 nnoremap <silent><leader>f :Files<cr>
 nnoremap <silent><leader>h :Helptags<cr>
 nnoremap <silent><leader>hh :History<cr>
