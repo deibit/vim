@@ -194,3 +194,12 @@ hi illuminatedWord cterm=underline gui=underline
 
 " Vim-cool
 let g:CoolTotalMatches = 1
+
+" ALE
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\   'html': ['prettier'],
+\}
+" Notice: only current buffer 'b:'
+let b:ale_fix_on_save = 1

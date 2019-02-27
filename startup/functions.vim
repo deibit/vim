@@ -95,8 +95,3 @@ augroup END
 "-------------------------------------------------------------------------------
 autocmd! InsertLeave,WinEnter * set cursorline
 autocmd! InsertEnter,WinLeave * set nocursorline
-
-" Change current directory
-"
-autocmd! BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
-
