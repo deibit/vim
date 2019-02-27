@@ -203,3 +203,6 @@ let g:ale_fixers = {
 \}
 " Notice: only current buffer 'b:'
 let b:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
+
+

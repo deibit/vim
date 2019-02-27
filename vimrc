@@ -2,6 +2,7 @@ if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
 else
     call plug#begin('~/.vim/bundle')
+    Plug 'Valloric/YouCompleteMe'
 endif
 
 if !has('mac')
@@ -14,7 +15,6 @@ endif
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'RRethy/vim-illuminate'
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'bfrg/vim-cpp-modern'
