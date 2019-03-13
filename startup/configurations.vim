@@ -65,10 +65,12 @@ nnoremap <silent> <F8> :AsyncRun -cwd=<root> cmake . <cr>
 nnoremap <silent> <F9> :AsyncRun clang++ -std=c++1z -stdlib=libc++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
 
+
 " vim-bookmarks
 "-------------------------------------------------------------------------------
 let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
+
 
 " FZF
 "------------------------------------------------------------------------------
@@ -143,21 +145,30 @@ augroup END
 
 "
 " A (switch header/implementation)
+"-------------------------------------------------------------------------------
 nnoremap <silent><leader>H :A<CR>
 nnoremap <silent><leader>HS :AS<CR>
 nnoremap <silent><leader>HV :AV<CR>
 
+
 " Undotree
+"-------------------------------------------------------------------------------
 nnoremap <leader>u :UndotreeToggle<cr>
 
+
 " Python syntax
+"-------------------------------------------------------------------------------
 let python_highlight_all=1
 let python_highlight_space_errors=0
 
+
 " Markdown
+"-------------------------------------------------------------------------------
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+
 " Tagbar
+"-------------------------------------------------------------------------------
 nnoremap <leader>T :TagbarToggle<cr>
 
 let g:tagbar_type_go = {
@@ -188,21 +199,58 @@ let g:tagbar_type_go = {
 	\ 'ctagsargs' : '-sort -silent'
 \ }
 
+
 " Illuminati
+"-------------------------------------------------------------------------------
 let g:Illuminate_ftblacklist = ['nerdtree']
 hi illuminatedWord cterm=underline gui=underline
 
+
 " Vim-cool
+"-------------------------------------------------------------------------------
 let g:CoolTotalMatches = 1
 
+
 " ALE
+"-------------------------------------------------------------------------------
+
+
+
+" Only run explicit linters
+let g:ale_linters_explicit = 1
+
+" Fixers
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'css': ['prettier'],
 \   'html': ['prettier'],
 \}
-" Notice: only current buffer 'b:'
-let b:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
+let g:ale_fix_on_save = 1
+
+" Aliases for Vue
+let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+let g:ale_linters = {'vue': ['eslint', 'vls']}
+
+" Linters
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'css': ['eslint'],
+\   'html': ['eslint'],
+\   'python': ['pylint'],
+\}
+let g:ale_lint_on_save = 1
+
+let g:ale_pattern_options_enabled = 1
+" Do not lint or fix minified files
+let g:ale_pattern_options = {
+\ '\.min\.js$': {'ale_linters': [], 'ale_fixers': []},
+\ '\.min\.css$': {'ale_linters': [], 'ale_fixers': []},
+\}
 
 
+" ListToggle
+"-------------------------------------------------------------------------------
+
+let g:lt_location_list_toggle_map = '<leader>z'
+let g:lt_quickfix_list_toggle_map = '<leader>x'
+let g:lt_height = 10

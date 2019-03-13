@@ -2,7 +2,6 @@ if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
 else
     call plug#begin('~/.vim/bundle')
-    Plug 'Valloric/YouCompleteMe'
 endif
 
 if !has('mac')
@@ -12,6 +11,8 @@ endif
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 " Plug 'elzr/vim-json'
 " Plug 'othree/yajs.vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/ListToggle'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'RRethy/vim-illuminate'
 Plug 'SirVer/ultisnips'
