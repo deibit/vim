@@ -54,7 +54,7 @@ set splitright
 set encoding=utf-8
 set t_Co=256
 set termencoding=utf-8
-set timeoutlen=250
+set timeoutlen=500
 set title
 set titleold=0
 set ttimeoutlen=0

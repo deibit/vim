@@ -1,3 +1,8 @@
+" Vim autopairs
+"
+let g:AutoPairsShortcutFastWrap='<c-e>'
+
+"
 " NERDtree
 "-------------------------------------------------------------------------------
 
@@ -40,10 +45,6 @@ else
     let g:ycm_server_python_interpreter = '/usr/bin/python3'
 endif
 
-if $THETHEENV == 'active'
-    let g:ycm_python_binary_path = 'python'
-endif
-
 let g:ycm_confirm_extra_conf = 1
 augroup YouCompleteMe
     autocmd!
@@ -64,12 +65,6 @@ nnoremap <silent> <F8> :AsyncRun -cwd=<root> cmake . <cr>
 "Single file compilation"
 nnoremap <silent> <F9> :AsyncRun clang++ -std=c++1z -stdlib=libc++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
-
-
-" vim-bookmarks
-"-------------------------------------------------------------------------------
-let g:bookmark_save_per_working_dir = 1
-let g:bookmark_auto_save = 1
 
 
 " FZF
