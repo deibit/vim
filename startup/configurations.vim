@@ -209,8 +209,6 @@ let g:CoolTotalMatches = 1
 " ALE
 "-------------------------------------------------------------------------------
 
-
-
 " Only run explicit linters
 let g:ale_linters_explicit = 1
 
@@ -219,6 +217,7 @@ let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'css': ['prettier'],
 \   'html': ['prettier'],
+\   'python': ['autopep8'],
 \}
 let g:ale_fix_on_save = 1
 
@@ -227,11 +226,11 @@ let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
 let g:ale_linters = {'vue': ['eslint', 'vls']}
 
 " Linters
-let g:ale_fixers = {
+let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'css': ['eslint'],
 \   'html': ['eslint'],
-\   'python': ['pylint'],
+\   'python': ['autopep8'],
 \}
 let g:ale_lint_on_save = 1
 

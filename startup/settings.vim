@@ -9,7 +9,9 @@ set hidden
 set tags=./tags;,tags;
 " Mouse
 set clipboard^=unnamed
-" set clipboard+=unnamedplus
+if !has('mac')
+    set clipboard+=unnamedplus
+endif
 set mouse=a
 " Search
 set hlsearch
