@@ -17,6 +17,7 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'fszymanski/fzf-quickfix'
 Plug 'skywind3000/asyncrun.vim'
 
 " Javascript
@@ -36,13 +37,12 @@ Plug 'fatih/vim-go'
 
 " GUI
 Plug 'RRethy/vim-illuminate'
-Plug 'Valloric/ListToggle'
 Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree'
 Plug 'romainl/vim-cool'
-Plug 'romainl/vim-qf'
 Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
+Plug 'matze/vim-move'
 
 " Git
 Plug 'Xuyuanp/nerdtree-git-plugin'

@@ -1,3 +1,10 @@
+" vim-mode
+"
+let g:move_key_modifier = 'C'
+
+" fzf_quickfix
+let g:fzf_quickfix_syntax_on = 0
+"
 " Vim autopairs
 "
 let g:AutoPairsShortcutFastWrap='<c-e>'
@@ -26,7 +33,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Do not open other files in a Nerdtree buffer
 autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" | b# | endif
 "NerdTreeToggle
-nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>N :NERDTreeToggle<CR>
 
 
 " Devdocs
@@ -205,12 +212,13 @@ hi illuminatedWord cterm=underline gui=underline
 "-------------------------------------------------------------------------------
 let g:CoolTotalMatches = 1
 
-
 " ALE
 "-------------------------------------------------------------------------------
 
 " Only run explicit linters
 let g:ale_linters_explicit = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
 
 " Fixers
 let g:ale_fixers = {
@@ -230,7 +238,7 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'css': ['eslint'],
 \   'html': ['eslint'],
-\   'python': ['autopep8'],
+\   'python': ['pylint'],
 \}
 let g:ale_lint_on_save = 1
 
@@ -240,11 +248,3 @@ let g:ale_pattern_options = {
 \ '\.min\.js$': {'ale_linters': [], 'ale_fixers': []},
 \ '\.min\.css$': {'ale_linters': [], 'ale_fixers': []},
 \}
-
-
-" ListToggle
-"-------------------------------------------------------------------------------
-
-let g:lt_location_list_toggle_map = '<leader>z'
-let g:lt_quickfix_list_toggle_map = '<leader>x'
-let g:lt_height = 10

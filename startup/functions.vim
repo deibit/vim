@@ -40,7 +40,7 @@ fun! CppRef()
     endif
     redraw!
 endfun
-nnoremap <leader>q :call CppRef()<CR>
+nnoremap <leader>x :call CppRef()<CR>
 
 " Auto Relative Numbers Toggle
 "------------------------------------------------------------------------------
