@@ -44,8 +44,8 @@ set expandtab
 set shiftwidth=4
 set smartcase
 set smarttab
-set tabstop=4
-set softtabstop=4
+" set tabstop=4
+" set softtabstop=4
 " Windows
 set number
 " set cot-=preview
