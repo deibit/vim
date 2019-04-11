@@ -62,8 +62,8 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-source ~/.vim/startup/settings.vim
-source ~/.vim/startup/mappings.vim
-source ~/.vim/startup/configurations.vim
-source ~/.vim/startup/functions.vim
-source ~/.vim/startup/statusline.vim
+"~/.vim/plugin/settings.vim         Vim settings
+"~/.vim/plugin/mappings.vim         Mappings (excluing Plugins)
+"~/.vim/plugin/configurations.vim   Plugin configuration
+"~/.vim/plugin/functions.vim        Custom functions
+"~/.vim/plugin/statusline.vim       Statusline
