@@ -1,3 +1,6 @@
+let mapleader = ","
+let g:mapleader = ","
+
 " vim-mode
 "
 let g:move_key_modifier = 'C'

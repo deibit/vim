@@ -45,6 +45,19 @@ Apply a macro in a range
 
 Will apply macro in register 'a' from line 3 to line 15
 
+Clean a register
+================
+
+:exec setreg('<register>', [])
+
+Clean all registers
+===================
+
+let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+for r in regs
+  call setreg(r, [])
+endfor
+
 
 Good links
 ==========
