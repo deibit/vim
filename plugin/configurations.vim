@@ -208,7 +208,8 @@ let g:tagbar_type_go = {
 " Illuminati
 "-------------------------------------------------------------------------------
 let g:Illuminate_ftblacklist = ['nerdtree']
-hi illuminatedWord cterm=underline gui=underline
+" hi illuminatedWord cterm=underline gui=underline
+let g:Illuminate_highlightUnderCursor = 0
 
 
 " Vim-cool
