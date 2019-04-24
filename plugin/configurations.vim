@@ -1,12 +1,13 @@
 let mapleader = ","
 let g:mapleader = ","
 
+" Bdelete a buffer without closing Vim or window layout
+nnoremap <leader>bd :Bdelete<cr>
+
 " vim-mode
 "
 let g:move_key_modifier = 'C'
 
-" fzf_quickfix
-let g:fzf_quickfix_syntax_on = 0
 "
 " Vim autopairs
 "
@@ -118,6 +119,8 @@ command! -bang -nargs=* Ag
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)
 
+" fzf_quickfix
+let g:fzf_quickfix_syntax_on = 0
 
 " Vim-go
 let g:go_fmt_command = "goimports"
@@ -208,7 +211,6 @@ let g:tagbar_type_go = {
 " Illuminati
 "-------------------------------------------------------------------------------
 let g:Illuminate_ftblacklist = ['nerdtree']
-" hi illuminatedWord cterm=underline gui=underline
 let g:Illuminate_highlightUnderCursor = 0
 
 

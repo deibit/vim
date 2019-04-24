@@ -67,3 +67,4 @@ call plug#end()
 "~/.vim/plugin/configurations.vim   Plugin configuration
 "~/.vim/plugin/functions.vim        Custom functions
 "~/.vim/plugin/statusline.vim       Statusline
+"~/.vim/plugin/bbye.vim             Bdelete and Bwipeout buffer
