@@ -1,0 +1,6 @@
+Cambiar el mapeo de plugins de:
+    nnoremap <leader>x :Comando<cr>
+
+a
+
+    nnoremap <leader>x <Plug>(plugin-comando)
