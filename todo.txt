@@ -4,3 +4,5 @@ Cambiar el mapeo de plugins de:
 a
 
     nnoremap <leader>x <Plug>(plugin-comando)
+
+https://www.reddit.com/r/vim/comments/bgf3zt/why_should_i_use_plug_in_my_mappings_instead_of/
