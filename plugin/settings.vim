@@ -54,7 +54,6 @@ set splitbelow
 set splitright
 " Terminal
 set encoding=utf-8
-set t_Co=256
 set termencoding=utf-8
 set timeoutlen=500
 set title
@@ -90,7 +89,6 @@ set wildignore+=tags " tag files
 set foldmethod=marker
 
 " Colorscheme
-set background=dark
 colorscheme gruvbox
 if has('mac')
     set termguicolors
