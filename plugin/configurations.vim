@@ -114,7 +114,7 @@ let g:fzf_colors =
 " Similarly, we can apply it to fzf#vim#grep:
 command! -bang -nargs=* Ag
             \ call fzf#vim#grep(
-            \   'ag --column --line-number --no-heading --color '.shellescape(<q-args>), 1,
+            \   'ag -p .gitignore --column --line-number --no-heading --color '.shellescape(<q-args>), 1,
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)

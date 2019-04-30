@@ -11,6 +11,7 @@ set tags=./tags;,tags;
 set clipboard^=unnamed
 if !has('mac')
     set clipboard+=unnamedplus
+    set background=dark
 endif
 set mouse=a
 " Search

@@ -23,6 +23,7 @@ Plug 'skywind3000/asyncrun.vim'
 " Javascript
 Plug 'elzr/vim-json'
 Plug 'othree/yajs.vim'
+Plug 'posva/vim-vue'
 
 " C C++
 Plug 'bfrg/vim-cpp-modern'
