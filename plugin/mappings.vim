@@ -65,7 +65,6 @@ nnoremap <c-left> <c-w>h
 nnoremap <c-down> <c-w>j
 nnoremap <c-up> <c-w>k
 nnoremap <c-right> <c-w>l
-nnoremap <leader>c <c-w>c
 
 " Move lines ala Sublime Text
 if has('mac')
