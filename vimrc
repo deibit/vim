@@ -12,13 +12,19 @@ Plug 'rhysd/devdocs.vim'
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 " Completion, task, etc
+
+Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
+
+" Tag management
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/vim-preview'
+Plug 'majutsushi/tagbar'
 
 " Javascript
 Plug 'elzr/vim-json'
@@ -38,7 +44,6 @@ Plug 'fatih/vim-go'
 
 " GUI
 Plug 'RRethy/vim-illuminate'
-Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree'
 Plug 'romainl/vim-cool'
 Plug 'scrooloose/nerdtree'

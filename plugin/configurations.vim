@@ -1,3 +1,5 @@
+let g:gutentags_project_root = ['tags', '.git']
+
 let mapleader = ","
 let g:mapleader = ","
 
@@ -45,24 +47,6 @@ nnoremap <leader>N :NERDTreeToggle<CR>
 augroup plugin-devdocs
     autocmd!
     autocmd FileType c,cpp,python,js,go nmap <buffer>K <Plug>(devdocs-under-cursor)
-augroup END
-
-
-" YouCompleteMe
-"-------------------------------------------------------------------------------
-if has('mac')
-    let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
-else
-    let g:ycm_server_python_interpreter = '/usr/bin/python3'
-endif
-
-let g:ycm_confirm_extra_conf = 1
-augroup YouCompleteMe
-    autocmd!
-    autocmd FileType c,cpp nnoremap gd :YcmCompleter GoToDeclaration<cr>
-    autocmd FileType c,cpp nnoremap gD :YcmCompleter GoToDefinition<cr>
-    autocmd FileType c,cpp nnoremap gt :YcmCompleter GetType<cr>
-    autocmd FileType c,cpp nnoremap gp :YcmCompleter GetParent<cr>
 augroup END
 
 
