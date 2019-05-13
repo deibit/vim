@@ -1,3 +1,9 @@
+" Gutentags
+let g:gutentags_project_root = ['tags', '.git']
+let g:gutentags_ctags_exclude = ['node_modules']
+let g:gutentags_cscope_exclude = ['node_modules']
+let g:gutentags_gtags_exclude = ['node_modules']
+
 let mapleader = ","
 let g:mapleader = ","
 
