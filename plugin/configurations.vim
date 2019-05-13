@@ -246,7 +246,6 @@ let g:ale_fix_on_save = 1
 
 " Aliases for Vue
 let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
-let g:ale_linters = {'vue': ['eslint', 'vls']}
 
 " Linters
 let g:ale_linters = {
@@ -254,6 +253,7 @@ let g:ale_linters = {
 \   'css': ['eslint'],
 \   'html': ['eslint'],
 \   'python': ['pylint'],
+\   'vue': ['eslint', 'vls'],
 \}
 let g:ale_lint_on_save = 1
 
