@@ -54,6 +54,7 @@ Plug 'matze/vim-move'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'cohama/agit.vim'
 
 " Text Transformation
 Plug 'jiangmiao/auto-pairs'
