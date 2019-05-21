@@ -70,8 +70,8 @@ Plug 'morhetz/gruvbox'
 call plug#end()
 
 "~/.vim/plugin/settings.vim         Vim settings
-"~/.vim/plugin/mappings.vim         Mappings (excluing Plugins)
-"~/.vim/plugin/configurations.vim   Plugin configuration
-"~/.vim/plugin/functions.vim        Custom functions
+"~/.vim/plugin/mappings.vim         Mappings (not plugins)
+"~/.vim/plugin/configurations.vim   Plugin configuration and mappings
+"~/.vim/plugin/functions.vim        Custom functions and autocommands
 "~/.vim/plugin/statusline.vim       Statusline
 "~/.vim/plugin/bbye.vim             Bdelete and Bwipeout buffer
