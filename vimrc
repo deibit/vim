@@ -56,6 +56,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'cohama/agit.vim'
+Plug 'rhysd/git-messenger.vim'
 
 " Text Transformation
 Plug 'jiangmiao/auto-pairs'
