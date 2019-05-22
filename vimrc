@@ -52,7 +52,8 @@ Plug 'matze/vim-move'
 
 " Git
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'cohama/agit.vim'
 
