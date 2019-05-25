@@ -59,7 +59,7 @@ Plug 'cohama/agit.vim'
 Plug 'rhysd/git-messenger.vim'
 
 " Text Transformation
-Plug 'jiangmiao/auto-pairs'
+Plug 'tmsvg/pear-tree'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
