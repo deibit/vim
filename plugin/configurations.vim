@@ -8,7 +8,7 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Bdelete a buffer without closing Vim or window layout
-nnoremap <leader>c :Bdelete<cr>
+nnoremap <leader>C :Bdelete<cr>
 
 " vim-mode
 "
@@ -65,7 +65,7 @@ nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
 "------------------------------------------------------------------------------
 nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
 nnoremap <silent><leader>B :BTags<cr>
-nnoremap <silent><leader>C :Commands<cr>
+nnoremap <silent><leader>c :Commands<cr>
 nnoremap <silent><leader>F :GFiles<cr>
 nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>S :Snippets<cr>
