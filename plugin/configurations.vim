@@ -15,11 +15,6 @@ nnoremap <leader>c :Bdelete<cr>
 let g:move_key_modifier = 'C'
 
 "
-" Vim autopairs
-"
-let g:AutoPairsShortcutFastWrap='<c-e>'
-
-"
 " NERDtree
 "-------------------------------------------------------------------------------
 
