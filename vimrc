@@ -40,7 +40,7 @@ Plug 'jansenm/vim-cmake'
 Plug 'vim-python/python-syntax'
 
 " Go
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 
 " GUI
 Plug 'RRethy/vim-illuminate'
