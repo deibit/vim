@@ -38,7 +38,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Do not open other files in a Nerdtree buffer
 autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" | b# | endif
 "NerdTreeToggle
-nnoremap <leader>N :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 
 " Devdocs
