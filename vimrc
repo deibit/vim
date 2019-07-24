@@ -9,16 +9,18 @@ if !has('mac')
 endif
 Plug 'rhysd/devdocs.vim'
 
-" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 " Completion, task, etc
 
+Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
+" Plug 'andymass/vim-matchup'
 
 " Tag management
 Plug 'ludovicchabant/vim-gutentags'
@@ -38,6 +40,9 @@ Plug 'jansenm/vim-cmake'
 
 " Python
 Plug 'vim-python/python-syntax'
+
+" Rust
+Plug 'rust-lang/rust.vim'
 
 " Go
 " Plug 'fatih/vim-go'
@@ -59,7 +64,7 @@ Plug 'cohama/agit.vim'
 Plug 'rhysd/git-messenger.vim'
 
 " Text Transformation
-Plug 'tmsvg/pear-tree'
+" Plug 'tmsvg/pear-tree'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
