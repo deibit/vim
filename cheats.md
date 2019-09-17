@@ -1,3 +1,10 @@
+Vim freezes
+===========
+
+Probably a <ctrl-s> was pressed, which is a scroll-locking signal in terminals
+Just press <ctrl-q> to unlock the cursor.
+
+
 Delete all ^M when loading a file from Windows
 ==============================================
 
