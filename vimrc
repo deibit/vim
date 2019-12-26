@@ -41,18 +41,15 @@ Plug 'jansenm/vim-cmake'
 " Python
 Plug 'vim-python/python-syntax'
 
-" Rust
-Plug 'rust-lang/rust.vim'
-
 " Go
-" Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 
 " GUI
 Plug 'RRethy/vim-illuminate'
 Plug 'mbbill/undotree'
 Plug 'romainl/vim-cool'
 Plug 'scrooloose/nerdtree'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'matze/vim-move'
 
 " Git
