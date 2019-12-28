@@ -8,16 +8,11 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Bdelete a buffer without closing Vim or window layout
-nnoremap <leader>c :Bdelete<cr>
+nnoremap <leader>C :Bdelete<cr>
 
 " vim-mode
 "
 let g:move_key_modifier = 'C'
-
-"
-" Vim autopairs
-"
-let g:AutoPairsShortcutFastWrap='<c-e>'
 
 "
 " NERDtree
@@ -43,7 +38,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Do not open other files in a Nerdtree buffer
 autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" | b# | endif
 "NerdTreeToggle
-nnoremap <leader>N :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 
 " Devdocs
@@ -51,24 +46,6 @@ nnoremap <leader>N :NERDTreeToggle<CR>
 augroup plugin-devdocs
     autocmd!
     autocmd FileType c,cpp,python,js,go nmap <buffer>K <Plug>(devdocs-under-cursor)
-augroup END
-
-
-" YouCompleteMe
-"-------------------------------------------------------------------------------
-if has('mac')
-    let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
-else
-    let g:ycm_server_python_interpreter = '/usr/bin/python3'
-endif
-
-let g:ycm_confirm_extra_conf = 1
-augroup YouCompleteMe
-    autocmd!
-    autocmd FileType c,cpp nnoremap gd :YcmCompleter GoToDeclaration<cr>
-    autocmd FileType c,cpp nnoremap gD :YcmCompleter GoToDefinition<cr>
-    autocmd FileType c,cpp nnoremap gt :YcmCompleter GetType<cr>
-    autocmd FileType c,cpp nnoremap gp :YcmCompleter GetParent<cr>
 augroup END
 
 
@@ -88,7 +65,7 @@ nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
 "------------------------------------------------------------------------------
 nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
 nnoremap <silent><leader>B :BTags<cr>
-nnoremap <silent><leader>C :Commands<cr>
+nnoremap <silent><leader>c :Commands<cr>
 nnoremap <silent><leader>F :GFiles<cr>
 nnoremap <silent><leader>L :Lines<cr>
 nnoremap <silent><leader>S :Snippets<cr>

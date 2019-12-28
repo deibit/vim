@@ -25,7 +25,7 @@ let g:currentmode={
             \}
 "
 " Function: return current mode
-" abort -> function will abort soon as error detected
+" abort -> function will abort soon as an error is detected
 function! ModeCurrent() abort
     let l:modecurrent = mode()
     " use get() -> fails safely, since ^V doesn't seem to register

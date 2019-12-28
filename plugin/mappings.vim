@@ -1,4 +1,5 @@
-" Goto the last edited file with backspace
+nmap <c-s> :w<cr>
+"Goto the last edited file with backspace
 nnoremap <BS> <C-^>
 
 " Leader
