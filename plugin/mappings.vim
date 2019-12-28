@@ -67,6 +67,9 @@ nnoremap <c-down> <c-w>j
 nnoremap <c-up> <c-w>k
 nnoremap <c-right> <c-w>l
 
+" Open a terminal
+nnoremap <leader>e :vert terminal<CR>
+
 " Move lines ala Sublime Text
 if has('mac')
     nnoremap [B :m .+1<CR>==
