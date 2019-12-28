@@ -81,7 +81,7 @@ if executable('clang-format')
         silent execute '%! clang-format'
         call cursor(l, c)
     endfunction
-    autocmd! BufWritePre *.cpp call ClangFormatOnSave()
+    autocmd! BufWritePre *.{h,hpp,hxx,c,cpp} call ClangFormatOnSave()
 endif
 
 " Yaml
