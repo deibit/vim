@@ -1,3 +1,10 @@
+let s:vim_config_dir = expand('~/.vim')
+let s:vim_plug_script = s:vim_config_dir . '/autoload/plug.vim'
+if !filereadable(s:vim_plug_script)
+  execute '!curl -fL https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim --create-dirs -o' shellescape(s:vim_plug_script)
+  autocmd VimEnter * PlugInstall --sync
+endif
+
 if has('nvim')
     call plug#begin('~/.local/share/nvim/plugged')
 else
@@ -20,7 +27,8 @@ Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
-" Plug 'andymass/vim-matchup'
+Plug 'andymass/vim-matchup'
+
 
 " Tag management
 Plug 'ludovicchabant/vim-gutentags'

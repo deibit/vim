@@ -1,3 +1,6 @@
+" Auto-pairs
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+
 " Gutentags
 let g:gutentags_project_root = ['tags', '.git']
 let g:gutentags_ctags_exclude = ['node_modules']
@@ -8,7 +11,7 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Bdelete a buffer without closing Vim or window layout
-nnoremap <leader>C :Bdelete<cr>
+nnoremap <leader>q :Bdelete<cr>
 
 " vim-mode
 "
