@@ -250,3 +250,14 @@ let g:ale_cpp_ccls_init_options = {
 \   }
 \ }
 
+
+" Deoplete
+"
+
+" LanguajeClient
+"
+let g:LanguageClient_serverCommands = {
+      \ 'c': ['/usr/local/bin/ccls'],
+      \ 'cpp': ['/usr/local/bin/ccls'],
+      \ 'objc': ['/usr/local/bin/ccls'],
+      \ }

@@ -15,15 +15,24 @@ if !has('mac')
     Plug 'KabbAmine/zeavim.vim'
 endif
 
-let g:ale_completion_enabled = 1
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
+let g:deoplete#enable_at_startup = 1
 
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Completion, task, etc
 
 Plug 'jiangmiao/auto-pairs'
-Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
