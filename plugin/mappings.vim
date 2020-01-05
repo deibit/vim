@@ -27,7 +27,7 @@ nnoremap <leader>2 yypVr-
 noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Fast saving
-nnoremap <leader>w :w<cr>
+nnoremap <nowait><leader>w :w<cr>
 
 " Buffer unload
 nnoremap <silent><leader>uu :bd<cr>

@@ -14,7 +14,9 @@ endif
 if !has('mac')
     Plug 'KabbAmine/zeavim.vim'
 endif
-Plug 'rhysd/devdocs.vim'
+
+let g:ale_completion_enabled = 1
+
 
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
@@ -62,7 +64,7 @@ Plug 'matze/vim-move'
 
 " Git
 Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'cohama/agit.vim'
@@ -78,6 +80,9 @@ Plug 'tpope/vim-surround'
 
 " Themes
 Plug 'morhetz/gruvbox'
+
+" Fonts
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 

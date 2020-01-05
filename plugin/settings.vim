@@ -38,6 +38,7 @@ set showmatch
 set showcmd
 set colorcolumn=80
 set cursorline
+set cmdheight=2
 " Indent, case, tabs
 set backspace=indent,eol,start
 set autoindent
