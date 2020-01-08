@@ -15,8 +15,6 @@ if !has('mac')
     Plug 'KabbAmine/zeavim.vim'
 endif
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 " Completion, task, etc
 
 Plug 'jiangmiao/auto-pairs'
@@ -25,6 +23,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
 Plug 'andymass/vim-matchup'
+Plug 'ervandew/supertab'
 
 
 " Tag management
