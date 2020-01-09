@@ -1,6 +1,7 @@
 nmap <c-s> :w<cr>
 "Goto the last edited file with backspace
 nnoremap <BS> <C-^>
+nnoremap <silent><tab> :bn<cr>
 
 " Leader
 let mapleader = ","

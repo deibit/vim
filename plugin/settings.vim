@@ -88,7 +88,7 @@ set wildignore+=**/vendor " Ignore vendor directory
 set wildignore+=tags " tag files
 
 " Fold
-set foldmethod=marker
+set foldmethod=syntax
 
 " Colorscheme
 colorscheme gruvbox
