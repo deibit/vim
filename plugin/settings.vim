@@ -50,7 +50,7 @@ set smarttab
 " set softtabstop=4
 " Windows
 set number
-" set cot-=preview
+set cot=menu
 set lazyredraw
 set splitbelow
 set splitright
@@ -89,6 +89,7 @@ set wildignore+=tags " tag files
 
 " Fold
 set foldmethod=syntax
+set foldlevelstart=20
 
 " Colorscheme
 colorscheme gruvbox

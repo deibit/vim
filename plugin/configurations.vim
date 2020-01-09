@@ -81,6 +81,7 @@ nnoremap <silent><leader>l :BLines<cr>
 nnoremap <silent><leader>m :Maps<cr>
 nnoremap <silent><leader>ma :Marks<cr>
 nnoremap <silent><leader>t :Tags<cr>
+nnoremap <silent><leader>q :Quickfix<cr>
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -215,8 +216,12 @@ nnoremap <silent>gD :ALEGoToDefinitionInVSplit<cr>
 nnoremap <silent>gt :ALEGoToTypeDefinition<cr>
 nnoremap <silent>gT :ALEGoToTypeDefinitionInVSplit<cr>
 nnoremap <silent>gr :ALEFindReferences<cr>
+nnoremap <silent>gn :ALENext<cr>
+nnoremap <silent>gp :ALEPrevious<cr>
 
-let g:ale_cursor_detail = 1
+let g:ale_sign_error = '💩'
+let g:ale_sign_warning = '😢'
+
 let g:ale_close_preview_on_insert = 1
 let g:ale_set_balloons = 1
 
@@ -233,7 +238,7 @@ let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'css': ['prettier'],
 \   'html': ['prettier'],
-\   'python': ['autopep8'],
+\   'python': ['autopep8', 'black'],
 \}
 let g:ale_fix_on_save = 1
 
@@ -242,10 +247,10 @@ let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
 
 " Linters
 let g:ale_linters = {
-\   'javascript': ['eslint'],
+\   'javascript': ['eslint', 'tsserver'],
 \   'css': ['eslint'],
 \   'html': ['eslint'],
-\   'python': ['pylint'],
+\   'python': ['pylint', 'pyls'],
 \   'vue': ['eslint', 'vls'],
 \   'cpp': ['ccls'],
 \   'c': ['ccls']
