@@ -87,6 +87,8 @@ set statusline+=\ %{FugitiveStatusline()}%*
 hi User1 guifg=#FF8000 guibg=#504945
 " Green
 hi User2 guifg=#DEE511 guibg=#504945
+autocmd! InsertLeave * hi User2 guifg=#DEE511 guibg=#504945
+autocmd! InsertEnter * hi User2 guifg=#FF0000 guibg=#504945
 " Pink
 hi User3 guifg=#EA7E93 guibg=#504945
 
