@@ -133,6 +133,7 @@ set smarttab
 " set softtabstop=4
 " Windows
 set number
+set completeopt-=preview
 " if has('nvim')
 "     set completeopt=
 " else
@@ -293,6 +294,10 @@ nnoremap U <c-r>
 nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 
 " <<< PLUGGINS CONFIGURATION >>>
+
+" Supertab
+" Reverse the reversed direction in completion
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Auto-pairs
 let g:AutoPairsShortcutFastWrap = '<C-e>'
