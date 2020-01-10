@@ -70,8 +70,6 @@ else
 endif
 set grepformat=%f:%l:%c:%m
 
-nnoremap <leader>r :Find <C-R><C-W><CR>
-
 " Clang-format
 "-------------------------------------------------------------------------------
 if executable('clang-format')

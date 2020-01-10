@@ -71,6 +71,8 @@ nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
 nnoremap <silent><leader>B :BTags<cr>
 nnoremap <silent><leader>F :GFiles<cr>
 nnoremap <silent><leader>L :Lines<cr>
+" Find is defined on functions.vim
+nnoremap <leader>r :Find <C-R><C-W><CR>
 " nnoremap <silent><leader>S :Snippets<cr>
 nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
 nnoremap <silent><leader>c :Commands<cr>
@@ -146,9 +148,9 @@ nnoremap <silent><leader>HS :AS<CR>
 nnoremap <silent><leader>HV :AV<CR>
 
 
-" Undotree
+" Vim-mundo
 "-------------------------------------------------------------------------------
-nnoremap <leader>u :UndotreeToggle<cr>
+nnoremap <silent><leader>u :MundoToggle<cr>
 
 
 " Python syntax

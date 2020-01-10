@@ -50,7 +50,7 @@ Plug 'fatih/vim-go'
 
 " GUI
 Plug 'RRethy/vim-illuminate'
-Plug 'mbbill/undotree'
+Plug 'simnalamburt/vim-mundo'
 Plug 'romainl/vim-cool'
 Plug 'scrooloose/nerdtree'
 Plug 'dense-analysis/ale'
@@ -80,9 +80,836 @@ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-"~/.vim/plugin/settings.vim         Vim settings
-"~/.vim/plugin/mappings.vim         Mappings (not plugins)
-"~/.vim/plugin/configurations.vim   Plugin configuration and mappings
-"~/.vim/plugin/functions.vim        Custom functions and autocommands
-"~/.vim/plugin/statusline.vim       Statusline
-"~/.vim/plugin/bbye.vim             Bdelete and Bwipeout buffer
+" <<< SETTINGS >>>
+
+filetype on
+filetype indent on
+filetype plugin on
+syntax enable
+
+" Behaviour
+set autoread
+set hidden
+set tags=./tags;,tags;
+" Mouse
+set clipboard^=unnamed
+if !has('mac')
+    set clipboard+=unnamedplus
+endif
+set mouse=a
+" Search
+set hlsearch
+set ignorecase
+set incsearch
+set magic
+set matchpairs+=<:>
+" Backup
+set noswapfile
+set backupdir=/tmp
+set copyindent
+set history=1000
+set nobackup
+set nowritebackup
+set undolevels=1000
+" Verbosity
+set noshowmode
+set noerrorbells
+set novisualbell
+set laststatus=2
+set shortmess+=I
+set showmatch
+set showcmd
+set colorcolumn=80
+set cursorline
+set cmdheight=2
+" Indent, case, tabs
+set backspace=indent,eol,start
+set autoindent
+set expandtab
+set shiftwidth=4
+set smartcase
+set smarttab
+" set tabstop=4
+" set softtabstop=4
+" Windows
+set number
+" if has('nvim')
+"     set completeopt=
+" else
+"     set completeopt=menu
+" endif
+set lazyredraw
+set splitbelow
+set splitright
+" Terminal
+set encoding=utf-8
+set termencoding=utf-8
+set timeoutlen=500
+set title
+set titleold=0
+set ttimeoutlen=0
+set termguicolors
+
+" Wildmenu options
+set wildmenu
+" set wildmode=list:longest,full
+set wildignorecase
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.vscode/*
+set wildignore+=*/tmp/,*.swp,*.zip
+set wildignore+=*.a,*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.aux,*.out,*.toc " LaTeX intermediate files
+set wildignore+=*.DS_Store " OSX bullshit
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " binary images
+set wildignore+=*.luac " Lua byte code
+set wildignore+=migrations " Django migrations
+set wildignore+=*.orig " Merge resolution file
+set wildignore+=*.pdf,*.zip,*.so " binaries
+set wildignore+=*.pyc,*.pyo,*/__pycache__/* " Python byte code
+set wildignore+=*.spl " compiled spelling word lists
+set wildignore+=*.swp,*.bak " ignore these
+set wildignore+=*.sw? " Vim swap files
+set wildignore+=**/vendor " Ignore vendor directory
+set wildignore+=tags " tag files
+
+" Fold
+set foldmethod=syntax
+set foldlevelstart=20
+
+" Colorscheme
+colorscheme gruvbox
+if has('mac')
+    set termguicolors
+endif
+
+" Use persistent history.
+if !isdirectory("/tmp/.vim-undo-dir")
+    call mkdir("/tmp/.vim-undo-dir", "", 0700)
+endif
+set undofile
+set undodir=/tmp/
+
+" Match-it
+runtime macros/matchit.vim
+
+" <<< MAPPINGS (not plugins) >>>
+
+nmap <c-s> :w<cr>
+"Goto the last edited file with backspace
+nnoremap <BS> <C-^>
+nnoremap <silent><tab> :bn<cr>
+
+" Leader
+let mapleader = ","
+let g:mapleader = ","
+
+" Non-english keyboard tag navigation fix
+nnoremap <silent><leader>g <c-]>
+
+" Fast escape
+inoremap jk <ESC>
+
+" Nop some keys
+nnoremap Q <nop>
+nnoremap gQ <nop>
+
+" Turn off Highlight (although, is not needed if nohl is set)
+nnoremap <silent><leader><cr> :noh<cr>
+
+" Some convenient shortcuts
+nnoremap <leader>1 yypVr=
+nnoremap <leader>2 yypVr-
+
+" Get rid of ^M
+noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Fast saving
+nnoremap <nowait><leader>w :w<cr>
+
+" Buffer unload
+nnoremap <silent><leader>uu :bd<cr>
+
+" Copy-paste Windows fashioned
+inoremap <c-v> <esc>"*P}i
+vnoremap <c-c> "*y<esc>
+
+" Moving through wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+" Use tab and s-tab for indenting blocks in Visual Mode
+xnoremap <  <gv
+xnoremap >  >gv
+
+" vimrc editing and sourcing
+noremap <leader>v :e! $MYVIMRC<CR>
+autocmd! BufWritePost $MYVIMRC source $MYVIMRC
+
+" This command will allow us to save a file we don't have permission to save
+" *after* we have already opened it. Super useful.
+cnoremap w!! w !sudo tee % >/dev/null
+
+" These create newlines like o and O but stay in normal mode
+nnoremap <silent> zj o<Esc>k
+nnoremap <silent> zk O<Esc>j
+
+" Toggle paste
+nnoremap <silent><f12> :set invpaste<CR>
+
+" Window manipulation
+nnoremap <leader>" :vsplit<CR>
+nnoremap <leader>% :split<CR>
+nnoremap <c-left> <c-w>h
+nnoremap <c-down> <c-w>j
+nnoremap <c-up> <c-w>k
+nnoremap <c-right> <c-w>l
+
+" Open a terminal
+nnoremap <leader>e :vert terminal<CR>
+
+" Move lines ala Sublime Text
+if has('mac')
+    nnoremap [B :m .+1<CR>==
+    nnoremap [A :m .-2<CR>==
+    inoremap [B <Esc>:m .+1<CR>==gi
+    inoremap [A <Esc>:m .-2<CR>==gi
+    vnoremap [B :m '>+1<CR>gv=gv
+    vnoremap [A :m '<-2<CR>gv=gv
+else
+    nnoremap <A-down> :m .+1<CR>==
+    nnoremap <A-up> :m .-2<CR>==
+    inoremap <A-down> <Esc>:m .+1<CR>==gi
+    inoremap <A-up> <Esc>:m .-2<CR>==gi
+    vnoremap <A-down> :m '>+1<CR>gv=gv
+    vnoremap <A-up> :m '<-2<CR>gv=gv
+endif
+
+" Fast search!
+nnoremap <space> /
+
+" Remapped U for redo ctrl-r
+nnoremap U <c-r>
+
+" Cheats file
+nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
+
+" <<< PLUGGINS CONFIGURATION >>>
+
+" Auto-pairs
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+
+" Gutentags
+let g:gutentags_project_root = ['tags', '.git']
+let g:gutentags_ctags_exclude = ['node_modules']
+let g:gutentags_cscope_exclude = ['node_modules']
+let g:gutentags_gtags_exclude = ['node_modules']
+
+let mapleader = ","
+let g:mapleader = ","
+
+" Bdelete a buffer without closing Vim or window layout
+nnoremap <leader>q :Bdelete<cr>
+
+" vim-mode
+"
+let g:move_key_modifier = 'C'
+
+"
+" NERDtree
+"-------------------------------------------------------------------------------
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+" Close Vim if nerdtree is the only one page remainded
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Show hidden files
+" let NERDTreeShowHidden=1
+" Do not open other files in a Nerdtree buffer
+autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" | b# | endif
+"NerdTreeToggle
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+
+" Devdocs
+"-------------------------------------------------------------------------------
+augroup plugin-devdocs
+    autocmd!
+    autocmd FileType c,cpp,python,js,go nmap <buffer>K <Plug>(devdocs-under-cursor)
+augroup END
+
+
+" Asyncrun
+"------------------------------------------------------------------------------
+let g:asyncrun_open = 6
+"MAKE"
+nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+"CMAKE"
+nnoremap <silent> <F8> :AsyncRun -cwd=<root> cmake . <cr>
+"Single file compilation"
+nnoremap <silent> <F9> :AsyncRun clang++ -std=c++1z -stdlib=libc++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
+
+
+" FZF
+"------------------------------------------------------------------------------
+nnoremap <silent><leader><leader> :Buffers<cr>
+nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
+nnoremap <silent><leader>B :BTags<cr>
+nnoremap <silent><leader>F :GFiles<cr>
+nnoremap <silent><leader>L :Lines<cr>
+" Find is defined on functions.vim
+nnoremap <leader>r :Find <C-R><C-W><CR>
+" nnoremap <silent><leader>S :Snippets<cr>
+nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
+nnoremap <silent><leader>c :Commands<cr>
+nnoremap <silent><leader>f :Files<cr>
+nnoremap <silent><leader>h :Helptags<cr>
+nnoremap <silent><leader>hh :History<cr>
+nnoremap <silent><leader>l :BLines<cr>
+nnoremap <silent><leader>m :Maps<cr>
+nnoremap <silent><leader>ma :Marks<cr>
+nnoremap <silent><leader>t :Tags<cr>
+nnoremap <silent><leader>q :Quickfix<cr>
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
+
+" Similarly, we can apply it to fzf#vim#grep:
+command! -bang -nargs=* Ag
+            \ call fzf#vim#grep(
+            \   'ag --column --line-number --no-heading --color '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
+
+" fzf_quickfix
+let g:fzf_quickfix_syntax_on = 0
+
+" Vim-go
+let g:go_fmt_command = "goimports"
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+let g:go_info_mode = 'guru'
+let g:go_list_type = "locationlist"
+
+augroup Golang_mappings
+    autocmd!
+    autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
+    autocmd FileType go nmap <Leader>gdd <Plug>(go-doc-browser)
+    autocmd FileType go nmap <Leader>ge <Plug>(go-rename)
+    autocmd FileType go nmap <Leader>gi <Plug>(go-info)
+    autocmd FileType go nmap <Leader>gm <Plug>(go-implements)
+    autocmd FileType go nmap <Leader>gr <Plug>(go-rename)
+    autocmd FileType go nmap <Leader>gs <Plug>(go-def-split)
+    autocmd FileType go nmap <Leader>gv <Plug>(go-def-vertical)
+    autocmd FileType go nmap <leader>gb <Plug>(go-build)
+    autocmd FileType go nmap <leader>gc <Plug>(go-coverage)
+    autocmd FileType go nmap <leader>gr <Plug>(go-run)
+    autocmd FileType go nmap <leader>gt <Plug>(go-test)
+augroup END
+
+"
+" A (switch header/implementation)
+"-------------------------------------------------------------------------------
+nnoremap <silent><leader>H :A<CR>
+nnoremap <silent><leader>HS :AS<CR>
+nnoremap <silent><leader>HV :AV<CR>
+
+
+" Vim-mundo
+"-------------------------------------------------------------------------------
+nnoremap <silent><leader>u :MundoToggle<cr>
+
+
+" Python syntax
+"-------------------------------------------------------------------------------
+let g:python_highlight_all=1
+let g:python_highlight_space_errors=0
+
+
+" Markdown
+"-------------------------------------------------------------------------------
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+
+" Tagbar
+"-------------------------------------------------------------------------------
+nnoremap <leader>T :TagbarToggle<cr>
+
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
+
+
+" Illuminati
+"-------------------------------------------------------------------------------
+let g:Illuminate_ftblacklist = ['nerdtree']
+let g:Illuminate_highlightUnderCursor = 0
+
+
+" Vim-cool
+"-------------------------------------------------------------------------------
+let g:CoolTotalMatches = 1
+
+" ALE
+"-------------------------------------------------------------------------------
+
+let g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
+
+nnoremap <silent>gd :ALEGoToDefinition<cr>
+nnoremap <silent>gD :ALEGoToDefinitionInVSplit<cr>
+nnoremap <silent>gt :ALEGoToTypeDefinition<cr>
+nnoremap <silent>gT :ALEGoToTypeDefinitionInVSplit<cr>
+nnoremap <silent>gr :ALEFindReferences<cr>
+nnoremap <silent>gn :ALENext<cr>
+nnoremap <silent>gp :ALEPrevious<cr>
+
+let g:ale_sign_error = '💩'
+let g:ale_sign_warning = '😢'
+
+let g:ale_close_preview_on_insert = 1
+let g:ale_set_balloons = 1
+
+" temp
+let g:ale_virtualenv_dir_names = []
+
+" Only run explicit linters
+let g:ale_linters_explicit = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
+" Fixers
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\   'html': ['prettier'],
+\   'python': ['autopep8', 'black'],
+\}
+let g:ale_fix_on_save = 1
+
+" Aliases for Vue
+let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+
+" Linters
+let g:ale_linters = {
+\   'javascript': ['eslint', 'tsserver'],
+\   'css': ['eslint'],
+\   'html': ['eslint'],
+\   'python': ['pylint', 'pyls'],
+\   'vue': ['eslint', 'vls'],
+\   'cpp': ['ccls'],
+\   'c': ['ccls']
+\}
+let g:ale_lint_on_save = 1
+
+let g:ale_pattern_options_enabled = 1
+" Do not lint or fix minified files
+let g:ale_pattern_options = {
+\ '\.min\.js$': {'ale_linters': [], 'ale_fixers': []},
+\ '\.min\.css$': {'ale_linters': [], 'ale_fixers': []},
+\}
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" <<< OWN FUNCTIONS >>>
+
+" Deletes trailing whitespaces on save
+"------------------------------------------------------------------------------
+fun! <SID>StripTrailingWhitespaces()
+    let l:saved_winview = winsaveview()
+    " let l = line(".")
+    " let c = col(".")
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:saved_winview)
+    " call cursor(l, c)
+endfun
+autocmd! FileType * autocmd! BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+" Return to last edit position when opening files (You want this!)
+"------------------------------------------------------------------------------
+autocmd! BufReadPost *
+            \ if line("'\"-") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
+
+" Autosaving when leaving insert mode
+"------------------------------------------------------------------------------
+" autocmd! InsertLeave * if expand('%') != '' | update | endif
+
+" Make preview window close when leaving insert mode
+"------------------------------------------------------------------------------
+autocmd! CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+
+" HTML Config
+"------------------------------------------------------------------------------
+autocmd! BufNewFile,BufReadPost *.html set filetype=html
+autocmd! FileType html set omnifunc=htmlcomplete#CompleteTags
+
+" cppreference (will open a browser with a search in www.cppreference.com)
+"------------------------------------------------------------------------------
+fun! CppRef()
+    let s:keyword = expand("<cword>")
+    let s:url = "http://en.cppreference.com/mwiki/index.php?title=Special:Search&search=std::" . s:keyword
+    if s:url != ""
+        silent exec "!open '".s:url."'"
+    endif
+    redraw!
+endfun
+nnoremap <leader>x :call CppRef()<CR>
+
+" Auto Relative Numbers Toggle
+"------------------------------------------------------------------------------
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
+    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
+augroup END
+
+" Ag integration
+"-------------------------------------------------------------------------------
+
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('ag --column --numbers --noheading --fixed-strings --ignore-case --hidden --follow --ignore ".git/*" --color '.shellescape(<q-args>), 1, <bang>0)
+
+if executable('ag')
+    set grepprg=ag\ --vimgrep\ $*
+else
+    set grepprg=grep\ -rn\ $*\ *
+endif
+set grepformat=%f:%l:%c:%m
+
+" Clang-format
+"-------------------------------------------------------------------------------
+if executable('clang-format')
+    function! ClangFormatOnSave()
+        let l = line(".")
+        let c = col(".")
+        silent execute '%! clang-format'
+        call cursor(l, c)
+    endfunction
+    autocmd! BufWritePre *.{h,hpp,hxx,c,cpp} call ClangFormatOnSave()
+endif
+
+" Yaml
+"-------------------------------------------------------------------------------
+augroup yaml-config
+    autocmd! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
+    autocmd! FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
+
+" Smarter cursorline
+"-------------------------------------------------------------------------------
+autocmd! InsertLeave,WinEnter * set cursorline
+autocmd! InsertEnter,WinLeave * set nocursorline
+
+"
+"-------------------------------------------------------------------------------
+" close if final buffer is netrw or the quickfix
+augroup finalcountdown
+ au!
+ autocmd WinEnter * if winnr('$') == 1 &&
+    \ getbufvar(winbufnr(winnr()), "&filetype") == "netrw" ||
+    \ &buftype == 'quickfix' |q|endif
+ "autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && \
+    "\ b:NERDTree.isTabTree()) || &buftype == 'quickfix' | q | endif
+ nmap - :Lexplore<cr>
+ "nmap - :NERDTreeToggle<cr>
+augroup END
+
+" <<< STATUSLINE >>>
+
+" Statusline configuration
+" (https://medium.com/@kadek/the-last-statusline-for-vim-a613048959b2)
+"------------------------------------------------------------------------------
+" [MODE]
+let g:currentmode={
+            \ 'n'  : 'Normal ',
+            \ 'no' : 'N·Operator Pending ',
+            \ 'v'  : 'Visual ',
+            \ 'V'  : 'V·Line ',
+            \ '^V' : 'V·Block ',
+            \ 's'  : 'Select ',
+            \ 'S'  : 'S·Line ',
+            \ '^S' : 'S·Block ',
+            \ 'i'  : 'Insert ',
+            \ 'R'  : 'Replace ',
+            \ 'Rv' : 'V·Replace ',
+            \ 'c'  : 'Command ',
+            \ 'cv' : 'Vim Ex ',
+            \ 'ce' : 'Ex ',
+            \ 'r'  : 'Prompt ',
+            \ 'rm' : 'More ',
+            \ 'r?': 'Confirm ',
+            \ '!'  : 'Shell ',
+            \ 't'  : 'Terminal '
+            \}
+"
+" Function: return current mode
+" abort -> function will abort soon as an error is detected
+function! ModeCurrent() abort
+    let l:modecurrent = mode()
+    " use get() -> fails safely, since ^V doesn't seem to register
+    " 3rd arg is used when return of mode() == 0, which is case with ^V
+    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
+    let l:modelist = toupper(get(g:currentmode, l:modecurrent, 'V·Block '))
+    let l:current_status_mode = l:modelist
+    return l:current_status_mode
+endfunction
+
+" Paste: [PASTE]
+function! PasteForStatusline()
+    let paste_status = &paste
+    if paste_status == 1
+        return " [paste] "
+    else
+        return ""
+    endif
+endfunction
+
+" [GIT]
+" from https://shapeshed.com/vim-statuslines/#showing-data
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+" [ALE]
+"
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
+
+" [START OF STATUSLINE]"
+set statusline=
+set statusline+=\ %*
+" Mode
+set statusline+=%2*-\ %{ModeCurrent()}-
+set statusline+=%*
+" Buffer number
+" set statusline+=\ Buf:\ %n
+" Encoding
+"set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
+" Current time, when buffer saved
+" set statusline+=\ %{strftime('%R', getftime(expand('%')))}
+set statusline+=\ %y
+" Help file
+"set statusline+=\ %h
+set statusline+=\ %q
+set statusline+=\ %w
+" Filename
+set statusline+=\ %f
+set statusline+=\ %m
+" Readonly
+set statusline+=\ %r
+
+set statusline+=%{PasteForStatusline()}
+" Right justified
+set statusline+=%=
+"set statusline+=%1*\ %f
+"set statusline+=\ >>
+set statusline+=%1*\ %{tagbar#currenttag('%s','','f')}
+" Line, lines, percentage
+set statusline+=%*\ %l
+set statusline+=\/%L\ \|\ %c\ \|
+set statusline+=\ %p%%
+set statusline+=%3*%{StatuslineGit()}%*
+set statusline+=\ %{LinterStatus()}
+" [END OF STATUSLINE]"
+
+" [COLORS]
+" Orange
+hi User1 guifg=#FF8000 guibg=#504945
+" Green
+hi User2 guifg=#DEE511 guibg=#504945
+autocmd! InsertLeave * hi User2 guifg=#DEE511 guibg=#504945
+autocmd! InsertEnter * hi User2 guifg=#FF0000 guibg=#504945
+" Pink
+hi User3 guifg=#EA7E93 guibg=#504945
+
+" Always dark-grey statusline
+autocmd! ColorScheme * highlight StatusLine ctermbg=darkgray cterm=NONE guibg=darkgray gui=NONE
+
+" <<< bbye >>>
+
+if exists("g:loaded_bbye") || &cp | finish | endif
+let g:loaded_bbye = 1
+
+function! s:bdelete(action, bang, buffer_name)
+	let buffer = s:str2bufnr(a:buffer_name)
+	let w:bbye_back = 1
+
+	if buffer < 0
+		return s:error("E516: No buffers were deleted. No match for ".a:buffer_name)
+	endif
+
+	if getbufvar(buffer, "&modified") && empty(a:bang)
+		let error = "E89: No write since last change for buffer "
+		return s:error(error . buffer . " (add ! to override)")
+	endif
+
+	" If the buffer is set to delete and it contains changes, we can't switch
+	" away from it. Hide it before eventual deleting:
+	if getbufvar(buffer, "&modified") && !empty(a:bang)
+		call setbufvar(buffer, "&bufhidden", "hide")
+	endif
+
+	" For cases where adding buffers causes new windows to appear or hiding some
+	" causes windows to disappear and thereby decrement, loop backwards.
+	for window in reverse(range(1, winnr("$")))
+		" For invalid window numbers, winbufnr returns -1.
+		if winbufnr(window) != buffer | continue | endif
+		execute window . "wincmd w"
+
+		" Bprevious also wraps around the buffer list, if necessary:
+		try | exe bufnr("#") > 0 && buflisted(bufnr("#")) ? "buffer #" : "bprevious"
+		catch /^Vim([^)]*):E85:/ " E85: There is no listed buffer
+		endtry
+
+		" If found a new buffer for this window, mission accomplished:
+		if bufnr("%") != buffer | continue | endif
+
+		call s:new(a:bang)
+	endfor
+
+	" Because tabbars and other appearing/disappearing windows change
+	" the window numbers, find where we were manually:
+	let back = filter(range(1, winnr("$")), "getwinvar(v:val, 'bbye_back')")[0]
+	if back | exe back . "wincmd w" | unlet w:bbye_back | endif
+
+	" If it hasn't been already deleted by &bufhidden, end its pains now.
+	" Unless it previously was an unnamed buffer and :enew returned it again.
+	"
+	" Using buflisted() over bufexists() because bufhidden=delete causes the
+	" buffer to still _exist_ even though it won't be :bdelete-able.
+	if buflisted(buffer) && buffer != bufnr("%")
+		exe a:action . a:bang . " " . buffer
+	endif
+endfunction
+
+function! s:str2bufnr(buffer)
+	if empty(a:buffer)
+		return bufnr("%")
+	elseif a:buffer =~# '^\d\+$'
+		return bufnr(str2nr(a:buffer))
+	else
+		return bufnr(a:buffer)
+	endif
+endfunction
+
+function! s:new(bang)
+	exe "enew" . a:bang
+
+	setl noswapfile
+	" If empty and out of sight, delete it right away:
+	setl bufhidden=wipe
+	" Regular buftype warns people if they have unsaved text there.  Wouldn't
+	" want to lose someone's data:
+	setl buftype=
+	" Hide the buffer from buffer explorers and tabbars:
+	setl nobuflisted
+endfunction
+
+" Using the built-in :echoerr prints a stacktrace, which isn't that nice.
+function! s:error(msg)
+	echohl ErrorMsg
+	echomsg a:msg
+	echohl NONE
+	let v:errmsg = a:msg
+endfunction
+
+command! -bang -complete=buffer -nargs=? Bdelete
+	\ :call s:bdelete("bdelete", <q-bang>, <q-args>)
+
+command! -bang -complete=buffer -nargs=? Bwipeout
+	\ :call s:bdelete("bwipeout", <q-bang>, <q-args>)
