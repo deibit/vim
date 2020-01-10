@@ -11,7 +11,6 @@ set tags=./tags;,tags;
 set clipboard^=unnamed
 if !has('mac')
     set clipboard+=unnamedplus
-    set background=dark
 endif
 set mouse=a
 " Search
@@ -103,3 +102,6 @@ if !isdirectory("/tmp/.vim-undo-dir")
 endif
 set undofile
 set undodir=/tmp/
+
+" Match-it
+runtime macros/matchit.vim
