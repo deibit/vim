@@ -24,6 +24,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
 Plug 'andymass/vim-matchup'
 Plug 'ervandew/supertab'
+Plug 'easymotion/vim-easymotion'
 
 
 " Tag management
@@ -134,11 +135,7 @@ set smarttab
 " Windows
 set number
 set completeopt-=preview
-" if has('nvim')
-"     set completeopt=
-" else
-"     set completeopt=menu
-" endif
+set completeopt=menu,menuone,noinsert,noselect
 set lazyredraw
 set splitbelow
 set splitright
@@ -367,7 +364,7 @@ nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
 
 " FZF
 "------------------------------------------------------------------------------
-nnoremap <silent><leader><leader> :Buffers<cr>
+nnoremap <silent><leader>b :Buffers<cr>
 nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
 nnoremap <silent><leader>B :BTags<cr>
 nnoremap <silent><leader>F :GFiles<cr>
