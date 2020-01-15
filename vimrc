@@ -28,9 +28,9 @@ Plug 'easymotion/vim-easymotion'
 
 
 " Tag management
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'skywind3000/vim-preview'
+" Plug 'skywind3000/vim-preview'
 Plug 'majutsushi/tagbar'
 
 " Javascript
@@ -192,6 +192,7 @@ runtime macros/matchit.vim
 " <<< MAPPINGS (not plugins) >>>
 
 nmap <c-s> :w<cr>
+"
 "Goto the last edited file with backspace
 nnoremap <BS> <C-^>
 nnoremap <silent><tab> :bn<cr>
@@ -199,6 +200,8 @@ nnoremap <silent><tab> :bn<cr>
 " Leader
 let mapleader = ","
 let g:mapleader = ","
+
+nnoremap <space> <nop>
 
 " Non-english keyboard tag navigation fix
 nnoremap <silent><leader>g <c-]>
@@ -281,9 +284,6 @@ else
     vnoremap <A-up> :m '<-2<CR>gv=gv
 endif
 
-" Fast search!
-nnoremap <space> /
-
 " Remapped U for redo ctrl-r
 nnoremap U <c-r>
 
@@ -309,7 +309,7 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Bdelete a buffer without closing Vim or window layout
-nnoremap <leader>q :Bdelete<cr>
+nnoremap <silent><leader>d :Bdelete<cr>
 
 " vim-mode
 "
@@ -539,6 +539,7 @@ let g:ale_fixers = {
 \   'css': ['prettier'],
 \   'html': ['prettier'],
 \   'python': ['autopep8', 'black'],
+\   'rust': ['rustfmt']
 \}
 let g:ale_fix_on_save = 1
 
@@ -553,7 +554,8 @@ let g:ale_linters = {
 \   'python': ['pylint', 'pyls'],
 \   'vue': ['eslint', 'vls'],
 \   'cpp': ['ccls'],
-\   'c': ['ccls']
+\   'c': ['ccls'],
+\   'rust': ['cargo', 'rls', 'rustc']
 \}
 let g:ale_lint_on_save = 1
 
@@ -840,7 +842,7 @@ function! s:bdelete(action, bang, buffer_name)
 		return s:error(error . buffer . " (add ! to override)")
 	endif
 
-	" If the buffer is set to delete and it contains changes, we can't switch
+	" If the buffer is set to[<0;79;14M[<0;79;14m delete and it contains changes, we can't switch
 	" away from it. Hide it before eventual deleting:
 	if getbufvar(buffer, "&modified") && !empty(a:bang)
 		call setbufvar(buffer, "&bufhidden", "hide")
