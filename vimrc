@@ -2,7 +2,9 @@ let s:vim_config_dir = expand('~/.vim')
 let s:vim_plug_script = s:vim_config_dir . '/autoload/plug.vim'
 if !filereadable(s:vim_plug_script)
   execute '!curl -fL https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim --create-dirs -o' shellescape(s:vim_plug_script)
-  autocmd VimEnter * PlugInstall --sync
+  augroup AUGPlugInstall
+    autocmd VimEnter * PlugInstall --sync
+    augroup END
 endif
 
 if has('nvim')
@@ -16,9 +18,8 @@ if !has('mac')
 endif
 
 " Completion, task, etc
-
 Plug 'jiangmiao/auto-pairs'
-" Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
@@ -49,16 +50,19 @@ Plug 'vim-python/python-syntax'
 " Go
 Plug 'fatih/vim-go'
 
+" Swift
+Plug 'keith/swift.vim'
+
 " GUI
 Plug 'RRethy/vim-illuminate'
 Plug 'simnalamburt/vim-mundo'
 Plug 'romainl/vim-cool'
-Plug 'scrooloose/nerdtree'
 Plug 'dense-analysis/ale'
 Plug 'matze/vim-move'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Git
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
@@ -72,6 +76,7 @@ Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
 
 " Themes
 Plug 'morhetz/gruvbox'
@@ -292,9 +297,14 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 
 " <<< PLUGGINS CONFIGURATION >>>
 
+" Airline
+let g:airline_powerline_fonts = 1
+let g:airline_theme='deus'
+
 " Supertab
 " Reverse the reversed direction in completion
 let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabDefaultCompletionType = "context"
 
 " Auto-pairs
 let g:AutoPairsShortcutFastWrap = '<C-e>'
@@ -314,32 +324,6 @@ nnoremap <silent><leader>d :Bdelete<cr>
 " vim-mode
 "
 let g:move_key_modifier = 'C'
-
-"
-" NERDtree
-"-------------------------------------------------------------------------------
-
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
-
-" Close Vim if nerdtree is the only one page remainded
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Show hidden files
-" let NERDTreeShowHidden=1
-" Do not open other files in a Nerdtree buffer
-autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" | b# | endif
-"NerdTreeToggle
-nnoremap <leader>n :NERDTreeToggle<CR>
 
 
 " Devdocs
@@ -407,10 +391,10 @@ command! -bang -nargs=* Ag
             \   <bang>0)
 
 " fzf_quickfix
-let g:fzf_quickfix_syntax_on = 0
+" let g:fzf_quickfix_syntax_on = 0
 
 " Vim-go
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "gofmt"
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_functions = 1
@@ -419,8 +403,10 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
-let g:go_info_mode = 'guru'
-let g:go_list_type = "locationlist"
+let g:go_info_mode = 'gopls'
+let g:go_list_type = "quickfix"
+let g:go_doc_popup_window = 1
+
 
 augroup Golang_mappings
     autocmd!
@@ -555,8 +541,12 @@ let g:ale_linters = {
 \   'vue': ['eslint', 'vls'],
 \   'cpp': ['ccls'],
 \   'c': ['ccls'],
-\   'rust': ['cargo', 'rls', 'rustc']
+\   'rust': ['cargo', 'rls', 'rustc'],
+\   'swift': ['sourcekitlsp']
 \}
+
+let g:ale_sourcekit_lsp_executable = "~/Repos/sourcekit-lsp/.build/x86_64-apple-macosx/debug/sourcekit-lsp"
+
 let g:ale_lint_on_save = 1
 
 let g:ale_pattern_options_enabled = 1
@@ -597,14 +587,18 @@ fun! <SID>StripTrailingWhitespaces()
     call winrestview(l:saved_winview)
     " call cursor(l, c)
 endfun
-autocmd! FileType * autocmd! BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+augroup AUGStripTrailWhiteSpaces
+    autocmd! FileType * autocmd! BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+augroup END
 
 " Return to last edit position when opening files (You want this!)
 "------------------------------------------------------------------------------
-autocmd! BufReadPost *
+augroup AUGReturnLastPosition
+    autocmd! BufReadPost *
             \ if line("'\"-") > 0 && line("'\"") <= line("$") |
             \   exe "normal! g`\"" |
             \ endif
+augroup END
 
 " Autosaving when leaving insert mode
 "------------------------------------------------------------------------------
@@ -612,12 +606,16 @@ autocmd! BufReadPost *
 
 " Make preview window close when leaving insert mode
 "------------------------------------------------------------------------------
-autocmd! CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+augroup AUGPumVisible
+    autocmd! CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+augroup END
 
 " HTML Config
 "------------------------------------------------------------------------------
-autocmd! BufNewFile,BufReadPost *.html set filetype=html
-autocmd! FileType html set omnifunc=htmlcomplete#CompleteTags
+augroup AUGHTML
+    autocmd! BufNewFile,BufReadPost *.html set filetype=html
+    autocmd! FileType html set omnifunc=htmlcomplete#CompleteTags
+augroup END
 
 " cppreference (will open a browser with a search in www.cppreference.com)
 "------------------------------------------------------------------------------
@@ -633,11 +631,11 @@ nnoremap <leader>x :call CppRef()<CR>
 
 " Auto Relative Numbers Toggle
 "------------------------------------------------------------------------------
-augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
-    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
-augroup END
+" augroup numbertoggle
+"     autocmd!
+"     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
+"     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
+" augroup END
 
 " Ag integration
 "-------------------------------------------------------------------------------
@@ -680,13 +678,15 @@ augroup END
 
 " Smarter cursorline
 "-------------------------------------------------------------------------------
-autocmd! InsertLeave,WinEnter * set cursorline
-autocmd! InsertEnter,WinLeave * set nocursorline
+augroup AUGCursorLine
+    autocmd! InsertLeave,WinEnter * set cursorline
+    autocmd! InsertEnter,WinLeave * set nocursorline
+augroup END
 
 "
 "-------------------------------------------------------------------------------
 " close if final buffer is netrw or the quickfix
-augroup finalcountdown
+augroup AUGFinalCountdown
  au!
  autocmd WinEnter * if winnr('$') == 1 &&
     \ getbufvar(winbufnr(winnr()), "&filetype") == "netrw" ||
@@ -697,132 +697,6 @@ augroup finalcountdown
  "nmap - :NERDTreeToggle<cr>
 augroup END
 
-" <<< STATUSLINE >>>
-
-" Statusline configuration
-" (https://medium.com/@kadek/the-last-statusline-for-vim-a613048959b2)
-"------------------------------------------------------------------------------
-" [MODE]
-let g:currentmode={
-            \ 'n'  : 'Normal ',
-            \ 'no' : 'N·Operator Pending ',
-            \ 'v'  : 'Visual ',
-            \ 'V'  : 'V·Line ',
-            \ '^V' : 'V·Block ',
-            \ 's'  : 'Select ',
-            \ 'S'  : 'S·Line ',
-            \ '^S' : 'S·Block ',
-            \ 'i'  : 'Insert ',
-            \ 'R'  : 'Replace ',
-            \ 'Rv' : 'V·Replace ',
-            \ 'c'  : 'Command ',
-            \ 'cv' : 'Vim Ex ',
-            \ 'ce' : 'Ex ',
-            \ 'r'  : 'Prompt ',
-            \ 'rm' : 'More ',
-            \ 'r?': 'Confirm ',
-            \ '!'  : 'Shell ',
-            \ 't'  : 'Terminal '
-            \}
-"
-" Function: return current mode
-" abort -> function will abort soon as an error is detected
-function! ModeCurrent() abort
-    let l:modecurrent = mode()
-    " use get() -> fails safely, since ^V doesn't seem to register
-    " 3rd arg is used when return of mode() == 0, which is case with ^V
-    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
-    let l:modelist = toupper(get(g:currentmode, l:modecurrent, 'V·Block '))
-    let l:current_status_mode = l:modelist
-    return l:current_status_mode
-endfunction
-
-" Paste: [PASTE]
-function! PasteForStatusline()
-    let paste_status = &paste
-    if paste_status == 1
-        return " [paste] "
-    else
-        return ""
-    endif
-endfunction
-
-" [GIT]
-" from https://shapeshed.com/vim-statuslines/#showing-data
-function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-endfunction
-
-function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
-
-" [ALE]
-"
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? 'OK' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
-endfunction
-
-
-" [START OF STATUSLINE]"
-set statusline=
-set statusline+=\ %*
-" Mode
-set statusline+=%2*-\ %{ModeCurrent()}-
-set statusline+=%*
-" Buffer number
-" set statusline+=\ Buf:\ %n
-" Encoding
-"set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
-" Current time, when buffer saved
-" set statusline+=\ %{strftime('%R', getftime(expand('%')))}
-set statusline+=\ %y
-" Help file
-"set statusline+=\ %h
-set statusline+=\ %q
-set statusline+=\ %w
-" Filename
-set statusline+=\ %f
-set statusline+=\ %m
-" Readonly
-set statusline+=\ %r
-
-set statusline+=%{PasteForStatusline()}
-" Right justified
-set statusline+=%=
-"set statusline+=%1*\ %f
-"set statusline+=\ >>
-set statusline+=%1*\ %{tagbar#currenttag('%s','','f')}
-" Line, lines, percentage
-set statusline+=%*\ %l
-set statusline+=\/%L\ \|\ %c\ \|
-set statusline+=\ %p%%
-set statusline+=%3*%{StatuslineGit()}%*
-set statusline+=\ %{LinterStatus()}
-" [END OF STATUSLINE]"
-
-" [COLORS]
-" Orange
-hi User1 guifg=#FF8000 guibg=#504945
-" Green
-hi User2 guifg=#DEE511 guibg=#504945
-autocmd! InsertLeave * hi User2 guifg=#DEE511 guibg=#504945
-autocmd! InsertEnter * hi User2 guifg=#FF0000 guibg=#504945
-" Pink
-hi User3 guifg=#EA7E93 guibg=#504945
-
-" Always dark-grey statusline
-autocmd! ColorScheme * highlight StatusLine ctermbg=darkgray cterm=NONE guibg=darkgray gui=NONE
 
 " <<< bbye >>>
 
