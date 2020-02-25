@@ -38,6 +38,7 @@ Plug 'majutsushi/tagbar'
 Plug 'elzr/vim-json'
 Plug 'othree/yajs.vim'
 Plug 'posva/vim-vue'
+Plug 'jelera/vim-javascript-syntax'
 
 " C C++
 Plug 'bfrg/vim-cpp-modern'
@@ -61,6 +62,7 @@ Plug 'dense-analysis/ale'
 Plug 'matze/vim-move'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'flazz/vim-colorschemes'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -80,6 +82,7 @@ Plug 'mattn/emmet-vim'
 
 " Themes
 Plug 'morhetz/gruvbox'
+Plug 'arzg/vim-colors-xcode'
 
 " Fonts
 Plug 'ryanoasis/vim-devicons'
@@ -125,7 +128,6 @@ set laststatus=2
 set shortmess+=I
 set showmatch
 set showcmd
-set colorcolumn=80
 set cursorline
 set cmdheight=2
 " Indent, case, tabs
@@ -295,7 +297,10 @@ nnoremap U <c-r>
 " Cheats file
 nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 
-" <<< PLUGGINS CONFIGURATION >>>
+" <<< PLUGINS CONFIGURATION >>>
+
+" vim-vue
+let g:vue_pre_processors = []
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -394,6 +399,7 @@ command! -bang -nargs=* Ag
 " let g:fzf_quickfix_syntax_on = 0
 
 " Vim-go
+let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "gofmt"
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
@@ -404,9 +410,10 @@ let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
 let g:go_info_mode = 'gopls'
-let g:go_list_type = "quickfix"
 let g:go_doc_popup_window = 1
 
+" Does not open a window with GoLint output (good for having ALE)
+let g:go_metalinter_autosave = 0
 
 augroup Golang_mappings
     autocmd!
@@ -521,9 +528,10 @@ let g:ale_set_quickfix = 1
 
 " Fixers
 let g:ale_fixers = {
-\   'javascript': ['prettier'],
-\   'css': ['prettier'],
-\   'html': ['prettier'],
+\   'javascript': ['eslint'],
+\   'vue': ['eslint'],
+\   'css': ['eslint'],
+\   'html': ['eslint'],
 \   'python': ['autopep8', 'black'],
 \   'rust': ['rustfmt']
 \}
@@ -542,6 +550,7 @@ let g:ale_linters = {
 \   'cpp': ['ccls'],
 \   'c': ['ccls'],
 \   'rust': ['cargo', 'rls', 'rustc'],
+\   'go': ['gopls', 'gofmt', 'golint'],
 \   'swift': ['sourcekitlsp']
 \}
 
