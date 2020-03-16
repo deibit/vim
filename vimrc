@@ -183,6 +183,7 @@ set foldlevelstart=20
 
 " Colorscheme
 colorscheme warlock
+set background=dark
 if has('mac')
     set termguicolors
 endif
@@ -515,8 +516,8 @@ nnoremap <silent>gp :ALEPrevious<cr>
 
 let g:ale_sign_error = "◉"
 let g:ale_sign_warning = "◉"
-highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500 guibg=None
-highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237 guibg=None
+highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500 guibg=NONE
+highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237 guibg=NONE
 
 
 let g:ale_close_preview_on_insert = 1
