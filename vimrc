@@ -160,7 +160,7 @@ set termguicolors
 set wildmenu
 " set wildmode=list:longest,full
 set wildignorecase
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.vscode/*
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.vscode/*,*/.ccls-cache/*
 set wildignore+=*/tmp/,*.swp,*.zip
 set wildignore+=*.a,*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.aux,*.out,*.toc " LaTeX intermediate files
@@ -182,7 +182,7 @@ set foldmethod=syntax
 set foldlevelstart=20
 
 " Colorscheme
-colorscheme gruvbox
+colorscheme warlock
 if has('mac')
     set termguicolors
 endif
@@ -513,8 +513,11 @@ nnoremap <silent>gr :ALEFindReferences<cr>
 nnoremap <silent>gn :ALENext<cr>
 nnoremap <silent>gp :ALEPrevious<cr>
 
-let g:ale_sign_error = '💩'
-let g:ale_sign_warning = '😢'
+let g:ale_sign_error = "◉"
+let g:ale_sign_warning = "◉"
+highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500 guibg=None
+highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237 guibg=None
+
 
 let g:ale_close_preview_on_insert = 1
 let g:ale_set_balloons = 1
