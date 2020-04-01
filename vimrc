@@ -24,6 +24,7 @@ Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
+Plug 'chengzeyi/fzf-preview.vim'
 Plug 'andymass/vim-matchup'
 Plug 'ervandew/supertab'
 Plug 'easymotion/vim-easymotion'
@@ -52,9 +53,6 @@ Plug 'vim-python/python-syntax'
 " Go
 Plug 'fatih/vim-go'
 
-" Swift
-Plug 'keith/swift.vim'
-
 " GUI
 Plug 'RRethy/vim-illuminate'
 Plug 'simnalamburt/vim-mundo'
@@ -64,7 +62,7 @@ Plug 'matze/vim-move'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
-
+Plug 'mcchrish/nnn.vim'
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
@@ -74,12 +72,14 @@ Plug 'rhysd/git-messenger.vim'
 
 " Text Transformation
 " Plug 'tmsvg/pear-tree'
-Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
+Plug 'tommcdo/vim-lion'
 
 " Themes
 Plug 'morhetz/gruvbox'
@@ -182,7 +182,7 @@ set foldmethod=syntax
 set foldlevelstart=20
 
 " Colorscheme
-colorscheme warlock
+colorscheme gruvbox
 set background=dark
 if has('mac')
     set termguicolors
@@ -301,6 +301,9 @@ nnoremap <leader>ch :vs ~/.vim/cheats.md<CR>
 
 " <<< PLUGINS CONFIGURATION >>>
 
+" nnn
+let g:nnn#command = 'nnn -de'
+
 " vim-vue
 let g:vue_pre_processors = []
 
@@ -326,7 +329,7 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Bdelete a buffer without closing Vim or window layout
-nnoremap <silent><leader>d :Bdelete<cr>
+nnoremap <silent><leader>D :Bdelete<cr>
 
 " vim-mode
 "
@@ -355,24 +358,27 @@ nnoremap <F10> :call asyncrun#quickfix_toggle(10)<cr>
 
 " FZF
 "------------------------------------------------------------------------------
-nnoremap <silent><leader>b :Buffers<cr>
-nnoremap <silent><leader>A :Ag! <c-r><c-w><cr>
-nnoremap <silent><leader>B :BTags<cr>
-nnoremap <silent><leader>F :GFiles<cr>
-nnoremap <silent><leader>L :Lines<cr>
+"
+let g:fzf_preview_window = 'right:60%'
+
+
+nnoremap <silent><leader>b :Buffers!<cr>
+nnoremap <silent><leader>B :BTags!<cr>
+nnoremap <silent><leader>F :GFiles!<cr>
+nnoremap <silent><leader>L :FZFLines!<cr>
 " Find is defined on functions.vim
 nnoremap <leader>r :Find <C-R><C-W><CR>
-" nnoremap <silent><leader>S :Snippets<cr>
-nnoremap <silent><leader>a :Ag <c-r><c-w><cr>
+nnoremap <silent><leader>S :Snippets<cr>
+nnoremap <silent><leader>a :Ag! <c-r><c-w><cr>
 nnoremap <silent><leader>c :Commands<cr>
-nnoremap <silent><leader>f :Files<cr>
+nnoremap <silent><leader>f :Files!<cr>
 nnoremap <silent><leader>h :Helptags<cr>
-nnoremap <silent><leader>hh :History<cr>
-nnoremap <silent><leader>l :BLines<cr>
+nnoremap <silent><leader>hh :History!<cr>
+nnoremap <silent><leader>l :FZFBLines!<cr>
 nnoremap <silent><leader>m :Maps<cr>
-nnoremap <silent><leader>ma :Marks<cr>
-nnoremap <silent><leader>t :Tags<cr>
-nnoremap <silent><leader>q :Quickfix<cr>
+nnoremap <silent><leader>ma :Marks!<cr>
+nnoremap <silent><leader>t :Tags!<cr>
+nnoremap <silent><leader>q :Quickfix!<cr>
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -486,7 +492,7 @@ let g:tagbar_type_go = {
 		\ 'ntype' : 'n'
 	\ },
 	\ 'ctagsbin'  : 'gotags',
-	\ 'ctagsargs' : '-sort -silent'
+	\ 'ctagsargs' : '-sort -silent --excmd=number'
 \ }
 
 
@@ -641,7 +647,10 @@ fun! CppRef()
     endif
     redraw!
 endfun
-nnoremap <leader>x :call CppRef()<CR>
+
+augroup CppReference
+    autocmd! FileType c,cpp,h,hpp,hxx nnoremap <leader>x :call CppRef()<CR>
+augroup END
 
 " Auto Relative Numbers Toggle
 "------------------------------------------------------------------------------
