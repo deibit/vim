@@ -63,6 +63,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'mcchrish/nnn.vim'
+Plug 'preservim/nerdtree'
+
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
@@ -182,7 +184,7 @@ set foldmethod=syntax
 set foldlevelstart=20
 
 " Colorscheme
-colorscheme gruvbox
+colorscheme Tomorrow-Night
 set background=dark
 if has('mac')
     set termguicolors
@@ -494,6 +496,14 @@ let g:tagbar_type_go = {
 	\ 'ctagsbin'  : 'gotags',
 	\ 'ctagsargs' : '-sort -silent --excmd=number'
 \ }
+
+" NerdTree
+"-------------------------------------------------------------------------------
+nnoremap <leader>- :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" If more than one window and previous buffer was NERDTree, go back to it.
+autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
+
 
 
 " Illuminati
