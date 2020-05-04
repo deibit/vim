@@ -66,8 +66,8 @@ Plug 'mcchrish/nnn.vim'
 Plug 'preservim/nerdtree'
 
 " Git
-Plug 'airblade/vim-gitgutter'
-Plug 'mhinz/vim-signify'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'cohama/agit.vim'
 Plug 'rhysd/git-messenger.vim'
@@ -84,8 +84,7 @@ Plug 'mattn/emmet-vim'
 Plug 'tommcdo/vim-lion'
 
 " Themes
-Plug 'morhetz/gruvbox'
-Plug 'arzg/vim-colors-xcode'
+" Plug 'morhetz/gruvbox'
 
 " Fonts
 Plug 'ryanoasis/vim-devicons'
@@ -196,6 +195,12 @@ if !isdirectory("/tmp/.vim-undo-dir")
 endif
 set undofile
 set undodir=/tmp/
+
+augroup Conceal
+    au FileType * setl cole=0
+augroup END
+
+
 
 " Match-it
 runtime macros/matchit.vim
@@ -310,8 +315,7 @@ let g:nnn#command = 'nnn -de'
 let g:vue_pre_processors = []
 
 " Airline
-let g:airline_powerline_fonts = 1
-let g:airline_theme='deus'
+let g:airline_theme='tomorrow'
 
 " Supertab
 " Reverse the reversed direction in completion
@@ -683,8 +687,8 @@ augroup END
 " --color: Search color options
 command! -bang -nargs=* Find call fzf#vim#grep('ag --column --numbers --noheading --fixed-strings --ignore-case --hidden --follow --ignore ".git/*" --color '.shellescape(<q-args>), 1, <bang>0)
 
-if executable('ag')
-    set grepprg=ag\ --vimgrep\ $*
+if executable('rg')
+    set grepprg=rg\ -H\ --no-heading\ --vimgrep
 else
     set grepprg=grep\ -rn\ $*\ *
 endif
